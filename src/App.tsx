@@ -10,32 +10,36 @@ import PositionCRUD from "./pages/PositionCRUD.tsx";
 import DepartmentCRUD from "./pages/DepartmentCRUD.tsx";
 import AreaCRUD from "./pages/AreaCRUD.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const { Content } = Layout;
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Layout style={{ minHeight: "100vh" }}>
-        <SideNav />
-        <Layout>
-          <Header />
-          <Content style={{ margin: "24px 16px 0" }}>
-            <div style={{ padding: 24, minHeight: 360 }}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/roles" element={<RoleCRUD />} />
-                <Route path="/users" element={<UserCRUD />} />
-                <Route path="/positions" element={<PositionCRUD />} />
-                <Route path="/departments" element={<DepartmentCRUD />} />
-                <Route path="/areas" element={<AreaCRUD />} />
-              </Routes>
-            </div>
-          </Content>
-          <Footer />
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Layout style={{ minHeight: "100vh" }}>
+          <SideNav />
+          <Layout>
+            <Header />
+            <Content style={{ margin: "24px 16px 0" }}>
+              <div style={{ padding: 24, minHeight: 360 }}>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/roles" element={<RoleCRUD />} />
+                  <Route path="/users" element={<UserCRUD />} />
+                  <Route path="/positions" element={<PositionCRUD />} />
+                  <Route path="/departments" element={<DepartmentCRUD />} />
+                  <Route path="/areas" element={<AreaCRUD />} />
+                </Routes>
+              </div>
+            </Content>
+            <Footer />
+          </Layout>
         </Layout>
-      </Layout>
-    </Router>
+      </Router>
+    </QueryClientProvider>
   );
 };
 
