@@ -1,7 +1,7 @@
 export type BffEntity = Area;
 
 export interface Area {
-  id: string;
+  _id: string;
   name: string;
   departments: string[];
 }
