@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
-import { ApartmentOutlined, DatabaseOutlined } from "@ant-design/icons";
+import {
+  ApartmentOutlined,
+  DatabaseOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from "@ant-design/icons";
 import { CompanyLogo } from "./CompanyLogo";
 
 const { Sider } = Layout;
@@ -44,6 +49,19 @@ const SideNav: React.FC = () => {
           ))}
         </SubMenu>
       </Menu>
+      <div
+        className="ant-layout-sider-trigger"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          zIndex: 1,
+          width: collapsed ? 80 : 200,
+          transition: "all 0.2s",
+        }}
+        onClick={toggleCollapsed}
+      >
+        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      </div>
     </Sider>
   );
 };
