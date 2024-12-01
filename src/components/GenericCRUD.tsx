@@ -17,7 +17,9 @@ interface GenericCRUDProps {
   columns: FormColumns[];
   isLoading: boolean;
   entityType: EntityType;
-  additionalData: AdditionalData;
+  additionalFormData?: AdditionalData;
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
   refetchData: () => void;
   relatedEntities: RelatedEntity[];
 }
@@ -28,19 +30,19 @@ const GenericCRUD = ({
   columns,
   isLoading,
   entityType,
-  additionalData,
+  additionalFormData,
+  selectedId,
+  setSelectedId,
   refetchData,
   relatedEntities,
 }: GenericCRUDProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [deleteingId, setDeleteingId] = useState<string | null>(null);
   const { renderFormItems } = useItemsForm(
     entityType,
-    editingId,
-    additionalData
+    selectedId,
+    additionalFormData
   );
 
   const { editEntity, awaitingEdit } = useEditEntity(entityType);
@@ -49,7 +51,7 @@ const GenericCRUD = ({
 
   const showModal = (id: string | null = null) => {
     setIsModalVisible(true);
-    setEditingId(id);
+    setSelectedId(id);
     if (id) {
       //Find the entity to edit
       const entity = items.find((item) => item._id === id);
@@ -62,34 +64,35 @@ const GenericCRUD = ({
   };
 
   const handleDelete = (deleteingId: string) => {
-    setDeleteingId(deleteingId);
+    setSelectedId(deleteingId);
     setIsAlertModalVisible(true);
   };
   const confirmDelete = async () => {
-    if (deleteingId) {
+    if (selectedId) {
       try {
-        await deleteEntity(deleteingId);
+        await deleteEntity(selectedId);
       } catch (error) {
         console.error("Error deleting entity:", error);
       }
       refetchData();
     }
     setIsAlertModalVisible(false);
+    setSelectedId(null);
   };
 
   const cancelDelete = () => {
     setIsAlertModalVisible(false);
-    setDeleteingId(null);
+    setSelectedId(null);
   };
 
   const handleSubmit = async () => {
     try {
       const values = form.getFieldsValue();
 
-      if (editingId) {
+      if (selectedId) {
         // If we are editing, call the mutation to update the entity
         await editEntity({
-          id: editingId,
+          id: selectedId,
           data: {
             name: values.name,
             departments: values.departments,
@@ -152,7 +155,7 @@ const GenericCRUD = ({
         rowKey="id"
       />
       <Modal
-        title={editingId === null ? `Add ${title}` : `Edit ${title}`}
+        title={selectedId === null ? `Add ${title}` : `Edit ${title}`}
         open={isModalVisible}
         onOk={handleSubmit}
         onCancel={() => setIsModalVisible(false)}
