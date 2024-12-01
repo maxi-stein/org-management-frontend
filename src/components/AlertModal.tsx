@@ -50,16 +50,17 @@ const AlertModal: React.FC<AlertModalProps> = ({
         </Button>,
       ]}
     >
-      <Text>{content}</Text>
-      {!canDelete && (
+      {canDelete ? (
+        <Text>{content}</Text>
+      ) : (
         <>
           <Text
             type="danger"
             strong
             style={{ display: "block", marginTop: 16 }}
           >
-            You cannot delete this {entityName.toLowerCase().slice(0, -1)}. The
-            following entities are associated with it:
+            You cannot delete this {entityName.toLowerCase()}. The following
+            entities are associated with it:
           </Text>
           {relatedEntities?.map((entity) => (
             <List

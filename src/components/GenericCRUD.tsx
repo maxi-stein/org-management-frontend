@@ -74,6 +74,7 @@ const GenericCRUD = ({
       }
       refetchData();
     }
+    setIsAlertModalVisible(false);
   };
 
   const cancelDelete = () => {
