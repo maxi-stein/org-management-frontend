@@ -1,6 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import { AreaInput, BffEntityInput, EntityType } from "../interfaces/entities";
+import {
+  AreaInput,
+  BffEntityInput,
+  DepartmentInput,
+  EntityType,
+} from "../interfaces/entities";
 import { updateArea } from "../apiServices/areasService";
+import { updateDepartment } from "../apiServices/departmentsService";
 
 interface EntityEditData {
   id: string;
@@ -14,7 +20,7 @@ export const useEditEntity = (entityType: EntityType) => {
       case "areas":
         return updateArea(id, data as AreaInput);
       case "departments":
-        return; //TODO: add departments and more entities
+        return updateDepartment(id, data as DepartmentInput);
       default:
         throw new Error("Entity type not supported");
     }

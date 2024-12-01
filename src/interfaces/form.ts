@@ -1,4 +1,4 @@
-import { Area } from "./entities";
+import { Area, Department } from "./entities";
 
 export type FormColumns = {
   title: string;
@@ -8,5 +8,5 @@ export type FormColumns = {
 
 export type AdditionalData = {
   areas: Area[];
-  [key: string]: any; // For other entity types
+  departments: Department[];
 };

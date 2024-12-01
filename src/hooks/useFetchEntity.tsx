@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { bffResponse } from "../apiServices/http-config";
-import { Area, BffEntity, EntityType } from "../interfaces/entities";
+import { BffEntity, EntityType } from "../interfaces/entities";
 import { getAreas } from "../apiServices/areasService";
 import { getDepartments } from "../apiServices/departmentsService";
 
-// Este hook es genérico para obtener cualquier entidad
 export const useFetchEntity = (entityType: EntityType) => {
   const fetchEntityHook = async () => {
     switch (entityType) {
@@ -17,7 +16,6 @@ export const useFetchEntity = (entityType: EntityType) => {
     }
   };
 
-  // useQuery para obtener los datos
   const { data, isLoading, isError, refetch } = useQuery<
     bffResponse<BffEntity[]>
   >({

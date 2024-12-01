@@ -7,7 +7,7 @@ import { AdditionalData, FormColumns } from "../interfaces/form";
 export const useItemsForm = (
   entityType: EntityType,
   editingId: string | null,
-  additionalData: AdditionalData
+  additionalFormData?: AdditionalData
 ) => {
   const { data: departments } = useQuery<{ data: Department[] }>({
     queryKey: ["fetch-departments"],
@@ -19,7 +19,7 @@ export const useItemsForm = (
     return columns.map((column) => {
       if (entityType === "areas" && column.dataIndex === "departments") {
         //get all departments that are asigned to an area
-        const assignedDepartments = additionalData.areas.flatMap((area) =>
+        const assignedDepartments = additionalFormData?.areas.flatMap((area) =>
           area.departments.map((dept) => ({
             ...dept,
             assignedToAreaId: area._id,
@@ -28,7 +28,7 @@ export const useItemsForm = (
 
         //get current departments for the area being edited
         const currentAreaDepartments = editingId
-          ? additionalData.areas.find((area) => area._id === editingId)
+          ? additionalFormData?.areas.find((area) => area._id === editingId)
               ?.departments || []
           : [];
 
@@ -51,7 +51,7 @@ export const useItemsForm = (
             >
               {departments?.data.map((dept) => {
                 //check if the department is already assigned to another area
-                const isAssigned = assignedDepartments.some(
+                const isAssigned = assignedDepartments?.some(
                   (assignedDept) =>
                     assignedDept._id === dept._id &&
                     assignedDept.assignedToAreaId !== editingId

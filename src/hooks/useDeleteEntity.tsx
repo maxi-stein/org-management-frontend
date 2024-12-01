@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { EntityType } from "../interfaces/entities";
 import { deleteArea } from "../apiServices/areasService";
+import { deleteDepartment } from "../apiServices/departmentsService";
 
 export const useDeleteEntity = (entityType: EntityType) => {
   const deleteEntityHook = async (id: string) => {
@@ -8,7 +9,7 @@ export const useDeleteEntity = (entityType: EntityType) => {
       case "areas":
         return deleteArea(id);
       case "departments":
-        return; //TODO: departments delete
+        return deleteDepartment(id);
       default:
         throw new Error("Entity type not supported");
     }
