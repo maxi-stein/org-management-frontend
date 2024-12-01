@@ -17,9 +17,6 @@ export const useDeleteEntity = (entityType: EntityType) => {
   const { mutateAsync: deleteEntity, isPending: awaitingDeletion } =
     useMutation({
       mutationFn: deleteEntityHook,
-      onSuccess: (data) => {
-        console.log("Entity deleted successfully:", data);
-      },
       onError: (error) => {
         console.error("Error deleting entity:", error);
       },

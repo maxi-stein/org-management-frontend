@@ -31,8 +31,6 @@ const columns = [
 
 const AreaCRUD: React.FC = () => {
   const [initialAreas, setInitialAreas] = useState<Area[]>([]);
-  const [reletedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
-
   const { data: areas, isLoading, isError, refetch } = useFetchEntity("areas");
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const AreaCRUD: React.FC = () => {
       entityType="areas"
       additionalData={{ areas: initialAreas }}
       refetchData={refetch}
-      relatedEntities={reletedEntities}
+      relatedEntities={[]}
     />
   );
 };
