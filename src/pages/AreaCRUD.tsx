@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
 import { Area, Department } from "../interfaces/entities";
-import { useQuery } from "@tanstack/react-query";
-import { getAreas } from "../apiServices/areas/areasService";
-import { bffResponse } from "../apiServices/http-config";
 import { Badge } from "../components/Badge";
-import { Tooltip } from "antd";
+import { Tooltip, Typography } from "antd";
+import { RelatedEntity } from "../components/AlertModal";
+import { useFetchEntity } from "../hooks/useFetchEntity";
+import { bffResponse } from "../apiServices/http-config";
+
+const { Text } = Typography;
 
 const renderDepartments = (departments: Department[]) => {
   return departments.map((dept) => (
@@ -29,36 +31,28 @@ const columns = [
 
 const AreaCRUD: React.FC = () => {
   const [initialAreas, setInitialAreas] = useState<Area[]>([]);
-  const {
-    data: areas,
-    isLoading: isLoadingAreas,
-    isError: isErrorAreas,
-    refetch: refetchAreas,
-  } = useQuery<bffResponse<Area[]>>({
-    queryKey: ["fetch-areas"],
-    queryFn: async () => {
-      const response = await getAreas();
-      return response;
-    },
-  });
+  const [reletedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
+
+  const { data: areas, isLoading, isError, refetch } = useFetchEntity("areas");
 
   useEffect(() => {
-    if (areas && !isLoadingAreas) {
-      setInitialAreas(areas.data);
+    if (areas && !isLoading) {
+      setInitialAreas(areas.data as Area[]);
     }
   }, [areas]);
 
-  return isErrorAreas ? (
-    <div>An error has occurred</div>
+  return isError ? (
+    <Text>An error has occurred</Text>
   ) : (
     <GenericCRUD
       title="Areas"
       items={initialAreas}
       columns={columns}
-      isLoading={isLoadingAreas}
+      isLoading={isLoading}
       entityType="areas"
       additionalData={{ areas: initialAreas }}
-      refetchData={refetchAreas}
+      refetchData={refetch}
+      relatedEntities={reletedEntities}
     />
   );
 };

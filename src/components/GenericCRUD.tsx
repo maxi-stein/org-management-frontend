@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Table, Button, Modal, Form, Input, Space, message } from "antd";
+import { Table, Button, Modal, Form, Space, message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import LoadingSpinner from "./LoadingSpinner";
-import { Area, BffEntity, EntityType } from "../interfaces/entities";
+import { BffEntity, EntityType } from "../interfaces/entities";
 import { useItemsForm } from "../hooks/useItemsForm";
 import { AdditionalData, FormColumns } from "../interfaces/form";
 import { setFormValues } from "../helpers/formValues";
-import { updateArea } from "../apiServices/areas/areasService";
 import { useEditEntity } from "../hooks/useEditEntity";
 import { useCreateEntity } from "../hooks/useCreateEntity";
+import { useDeleteEntity } from "../hooks/useDeleteEntity";
+import AlertModal, { RelatedEntity } from "./AlertModal";
 
 interface GenericCRUDProps {
   title: string;
@@ -18,6 +19,7 @@ interface GenericCRUDProps {
   entityType: EntityType;
   additionalData: AdditionalData;
   refetchData: () => void;
+  relatedEntities: RelatedEntity[];
 }
 
 const GenericCRUD = ({
@@ -28,21 +30,22 @@ const GenericCRUD = ({
   entityType,
   additionalData,
   refetchData,
+  relatedEntities,
 }: GenericCRUDProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteingId, setDeleteingId] = useState<string | null>(null);
   const { renderFormItems } = useItemsForm(
     entityType,
     editingId,
     additionalData
   );
 
-  const { mutateAsync: editEntity, isPending: awaitngEdit } =
-    useEditEntity(entityType);
-
-  const { mutateAsync: createEntity, isPending: awaitingCreate } =
-    useCreateEntity(entityType);
+  const { editEntity, awaitingEdit } = useEditEntity(entityType);
+  const { createEntity, awaitingCreate } = useCreateEntity(entityType);
+  const { deleteEntity, awaitingDeletion } = useDeleteEntity(entityType);
 
   const showModal = (id: string | null = null) => {
     setIsModalVisible(true);
@@ -58,9 +61,24 @@ const GenericCRUD = ({
     }
   };
 
-  const handleDelete = (id: string) => {
-    //TODO: handle delete
-    refetchData();
+  const handleDelete = (deleteingId: string) => {
+    setDeleteingId(deleteingId);
+    setIsAlertModalVisible(true);
+  };
+  const confirmDelete = async () => {
+    if (deleteingId) {
+      try {
+        await deleteEntity(deleteingId);
+      } catch (error) {
+        console.error("Error deleting entity:", error);
+      }
+      refetchData();
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsAlertModalVisible(false);
+    setDeleteingId(null);
   };
 
   const handleSubmit = async () => {
@@ -99,7 +117,7 @@ const GenericCRUD = ({
   const actionColumn = {
     title: "Action",
     key: "action",
-    render: (_: any, record: BffEntity) => (
+    render: (record: BffEntity) => (
       <Space size="middle">
         <Button icon={<EditOutlined />} onClick={() => showModal(record._id)} />
         <Button
@@ -112,7 +130,11 @@ const GenericCRUD = ({
   };
   return (
     <div>
-      <LoadingSpinner isLoading={isLoading || awaitngEdit} />
+      <LoadingSpinner
+        isLoading={
+          isLoading || awaitingEdit || awaitingCreate || awaitingDeletion
+        }
+      />
       <h2>{title}</h2>
       <Button
         color="primary"
@@ -138,6 +160,17 @@ const GenericCRUD = ({
           {renderFormItems(columns)}
         </Form>
       </Modal>
+      <AlertModal
+        isVisible={isAlertModalVisible}
+        title={`Delete ${title.slice(0, -1)}`}
+        content={`Are you sure you want to delete this ${title
+          .toLowerCase()
+          .slice(0, -1)}?`}
+        entityName={title.slice(0, -1)}
+        relatedEntities={relatedEntities}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };
