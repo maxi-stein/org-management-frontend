@@ -3,9 +3,7 @@ import GenericCRUD from "../components/GenericCRUD";
 import { Area, Department } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import { Tooltip, Typography } from "antd";
-import { RelatedEntity } from "../components/AlertModal";
 import { useFetchEntity } from "../hooks/useFetchEntity";
-import { bffResponse } from "../apiServices/http-config";
 
 const { Text } = Typography;
 
