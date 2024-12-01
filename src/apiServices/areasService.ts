@@ -1,5 +1,5 @@
-import { Area, AreaInput } from "../../interfaces/entities";
-import { axiosInstance, bffResponse } from "../http-config";
+import { Area, AreaInput } from "../interfaces/entities";
+import { axiosInstance, bffResponse } from "./http-config";
 
 export const getAreas = async (): Promise<bffResponse<Area[]>> => {
   try {
@@ -31,5 +31,14 @@ export const updateArea = async (
   } catch (error) {
     console.log(error);
     throw new Error("Error updating area");
+  }
+};
+
+export const deleteArea = async (id: string): Promise<void> => {
+  try {
+    await axiosInstance.delete(`/areas/${id}`);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error deleting area");
   }
 };

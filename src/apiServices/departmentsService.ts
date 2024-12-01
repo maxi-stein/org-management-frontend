@@ -1,5 +1,5 @@
-import { Department } from "../../interfaces/entities";
-import { axiosInstance, bffResponse } from "../http-config";
+import { Department } from "../interfaces/entities";
+import { axiosInstance, bffResponse } from "./http-config";
 
 export const getDepartments = async (): Promise<bffResponse<Department[]>> => {
   try {
