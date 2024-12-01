@@ -1,6 +1,6 @@
 import { Form, Input, Select, Tooltip } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import { getDepartments } from "../apiServices/departments/departmentsService";
+import { getDepartments } from "../apiServices/departmentsService";
 import { Department, EntityType } from "../interfaces/entities";
 import { AdditionalData, FormColumns } from "../interfaces/form";
 
