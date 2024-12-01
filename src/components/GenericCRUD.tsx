@@ -26,8 +26,8 @@ const GenericCRUD = ({
   isLoading,
   entityType,
   additionalData,
-}: //refetchData,
-GenericCRUDProps) => {
+  refetchData,
+}: GenericCRUDProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -56,6 +56,7 @@ GenericCRUDProps) => {
 
   const handleDelete = (id: string) => {
     //TODO: handle delete
+    refetchData();
   };
 
   const handleSubmit = async () => {
@@ -78,7 +79,7 @@ GenericCRUDProps) => {
       }
       setIsModalVisible(false);
       form.resetFields(); // Reset fields after successful submission
-      //refetchData();
+      refetchData();
     } catch (error) {
       message.error(
         "There was an issue submitting the form. Please try again later"

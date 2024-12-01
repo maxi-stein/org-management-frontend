@@ -33,6 +33,7 @@ const AreaCRUD: React.FC = () => {
     data: areas,
     isLoading: isLoadingAreas,
     isError: isErrorAreas,
+    refetch: refetchAreas,
   } = useQuery<bffResponse<Area[]>>({
     queryKey: ["fetch-areas"],
     queryFn: async () => {
@@ -57,6 +58,7 @@ const AreaCRUD: React.FC = () => {
       isLoading={isLoadingAreas}
       entityType="areas"
       additionalData={{ areas: initialAreas }}
+      refetchData={refetchAreas}
     />
   );
 };
