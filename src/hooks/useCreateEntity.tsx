@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { AreaInput, BffEntityInput, EntityType } from "../interfaces/entities";
-import { createArea } from "../apiServices/areas/areasService";
+import { createArea } from "../apiServices/areasService";
 
 interface EntityCreateData {
   data: BffEntityInput;
 }
 
 export const useCreateEntity = (entityType: EntityType) => {
-  const createEntity = async ({ data }: EntityCreateData) => {
+  const createEntityHook = async ({ data }: EntityCreateData) => {
     switch (entityType) {
       case "areas":
         return createArea(data as AreaInput);
@@ -18,8 +18,8 @@ export const useCreateEntity = (entityType: EntityType) => {
     }
   };
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: createEntity,
+  const { mutateAsync: createEntity, isPending: awaitingCreate } = useMutation({
+    mutationFn: createEntityHook,
     onSuccess: (data) => {
       console.log("Entity created successfully:", data);
     },
@@ -28,5 +28,5 @@ export const useCreateEntity = (entityType: EntityType) => {
     },
   });
 
-  return { mutateAsync, isPending };
+  return { createEntity, awaitingCreate };
 };

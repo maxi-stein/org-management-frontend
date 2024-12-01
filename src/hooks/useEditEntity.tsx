@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { AreaInput, BffEntityInput, EntityType } from "../interfaces/entities";
-import { updateArea } from "../apiServices/areas/areasService";
+import { updateArea } from "../apiServices/areasService";
 
 interface EntityEditData {
   id: string;
@@ -9,7 +9,7 @@ interface EntityEditData {
 // Este hook maneja la edición de cualquier entidad
 export const useEditEntity = (entityType: EntityType) => {
   // Determines the update function according to the entity type
-  const editEntity = async ({ id, data }: EntityEditData) => {
+  const editEntityHook = async ({ id, data }: EntityEditData) => {
     switch (entityType) {
       case "areas":
         return updateArea(id, data as AreaInput);
@@ -20,8 +20,8 @@ export const useEditEntity = (entityType: EntityType) => {
     }
   };
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: editEntity,
+  const { mutateAsync: editEntity, isPending: awaitingEdit } = useMutation({
+    mutationFn: editEntityHook,
     onSuccess: (data) => {
       console.log("Entity updated successfully:", data);
     },
@@ -30,5 +30,5 @@ export const useEditEntity = (entityType: EntityType) => {
     },
   });
 
-  return { mutateAsync, isPending };
+  return { editEntity, awaitingEdit };
 };
