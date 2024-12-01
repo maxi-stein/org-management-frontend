@@ -4,6 +4,7 @@ import { Area, Department } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import { Tooltip, Typography } from "antd";
 import { useFetchEntity } from "../hooks/useFetchEntity";
+import { AdditionalData } from "../interfaces/form";
 
 const { Text } = Typography;
 
@@ -30,6 +31,7 @@ const columns = [
 const AreaCRUD: React.FC = () => {
   const [initialAreas, setInitialAreas] = useState<Area[]>([]);
   const { data: areas, isLoading, isError, refetch } = useFetchEntity("areas");
+  const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null);
 
   useEffect(() => {
     if (areas && !isLoading) {
@@ -46,9 +48,11 @@ const AreaCRUD: React.FC = () => {
       columns={columns}
       isLoading={isLoading}
       entityType="areas"
-      additionalData={{ areas: initialAreas }}
+      additionalFormData={{ areas: initialAreas } as AdditionalData}
       refetchData={refetch}
-      relatedEntities={[]}
+      relatedEntities={[]} //there are no entities releated to areas
+      selectedId={selectedAreaId}
+      setSelectedId={setSelectedAreaId}
     />
   );
 };
