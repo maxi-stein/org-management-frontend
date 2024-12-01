@@ -1,4 +1,10 @@
 export type BffEntity = Area | Department | Position | User;
+export type EntityType =
+  | "areas"
+  | "departments"
+  | "positions"
+  | "users"
+  | "roles";
 
 export interface Area {
   _id: string;

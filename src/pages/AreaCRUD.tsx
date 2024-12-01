@@ -1,18 +1,39 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Area } from "../interfaces/entities";
+import { Area, Department } from "../interfaces/entities";
 import { useQuery } from "@tanstack/react-query";
 import { getAreas } from "../apiServices/areas/areasService";
 import { bffResponse } from "../apiServices/http-config";
+import { Badge } from "../components/Badge";
+import { Tooltip } from "antd";
+
+const renderDepartments = (departments: Department[]) => {
+  return departments.map((dept) => (
+    <Tooltip key={dept._id} title={dept.description}>
+      <span>
+        <Badge key={dept._id} text={dept.name} status="active" />
+      </span>
+    </Tooltip>
+  ));
+};
 
 const columns = [
   { title: "Name", dataIndex: "name", key: "name" },
-  { title: "Departments", dataIndex: "departmentss", key: "departmentss" },
+  {
+    title: "Departments",
+    dataIndex: "departments",
+    key: "departments",
+    render: (departments: Department[]) => renderDepartments(departments),
+  },
 ];
 
 const AreaCRUD: React.FC = () => {
   const [initialAreas, setInitialAreas] = useState<Area[]>([]);
-  const { data, isLoading, isError } = useQuery<bffResponse<Area[]>>({
+  const {
+    data: areas,
+    isLoading: isLoadingAreas,
+    isError: isErrorAreas,
+  } = useQuery<bffResponse<Area[]>>({
     queryKey: ["fetch-areas"],
     queryFn: async () => {
       const response = await getAreas();
@@ -21,19 +42,21 @@ const AreaCRUD: React.FC = () => {
   });
 
   useEffect(() => {
-    if (data && !isLoading) {
-      setInitialAreas(data.data);
+    if (areas && !isLoadingAreas) {
+      setInitialAreas(areas.data);
     }
-  }, [data]);
+  }, [areas]);
 
-  return isError ? (
+  return isErrorAreas ? (
     <div>An error has occurred</div>
   ) : (
     <GenericCRUD
       title="Areas"
       items={initialAreas}
       columns={columns}
-      isLoading={isLoading}
+      isLoading={isLoadingAreas}
+      entityType="areas"
+      additionalData={{ areas: initialAreas }}
     />
   );
 };

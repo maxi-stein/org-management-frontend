@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { Table, Button, Modal, Form, Input, Space } from "antd";
+import { Table, Button, Modal, Form, Input, Space, message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import LoadingSpinner from "./LoadingSpinner";
-import { BffEntity } from "../interfaces/entities";
+import { BffEntity, EntityType } from "../interfaces/entities";
+import { useItemsForm } from "../hooks/useItemsForm";
+import { AdditionalData, FormColumns } from "../interfaces/form";
 
 interface GenericCRUDProps {
   title: string;
   items: BffEntity[];
-  columns: { title: string; dataIndex: string; key: string }[];
+  columns: FormColumns[];
   isLoading: boolean;
+  entityType: EntityType;
+  additionalData: AdditionalData;
 }
 
 const GenericCRUD = ({
@@ -16,23 +20,43 @@ const GenericCRUD = ({
   items,
   columns,
   isLoading,
+  entityType,
+  additionalData,
 }: GenericCRUDProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const { renderFormItems } = useItemsForm(
+    entityType,
+    editingId,
+    additionalData
+  );
 
   const showModal = (id: string | null = null) => {
-    //TODO: handle show edit/delete
+    //TODO: handle show create/edit
     setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    //TODO: handle save
-    setIsModalVisible(false);
   };
 
   const handleDelete = (id: string) => {
     //TODO: handle delete
+  };
+
+  const handleSubmit = async (values: any) => {
+    try {
+      if (editingId) {
+        //TODO: submit edit
+      } else {
+        // TODO: submit create
+      }
+      form.submit();
+      message.success("Form sent successfully");
+      setIsModalVisible(false);
+      form.resetFields(); // Reset fields after submiting
+    } catch (error) {
+      message.error(
+        "There was an issue submitting the form. Please try again later"
+      );
+    }
   };
 
   const actionColumn = {
@@ -54,6 +78,8 @@ const GenericCRUD = ({
       <LoadingSpinner isLoading={isLoading} />
       <h2>{title}</h2>
       <Button
+        color="primary"
+        variant="solid"
         icon={<PlusOutlined />}
         onClick={() => showModal()}
         style={{ marginBottom: 16 }}
@@ -68,22 +94,11 @@ const GenericCRUD = ({
       <Modal
         title={editingId === null ? `Add ${title}` : `Edit ${title}`}
         open={isModalVisible}
-        onOk={handleOk}
+        onOk={handleSubmit}
         onCancel={() => setIsModalVisible(false)}
       >
-        <Form form={form} layout="vertical">
-          {columns.map((column) => (
-            <Form.Item
-              key={column.key}
-              name={column.dataIndex}
-              label={column.title}
-              rules={[
-                { required: true, message: `Please input ${column.title}!` },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          ))}
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+          {renderFormItems(columns)}
         </Form>
       </Modal>
     </div>
