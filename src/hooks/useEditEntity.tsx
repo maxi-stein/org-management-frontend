@@ -1,14 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  AreaToEdit,
-  BffEntityToEdit,
-  EntityType,
-} from "../interfaces/entities";
+import { AreaInput, BffEntityInput, EntityType } from "../interfaces/entities";
 import { updateArea } from "../apiServices/areas/areasService";
 
 interface EntityEditData {
   id: string;
-  data: BffEntityToEdit;
+  data: BffEntityInput;
 }
 // Este hook maneja la edición de cualquier entidad
 export const useEditEntity = (entityType: EntityType) => {
@@ -16,7 +12,7 @@ export const useEditEntity = (entityType: EntityType) => {
   const editEntity = async ({ id, data }: EntityEditData) => {
     switch (entityType) {
       case "areas":
-        return updateArea(id, data as AreaToEdit);
+        return updateArea(id, data as AreaInput);
       case "departments":
         return; //TODO: add departments and more entities
       default:

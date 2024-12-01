@@ -8,6 +8,7 @@ import { AdditionalData, FormColumns } from "../interfaces/form";
 import { setFormValues } from "../helpers/formValues";
 import { updateArea } from "../apiServices/areas/areasService";
 import { useEditEntity } from "../hooks/useEditEntity";
+import { useCreateEntity } from "../hooks/useCreateEntity";
 
 interface GenericCRUDProps {
   title: string;
@@ -37,8 +38,11 @@ const GenericCRUD = ({
     additionalData
   );
 
-  const { mutateAsync: editEntity, isPending: isMutating } =
+  const { mutateAsync: editEntity, isPending: awaitngEdit } =
     useEditEntity(entityType);
+
+  const { mutateAsync: createEntity, isPending: awaitingCreate } =
+    useCreateEntity(entityType);
 
   const showModal = (id: string | null = null) => {
     setIsModalVisible(true);
@@ -74,17 +78,22 @@ const GenericCRUD = ({
         });
         message.success("Update successful");
       } else {
-        //TODO: create new entity
+        await createEntity({
+          data: {
+            name: values.name,
+            departments: values.departments,
+          },
+        });
         message.success("Creation successful");
       }
       setIsModalVisible(false);
       form.resetFields(); // Reset fields after successful submission
-      refetchData();
     } catch (error) {
       message.error(
         "There was an issue submitting the form. Please try again later"
       );
     }
+    refetchData();
   };
 
   const actionColumn = {
@@ -103,7 +112,7 @@ const GenericCRUD = ({
   };
   return (
     <div>
-      <LoadingSpinner isLoading={isLoading || isMutating} />
+      <LoadingSpinner isLoading={isLoading || awaitngEdit} />
       <h2>{title}</h2>
       <Button
         color="primary"

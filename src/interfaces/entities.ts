@@ -1,10 +1,10 @@
 export type BffEntity = Area | Department | Position | User;
-export type BffEntityToEdit =
-  | AreaToEdit
-  | DepartmentToEdit
-  | PositionToEdit
-  | UserToEdit
-  | RoleToEdit;
+export type BffEntityInput =
+  | AreaInput
+  | DepartmentInput
+  | PositionInput
+  | UserInput
+  | RoleInput;
 export type EntityType =
   | "areas"
   | "departments"
@@ -12,43 +12,43 @@ export type EntityType =
   | "users"
   | "roles";
 
-export interface AreaToEdit {
+export interface AreaInput {
   name: string;
   departments: Department[];
 }
 
-export interface Area extends AreaToEdit {
+export interface Area extends AreaInput {
   _id: string;
 }
 
-export interface DepartmentToEdit {
+export interface DepartmentInput {
   name: string;
   description: string;
   head: User;
 }
 
-export interface Department extends DepartmentToEdit {
+export interface Department extends DepartmentInput {
   _id: string;
 }
 
-export interface PositionToEdit {
+export interface PositionInput {
   title: string;
   level: string | null;
 }
 
-export interface Position extends PositionToEdit {
+export interface Position extends PositionInput {
   _id: string;
 }
 
-export interface RoleToEdit {
+export interface RoleInput {
   name: string;
 }
 
-export interface Role extends RoleToEdit {
+export interface Role extends RoleInput {
   _id: string;
 }
 
-export interface UserToEdit {
+export interface UserInput {
   firstName: string;
   lastName: string;
   email: string;
@@ -60,6 +60,6 @@ export interface UserToEdit {
   position: Position | null;
 }
 
-export interface User extends UserToEdit {
+export interface User extends UserInput {
   _id: string;
 }
