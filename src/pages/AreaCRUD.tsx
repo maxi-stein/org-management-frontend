@@ -4,7 +4,6 @@ import { Area, Department } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import { Tooltip, Typography } from "antd";
 import { useFetchEntity } from "../hooks/useFetchEntity";
-import { AdditionalData } from "../interfaces/form";
 
 const { Text } = Typography;
 
@@ -48,7 +47,7 @@ const AreaCRUD: React.FC = () => {
       columns={columns}
       isLoading={isLoading}
       entityType="areas"
-      additionalFormData={{ areas: initialAreas } as AdditionalData}
+      additionalFormData={{ areas: initialAreas }}
       refetchData={refetch}
       relatedEntities={[]} //there are no entities releated to areas
       selectedId={selectedAreaId}

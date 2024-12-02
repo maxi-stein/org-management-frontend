@@ -1,5 +1,10 @@
 import { FormInstance } from "antd";
-import { Area, BffEntity, EntityType } from "../interfaces/entities";
+import {
+  Area,
+  BffEntity,
+  Department,
+  EntityType,
+} from "../interfaces/entities";
 
 // Function to set dynamic form values
 export const setFormValues = (
@@ -15,7 +20,28 @@ export const setFormValues = (
       departments: area.departments.map((dept) => dept._id),
       name: area.name,
     });
-  } else {
-    form.setFieldsValue(entity); // TODO: set other fields
+  } else if (entityType === "departments" && (entity as Department).head) {
+    const department = entity as Department;
+    // Set the head in the form
+    form.setFieldsValue({
+      head: department.head._id,
+      name: department.name,
+      description: department.description,
+    });
+  }
+};
+
+export const getDataForEntity = (entityType: EntityType, values: any) => {
+  switch (entityType) {
+    case "areas":
+      return { name: values.name, departments: values.departments } as Area;
+    case "departments":
+      return {
+        name: values.name,
+        description: values.description,
+        head: values.head,
+      } as Department;
+    default:
+      return {} as any;
   }
 };

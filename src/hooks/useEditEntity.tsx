@@ -12,7 +12,6 @@ interface EntityEditData {
   id: string;
   data: BffEntityInput;
 }
-// Este hook maneja la edición de cualquier entidad
 export const useEditEntity = (entityType: EntityType) => {
   // Determines the update function according to the entity type
   const editEntityHook = async ({ id, data }: EntityEditData) => {

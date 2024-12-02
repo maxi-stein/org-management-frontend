@@ -5,7 +5,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { BffEntity, EntityType } from "../interfaces/entities";
 import { useItemsForm } from "../hooks/useItemsForm";
 import { AdditionalData, FormColumns } from "../interfaces/form";
-import { setFormValues } from "../helpers/formValues";
+import { getDataForEntity, setFormValues } from "../helpers/formValues";
 import { useEditEntity } from "../hooks/useEditEntity";
 import { useCreateEntity } from "../hooks/useCreateEntity";
 import { useDeleteEntity } from "../hooks/useDeleteEntity";
@@ -93,18 +93,12 @@ const GenericCRUD = ({
         // If we are editing, call the mutation to update the entity
         await editEntity({
           id: selectedId,
-          data: {
-            name: values.name,
-            departments: values.departments,
-          },
+          data: getDataForEntity(entityType, values),
         });
         message.success("Update successful");
       } else {
         await createEntity({
-          data: {
-            name: values.name,
-            departments: values.departments,
-          },
+          data: getDataForEntity(entityType, values),
         });
         message.success("Creation successful");
       }
