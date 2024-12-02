@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Area, Department } from "../interfaces/entities";
+import { Area, Department, User } from "../interfaces/entities";
 import { useFetchEntity } from "../hooks/useFetchEntity";
 import { useReletedEntities } from "../hooks/useReletedEntities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
 
+const { Text } = Typography;
+
 const columns = [
   { title: "Name", dataIndex: "name", key: "name" },
   { title: "Description", dataIndex: "description", key: "description" },
-  { title: "Head of Department", dataIndex: "head", key: "head" },
+  {
+    title: "Head of Department",
+    dataIndex: "head",
+    key: "head",
+    render: (head: User) => (
+      <Text>{`${head.lastName}, ${head.firstName}`}</Text>
+    ),
+  },
 ];
-
-const { Text } = Typography;
 
 const DepartmentCRUD: React.FC = () => {
   const [initialDepartments, seInitialDepartments] = useState<Department[]>([]);
@@ -28,7 +35,7 @@ const DepartmentCRUD: React.FC = () => {
   } = useFetchEntity("departments");
 
   const { data: relatedAreas, refetch: refetchRelatedAreas } =
-    useReletedEntities(selectedDepartmentId || null, "departments");
+    useReletedEntities(selectedDepartmentId, "departments");
 
   useEffect(() => {
     if (departments && !isLoading) {
@@ -65,6 +72,9 @@ const DepartmentCRUD: React.FC = () => {
       columns={columns}
       isLoading={isLoading}
       entityType="departments"
+      additionalFormData={{
+        departments: initialDepartments,
+      }}
       refetchData={refetch}
       selectedId={selectedDepartmentId}
       setSelectedId={setSelectedDepartmentId}

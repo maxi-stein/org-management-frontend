@@ -1,13 +1,18 @@
-import { Form, Input, Select, Tooltip } from "antd";
+import { Form, Input, Result, Select, Tooltip, Typography } from "antd";
 import { useQuery } from "@tanstack/react-query";
-import { getDepartments } from "../apiServices/departmentsService";
-import { Department, EntityType } from "../interfaces/entities";
+import {
+  getDepartments,
+  getHeadOfDepartments,
+} from "../apiServices/departmentsService";
+import { Department, EntityType, User } from "../interfaces/entities";
 import { AdditionalData, FormColumns } from "../interfaces/form";
+
+const { Text } = Typography;
 
 export const useItemsForm = (
   entityType: EntityType,
   editingId: string | null,
-  additionalFormData?: AdditionalData
+  additionalFormData: AdditionalData
 ) => {
   const { data: departments } = useQuery<{ data: Department[] }>({
     queryKey: ["fetch-departments"],
@@ -15,11 +20,21 @@ export const useItemsForm = (
     enabled: entityType === "areas",
   });
 
+  const { data: headOfDepartments } = useQuery({
+    queryKey: ["head-of-departments"],
+    queryFn: () => getHeadOfDepartments(),
+    enabled: entityType === "departments",
+  });
+
   const renderFormItems = (columns: FormColumns[]) => {
     return columns.map((column) => {
-      if (entityType === "areas" && column.dataIndex === "departments") {
+      if (
+        entityType === "areas" &&
+        column.dataIndex === "departments" &&
+        additionalFormData.areas
+      ) {
         //get all departments that are asigned to an area
-        const assignedDepartments = additionalFormData?.areas.flatMap((area) =>
+        const assignedDepartments = additionalFormData.areas.flatMap((area) =>
           area.departments.map((dept) => ({
             ...dept,
             assignedToAreaId: area._id,
@@ -69,10 +84,60 @@ export const useItemsForm = (
                   >
                     {isAssigned && !isCurrentAreaDepartment ? (
                       <Tooltip title="This department is already assigned to another area.">
-                        {<span>{dept.name}</span>}
+                        {<Text>{dept.name}</Text>}
                       </Tooltip>
                     ) : (
-                      <div>{dept.name}</div>
+                      <Text>{dept.name}</Text>
+                    )}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+        );
+      }
+      if (entityType === "departments" && column.dataIndex === "head") {
+        //gets head of departments without a department asigned
+        const availableHeads = headOfDepartments?.filter((user) => {
+          return additionalFormData.departments?.every((dept) => {
+            return user._id !== dept.head._id;
+          });
+        });
+
+        return (
+          <Form.Item
+            key={column.dataIndex}
+            name={column.dataIndex}
+            label={column.title}
+            rules={[
+              {
+                required: true,
+                message: `Please select a head of department!`,
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select the head of department"
+              style={{ width: "100%" }}
+            >
+              {headOfDepartments?.map((user) => {
+                const isAvailable = availableHeads?.some(
+                  (head) => head._id === user._id
+                );
+                return (
+                  <Select.Option
+                    key={user._id}
+                    value={user._id}
+                    disabled={!isAvailable}
+                  >
+                    {!isAvailable ? (
+                      <Tooltip title="This head is already assigned to another department.">
+                        <Text
+                          style={{ color: "gray" }}
+                        >{`${user.lastName}, ${user.firstName}`}</Text>
+                      </Tooltip>
+                    ) : (
+                      <Text>{`${user.lastName}, ${user.firstName}`}</Text>
                     )}
                   </Select.Option>
                 );
