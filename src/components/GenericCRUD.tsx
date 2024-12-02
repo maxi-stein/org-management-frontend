@@ -17,7 +17,7 @@ interface GenericCRUDProps {
   columns: FormColumns[];
   isLoading: boolean;
   entityType: EntityType;
-  additionalFormData?: AdditionalData;
+  additionalFormData: AdditionalData;
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   refetchData: () => void;
@@ -158,7 +158,10 @@ const GenericCRUD = ({
         title={selectedId === null ? `Add ${title}` : `Edit ${title}`}
         open={isModalVisible}
         onOk={handleSubmit}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => {
+          setIsModalVisible(false);
+          form.resetFields();
+        }}
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           {renderFormItems(columns)}
