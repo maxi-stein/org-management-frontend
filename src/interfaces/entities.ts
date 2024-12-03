@@ -61,5 +61,5 @@ export interface UserInput {
 }
 
 export interface User extends UserInput {
-  _id: string;
+  _id: string | null;
 }

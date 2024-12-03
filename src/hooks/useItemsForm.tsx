@@ -9,6 +9,28 @@ import { AdditionalData, FormColumns } from "../interfaces/form";
 
 const { Text } = Typography;
 
+const validationRules: Record<string, Record<string, any[]>> = {
+  departments: {
+    name: [{ required: true, message: "Please input a department name." }],
+    head: [{ required: false }],
+    description: [
+      {
+        required: true,
+        min: 10,
+        message: "Description must be at least 10 characters long.",
+      },
+    ],
+  },
+  areas: {
+    departments: [
+      { required: true, message: "Please select at least one department!" },
+    ],
+  },
+  positions: {},
+  users: {},
+  roles: {},
+};
+
 export const useItemsForm = (
   entityType: EntityType,
   editingId: string | null,
@@ -52,12 +74,7 @@ export const useItemsForm = (
             key={column.dataIndex}
             name={column.dataIndex}
             label={column.title}
-            rules={[
-              {
-                required: true,
-                message: `Please select at least one department!`,
-              },
-            ]}
+            rules={validationRules[entityType][column.dataIndex]}
           >
             <Select
               mode="multiple"
@@ -98,29 +115,38 @@ export const useItemsForm = (
       }
       if (entityType === "departments" && column.dataIndex === "head") {
         //gets head of departments without a department asigned
-        const availableHeads = headOfDepartments?.filter((user) => {
-          return additionalFormData.departments?.every((dept) => {
-            return user._id !== dept.head._id;
-          });
-        });
+        let availableHeads =
+          headOfDepartments?.filter((user) => {
+            return additionalFormData.departments?.every((dept) => {
+              return user._id !== dept.head._id;
+            });
+          }) ?? [];
+
+        availableHeads = [
+          { _id: null, firstName: "", lastName: "--none--" } as User,
+          ...(availableHeads as User[]),
+        ];
+
+        const allHeadOfDepartments = [
+          { _id: null, firstName: "", lastName: "--none--" },
+        ] as User[];
+
+        if (headOfDepartments) {
+          allHeadOfDepartments.push(...(headOfDepartments as User[]));
+        }
 
         return (
           <Form.Item
             key={column.dataIndex}
             name={column.dataIndex}
             label={column.title}
-            rules={[
-              {
-                required: true,
-                message: `Please select a head of department!`,
-              },
-            ]}
+            rules={validationRules[entityType][column.dataIndex]}
           >
             <Select
               placeholder="Select the head of department"
               style={{ width: "100%" }}
             >
-              {headOfDepartments?.map((user) => {
+              {allHeadOfDepartments?.map((user) => {
                 const isAvailable = availableHeads?.some(
                   (head) => head._id === user._id
                 );
@@ -151,7 +177,11 @@ export const useItemsForm = (
           key={column.dataIndex}
           name={column.dataIndex}
           label={column.title}
-          rules={[{ required: true, message: `Please input ${column.title}!` }]}
+          rules={
+            validationRules[entityType][column.dataIndex] || [
+              { required: true, message: `Please input ${column.title}!` },
+            ]
+          }
         >
           <Input />
         </Form.Item>

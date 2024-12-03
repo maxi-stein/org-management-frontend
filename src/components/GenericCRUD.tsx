@@ -87,6 +87,13 @@ const GenericCRUD = ({
 
   const handleSubmit = async () => {
     try {
+      const isValid = await form.validateFields().then(
+        () => true,
+        () => false
+      );
+
+      if (!isValid) return;
+
       const values = form.getFieldsValue();
 
       if (selectedId) {
@@ -120,7 +127,7 @@ const GenericCRUD = ({
         <Button icon={<EditOutlined />} onClick={() => showModal(record._id)} />
         <Button
           icon={<DeleteOutlined />}
-          onClick={() => handleDelete(record._id)}
+          onClick={() => handleDelete(record._id ?? "")}
           danger
         />
       </Space>
