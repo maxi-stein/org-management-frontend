@@ -15,6 +15,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const { Content } = Layout;
 const queryClient = new QueryClient();
 
+const routes = [
+  { path: "/", element: <Dashboard />, exact: true },
+  { path: "/roles", element: <RoleCRUD /> },
+  { path: "/users", element: <UserCRUD /> },
+  { path: "/positions", element: <PositionCRUD /> },
+  { path: "/departments", element: <DepartmentCRUD /> },
+  { path: "/areas", element: <AreaCRUD /> },
+];
+
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -26,12 +35,13 @@ const App: React.FC = () => {
             <Content style={{ margin: "24px 16px 0" }}>
               <div style={{ padding: 24, minHeight: 360 }}>
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/roles" element={<RoleCRUD />} />
-                  <Route path="/users" element={<UserCRUD />} />
-                  <Route path="/positions" element={<PositionCRUD />} />
-                  <Route path="/departments" element={<DepartmentCRUD />} />
-                  <Route path="/areas" element={<AreaCRUD />} />
+                  {routes.map((route, index) => (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      element={route.element}
+                    />
+                  ))}
                 </Routes>
               </div>
             </Content>

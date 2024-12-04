@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Typography } from "antd";
 import { Link } from "react-router-dom";
 import {
   ApartmentOutlined,
@@ -11,6 +11,7 @@ import { CompanyLogo } from "./CompanyLogo";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
+const { Text } = Typography;
 
 const SideNav: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -20,11 +21,25 @@ const SideNav: React.FC = () => {
   };
 
   const crudOptions = [
-    { label: "Roles", path: "/roles" },
-    { label: "Users", path: "/users" },
-    { label: "Positions", path: "/positions" },
-    { label: "Departments", path: "/departments" },
-    { label: "Areas", path: "/areas" },
+    { key: "3", label: <Link to="/roles">Roles</Link> },
+    { key: "4", label: <Link to="/users">Users</Link> },
+    { key: "5", label: <Link to="/positions">Positions</Link> },
+    { key: "6", label: <Link to="/departments">Departments</Link> },
+    { key: "7", label: <Link to="/areas">Areas</Link> },
+  ];
+
+  const items = [
+    {
+      key: "1",
+      icon: <ApartmentOutlined />,
+      label: <Link to="/org-chart">Hierarchical Chart</Link>,
+    },
+    {
+      key: "sub1",
+      icon: <DatabaseOutlined />,
+      label: "CRUD",
+      children: crudOptions,
+    },
   ];
 
   return (
@@ -37,18 +52,12 @@ const SideNav: React.FC = () => {
       trigger={null}
     >
       <CompanyLogo />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-        <Menu.Item key="1" icon={<ApartmentOutlined />}>
-          <Link to="/org-chart">Hierarchical Chart</Link>
-        </Menu.Item>
-        <SubMenu key="sub1" icon={<DatabaseOutlined />} title="CRUD">
-          {crudOptions.map((option) => (
-            <Menu.Item key={option.path}>
-              <Link to={option.path}>{option.label}</Link>
-            </Menu.Item>
-          ))}
-        </SubMenu>
-      </Menu>
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={["1"]}
+        items={items}
+      ></Menu>
       <div
         className="ant-layout-sider-trigger"
         style={{

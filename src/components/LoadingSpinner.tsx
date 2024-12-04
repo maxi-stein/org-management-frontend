@@ -6,14 +6,12 @@ interface SpinnerProps {
   isLoading: boolean;
   message?: string;
   size?: "default" | "large" | "small";
-  tip?: string;
 }
 
 const LoadingSpinner = ({
   isLoading = false,
   message = "Loading...",
   size = "default",
-  tip = "Please wait...",
 }: SpinnerProps) => {
   if (!isLoading) {
     return null;
@@ -39,7 +37,7 @@ const LoadingSpinner = ({
         size="middle"
         style={{ textAlign: "center", color: "white" }}
       >
-        <Spin size={size} tip={tip} />
+        <Spin size={size} />
         <Text>{message}</Text>
       </Space>
     </div>

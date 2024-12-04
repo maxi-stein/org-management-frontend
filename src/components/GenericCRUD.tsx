@@ -154,7 +154,7 @@ const GenericCRUD = ({
       <Table
         columns={[...columns, actionColumn]}
         dataSource={items}
-        rowKey="id"
+        rowKey="_id"
       />
       <Modal
         title={
