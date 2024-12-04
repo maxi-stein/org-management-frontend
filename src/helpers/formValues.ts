@@ -13,18 +13,18 @@ export const setFormValues = (
   entity: BffEntity
 ) => {
   // Check if the entity is of type Area
-  if (entityType === "areas" && (entity as Area).departments) {
+  if (entityType === "areas") {
     const area = entity as Area;
     // Set the departments in the form
     form.setFieldsValue({
       departments: area.departments.map((dept) => dept._id),
       name: area.name,
     });
-  } else if (entityType === "departments" && (entity as Department).head) {
+  } else if (entityType === "departments") {
     const department = entity as Department;
     // Set the head in the form
     form.setFieldsValue({
-      head: department.head._id,
+      head: department.head?._id || null,
       name: department.name,
       description: department.description,
     });

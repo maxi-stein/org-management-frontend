@@ -5,20 +5,26 @@ import { useFetchEntity } from "../hooks/useFetchEntity";
 import { useReletedEntities } from "../hooks/useReletedEntities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { Text } = Typography;
 
 const columns = [
   { title: "Name", dataIndex: "name", key: "name" },
-  { title: "Description", dataIndex: "description", key: "description" },
   {
     title: "Head of Department",
     dataIndex: "head",
     key: "head",
-    render: (head: User) => (
-      <Text>{`${head.lastName}, ${head.firstName}`}</Text>
-    ),
+    render: (head: User | null) =>
+      head ? (
+        <Text>{`${head.lastName}, ${head.firstName}`}</Text>
+      ) : (
+        <Text style={{ color: "#d9534f" }}>
+          <ExclamationCircleFilled /> No Head of Department Assigned
+        </Text>
+      ),
   },
+  { title: "Description", dataIndex: "description", key: "description" },
 ];
 
 const DepartmentCRUD: React.FC = () => {

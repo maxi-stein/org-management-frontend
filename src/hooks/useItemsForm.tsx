@@ -118,7 +118,7 @@ export const useItemsForm = (
         let availableHeads =
           headOfDepartments?.filter((user) => {
             return additionalFormData.departments?.every((dept) => {
-              return user._id !== dept.head._id;
+              return user._id !== dept.head?._id;
             });
           }) ?? [];
 
@@ -162,8 +162,10 @@ export const useItemsForm = (
                           style={{ color: "gray" }}
                         >{`${user.lastName}, ${user.firstName}`}</Text>
                       </Tooltip>
-                    ) : (
+                    ) : user._id ? (
                       <Text>{`${user.lastName}, ${user.firstName}`}</Text>
+                    ) : (
+                      <Text>{user.lastName}</Text>
                     )}
                   </Select.Option>
                 );

@@ -52,6 +52,7 @@ const GenericCRUD = ({
   const showModal = (id: string | null = null) => {
     setIsModalVisible(true);
     setSelectedId(id);
+    console.log(id);
     if (id) {
       //Find the entity to edit
       const entity = items.find((item) => item._id === id);
@@ -156,7 +157,11 @@ const GenericCRUD = ({
         rowKey="id"
       />
       <Modal
-        title={selectedId === null ? `Add ${title}` : `Edit ${title}`}
+        title={
+          selectedId === null
+            ? `Add ${title.slice(0, -1)}`
+            : `Edit ${title.slice(0, -1)}`
+        }
         open={isModalVisible}
         onOk={handleSubmit}
         onCancel={() => {
