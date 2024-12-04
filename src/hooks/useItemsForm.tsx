@@ -1,4 +1,4 @@
-import { Form, Input, Result, Select, Tooltip, Typography } from "antd";
+import { Form, Input, Select, Tooltip, Typography } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import {
   getDepartments,
@@ -50,6 +50,18 @@ export const useItemsForm = (
 
   const renderFormItems = (columns: FormColumns[]) => {
     return columns.map((column) => {
+      if (column.dataIndex === "description") {
+        return (
+          <Form.Item
+            key={column.dataIndex}
+            name={column.dataIndex}
+            label={column.title}
+            rules={validationRules[entityType][column.dataIndex]}
+          >
+            <Input.TextArea style={{ height: "100px" }} />
+          </Form.Item>
+        );
+      }
       if (
         entityType === "areas" &&
         column.dataIndex === "departments" &&
