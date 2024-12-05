@@ -4,7 +4,6 @@ import { Layout } from "antd";
 import SideNav from "./components/SideNav.tsx";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
-import RoleCRUD from "./pages/RoleCRUD.tsx";
 import UserCRUD from "./pages/UserCRUD.tsx";
 import PositionCRUD from "./pages/PositionCRUD.tsx";
 import DepartmentCRUD from "./pages/DepartmentCRUD.tsx";
@@ -17,7 +16,6 @@ const queryClient = new QueryClient();
 
 const routes = [
   { path: "/", element: <Dashboard />, exact: true },
-  { path: "/roles", element: <RoleCRUD /> },
   { path: "/users", element: <UserCRUD /> },
   { path: "/positions", element: <PositionCRUD /> },
   { path: "/departments", element: <DepartmentCRUD /> },

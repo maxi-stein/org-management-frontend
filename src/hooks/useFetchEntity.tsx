@@ -3,6 +3,7 @@ import { bffResponse } from "../apiServices/http-config";
 import { BffEntity, EntityType } from "../interfaces/entities";
 import { getAreas } from "../apiServices/areasService";
 import { getDepartments } from "../apiServices/departmentsService";
+import { getPositions } from "../apiServices/positionsService";
 
 export const useFetchEntity = (entityType: EntityType) => {
   const fetchEntityHook = async () => {
@@ -11,6 +12,8 @@ export const useFetchEntity = (entityType: EntityType) => {
         return getAreas();
       case "departments":
         return getDepartments();
+      case "positions":
+        return getPositions();
       default:
         throw new Error("Entity type not supported");
     }

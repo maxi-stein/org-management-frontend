@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu, Typography } from "antd";
+import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import {
   ApartmentOutlined,
@@ -10,8 +10,6 @@ import {
 import { CompanyLogo } from "./CompanyLogo";
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
-const { Text } = Typography;
 
 const SideNav: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);

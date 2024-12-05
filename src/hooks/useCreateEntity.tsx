@@ -4,9 +4,11 @@ import {
   BffEntityInput,
   DepartmentInput,
   EntityType,
+  PositionInput,
 } from "../interfaces/entities";
 import { createArea } from "../apiServices/areasService";
 import { createDepartment } from "../apiServices/departmentsService";
+import { createPosition } from "../apiServices/positionsService";
 
 interface EntityCreateData {
   data: BffEntityInput;
@@ -16,9 +18,11 @@ export const useCreateEntity = (entityType: EntityType) => {
   const createEntityHook = async ({ data }: EntityCreateData) => {
     switch (entityType) {
       case "areas":
-        return createArea(data as AreaInput);
+        return await createArea(data as AreaInput);
       case "departments":
-        return createDepartment(data as DepartmentInput); //TODO: departments create
+        return await createDepartment(data as DepartmentInput);
+      case "positions":
+        return await createPosition(data as PositionInput);
       default:
         throw new Error("Entity type not supported");
     }

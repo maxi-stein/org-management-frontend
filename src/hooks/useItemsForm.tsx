@@ -34,7 +34,7 @@ const validationRules: Record<string, Record<string, any[]>> = {
 export const useItemsForm = (
   entityType: EntityType,
   editingId: string | null,
-  additionalFormData: AdditionalData
+  additionalFormData?: AdditionalData
 ) => {
   const { data: departments } = useQuery<{ data: Department[] }>({
     queryKey: ["fetch-departments"],
@@ -65,10 +65,10 @@ export const useItemsForm = (
       if (
         entityType === "areas" &&
         column.dataIndex === "departments" &&
-        additionalFormData.areas
+        additionalFormData?.areas
       ) {
         //get all departments that are asigned to an area
-        const assignedDepartments = additionalFormData.areas.flatMap((area) =>
+        const assignedDepartments = additionalFormData?.areas.flatMap((area) =>
           area.departments.map((dept) => ({
             ...dept,
             assignedToAreaId: area._id,
@@ -129,7 +129,7 @@ export const useItemsForm = (
         //gets head of departments without a department asigned
         let availableHeads =
           headOfDepartments?.filter((user) => {
-            return additionalFormData.departments?.every((dept) => {
+            return additionalFormData?.departments?.every((dept) => {
               return user._id !== dept.head?._id;
             });
           }) ?? [];

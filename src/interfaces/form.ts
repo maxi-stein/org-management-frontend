@@ -1,4 +1,4 @@
-import { Area, Department, User } from "./entities";
+import { Area, Department, Position, User } from "./entities";
 
 export type FormColumns = {
   title: string;
@@ -9,5 +9,6 @@ export type FormColumns = {
 export type AdditionalData = {
   areas?: Area[];
   departments?: Department[];
+  positions?: Position[];
   users?: User[];
 };

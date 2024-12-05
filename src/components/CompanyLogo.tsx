@@ -20,7 +20,7 @@ export const CompanyLogo: React.FC = () => {
         }}
       >
         <img
-          src="../../public/organization-chart.png"
+          src="../../organization-chart.png"
           alt="logo"
           style={{ width: "40px" }}
         />

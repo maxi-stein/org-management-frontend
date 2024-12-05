@@ -17,7 +17,7 @@ interface GenericCRUDProps {
   columns: FormColumns[];
   isLoading: boolean;
   entityType: EntityType;
-  additionalFormData: AdditionalData;
+  additionalFormData?: AdditionalData;
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   refetchData: () => void;
@@ -52,7 +52,6 @@ const GenericCRUD = ({
   const showModal = (id: string | null = null) => {
     setIsModalVisible(true);
     setSelectedId(id);
-    console.log(id);
     if (id) {
       //Find the entity to edit
       const entity = items.find((item) => item._id === id);
