@@ -210,7 +210,7 @@ export const useItemsForm = (
             <Form.Item
               label="Password"
               name="password"
-              rules={validationRules[entityType]["password"]}
+              rules={isEditing ? [] : validationRules[entityType]["password"]}
               style={{ width: "100%" }}
             >
               <Input.Password

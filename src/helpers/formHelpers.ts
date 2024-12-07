@@ -46,7 +46,7 @@ const entitySetters = {
       supervisedEmployees: user.supervisedEmployees.map((emp) => emp._id),
       bornDate: dayjs(user.bornDate),
       isActive: user.isActive,
-      role: user.role,
+      role: user.role._id,
     });
   },
 };

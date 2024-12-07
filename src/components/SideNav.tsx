@@ -19,11 +19,10 @@ const SideNav: React.FC = () => {
   };
 
   const crudOptions = [
-    { key: "3", label: <Link to="/roles">Roles</Link> },
-    { key: "4", label: <Link to="/users">Users</Link> },
-    { key: "5", label: <Link to="/positions">Positions</Link> },
-    { key: "6", label: <Link to="/departments">Departments</Link> },
-    { key: "7", label: <Link to="/areas">Areas</Link> },
+    { key: "3", label: <Link to="/users">Users</Link> },
+    { key: "4", label: <Link to="/positions">Positions</Link> },
+    { key: "5", label: <Link to="/departments">Departments</Link> },
+    { key: "6", label: <Link to="/areas">Areas</Link> },
   ];
 
   const items = [
