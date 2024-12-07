@@ -38,7 +38,7 @@ const UserCRUD: React.FC = () => {
   }, [selectedUserId]);
 
   useEffect(() => {
-    if (employeesSupervisedByUser && !isLoadingUsersRelated) {
+    if (employeesSupervisedByUser && employeesSupervisedByUser.length > 0) {
       const employeesSupervisedByUserArray =
         employeesSupervisedByUser as User[];
       setRelatedEntities([

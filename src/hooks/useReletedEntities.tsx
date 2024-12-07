@@ -34,7 +34,7 @@ const getSupervisedEmployees = async (id: string | null) => {
   try {
     const users = await getUsers();
     const supervisedEmployees = users.data.find(
-      (user: User) => (user._id = id)
+      (user: User) => user._id == id
     )?.supervisedEmployees;
 
     if (!supervisedEmployees) return [];
