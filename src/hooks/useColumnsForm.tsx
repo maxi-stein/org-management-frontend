@@ -1,7 +1,11 @@
-import { Tooltip, Typography } from "antd";
-import { Department, User } from "../interfaces/entities";
+import { Space, Tooltip, Typography } from "antd";
+import { Department, Position, Role, User } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
 
 const { Text } = Typography;
 
@@ -14,6 +18,15 @@ const renderDepartments = (departments: Department[]) => {
     </Tooltip>
   ));
 };
+
+const renderSupervisedEmployees = (employees: User[]) =>
+  employees.map((emp) => (
+    <Badge
+      key={emp._id}
+      text={`${emp.firstName} ${emp.lastName}`}
+      status="active"
+    />
+  ));
 
 export const getColumnsForm = {
   areas: [
@@ -47,8 +60,53 @@ export const getColumnsForm = {
     { title: "Level", dataIndex: "level", key: "level" },
   ],
   users: [
-    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "First Name", dataIndex: "firstName", key: "firstName" },
+    { title: "Last Name", dataIndex: "lastName", key: "lastName" },
     { title: "Email", dataIndex: "email", key: "email" },
-    { title: "Role", dataIndex: "role", key: "role" },
+    {
+      title: "Position",
+      dataIndex: "position",
+      key: "position",
+      width: 150,
+      render: (position: Position) => (
+        <Text>
+          {position.level} {position.title}
+        </Text>
+      ),
+    },
+    {
+      title: "Supervised Employees",
+      dataIndex: "supervisedEmployees",
+      key: "supervisedEmployees",
+      render: (employees: User[]) => renderSupervisedEmployees(employees),
+    },
+    { title: "Phone Number", dataIndex: "phone", key: "phone" },
+    {
+      title: "Birth Date",
+      dataIndex: "bornDate",
+      key: "bornDate",
+      render: (date: Date) => new Date(date).toLocaleDateString(),
+    },
+    {
+      title: "Active",
+      dataIndex: "isActive",
+      key: "isActive",
+      render: (value: boolean) =>
+        value ? (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CheckCircleOutlined style={{ color: "green" }} />
+          </div>
+        ) : (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CloseCircleOutlined style={{ color: "red" }} />
+          </div>
+        ),
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (role: Role) => <Text>{role.name}</Text>,
+    },
   ],
 };

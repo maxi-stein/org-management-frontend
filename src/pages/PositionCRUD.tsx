@@ -33,8 +33,11 @@ const PositionCRUD: React.FC = () => {
     }
   }, [positions]);
 
-  const { data: relatedUsers, refetch: refetchRelatedUsers } =
-    useReletedEntities(selectedPositionId, "positions");
+  const {
+    data: relatedUsers,
+    refetch: refetchRelatedUsers,
+    isLoading: isLoadingUsersRelated,
+  } = useReletedEntities(selectedPositionId, "positions");
 
   //get related users when a position is selected
   useEffect(() => {
@@ -60,7 +63,7 @@ const PositionCRUD: React.FC = () => {
 
   return isError ? (
     <Text>An error has occurred</Text>
-  ) : isLoading ? (
+  ) : isLoading || isLoadingUsersRelated ? (
     <LoadingSpinner message="Loading Positions..." />
   ) : (
     <GenericCRUD

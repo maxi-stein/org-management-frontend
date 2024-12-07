@@ -1,52 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Position, Role, User } from "../interfaces/entities";
 import { Typography } from "antd";
-import { Badge } from "../components/Badge";
+import { getColumnsForm } from "../hooks/useColumnsForm";
+import { User } from "../interfaces/entities";
+import { RelatedEntity } from "../components/AlertModal";
+import { useFetchEntity } from "../hooks/useFetchEntity";
+import { useReletedEntities } from "../hooks/useReletedEntities";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const { Text } = Typography;
 
-const renderSupervisedEmployees = (employees: User[]) =>
-  employees.map((emp) => (
-    <Badge
-      key={emp._id}
-      text={`${emp.firstName} ${emp.lastName}`}
-      status="active"
-    />
-  ));
-const columns = [
-  { title: "First Name", dataIndex: "firstName", key: "firstName" },
-  { title: "Last Name", dataIndex: "lastName", key: "lastName" },
-  { title: "Email", dataIndex: "email", key: "email" },
-  {
-    title: "Position",
-    dataIndex: "position",
-    key: "position",
-    render: (position: Position) => (
-      <Text>
-        {position.level} {position.title}
-      </Text>
-    ),
-  },
-  {
-    title: "Supervised Employees",
-    dataIndex: "supervisedEmployees",
-    key: "supervisedEmployees",
-    render: (employees: User[]) => renderSupervisedEmployees(employees),
-  },
-  { title: "Phone Number", dataIndex: "phoneNumber", key: "phoneNumber" },
-  { title: "Birth Date", dataIndex: "bornDate", key: "bornDate" },
-  { title: "Active", dataIndex: "isActive", key: "isActive" },
-  {
-    title: "Role",
-    dataIndex: "role",
-    key: "role",
-    render: (role: Role) => <Text>{role.name}</Text>,
-  },
-];
+const columns = getColumnsForm["users"];
 
 const UserCRUD: React.FC = () => {
-  return <GenericCRUD title="Users" items={initialUsers} columns={columns} />;
+  const [initialUsers, setInitialUsers] = useState<User[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
+
+  const { data: users, isLoading, isError, refetch } = useFetchEntity("users");
+
+  useEffect(() => {
+    if (users && !isLoading) {
+      setInitialUsers(users.data as User[]);
+    }
+  }, [users]);
+
+  const {
+    data: employeesSupervisedByUser,
+    refetch: refetchRelatedUsers,
+    isLoading: isLoadingUsersRelated,
+  } = useReletedEntities(selectedUserId, "users");
+
+  useEffect(() => {
+    refetchRelatedUsers();
+  }, [selectedUserId]);
+
+  useEffect(() => {
+    if (employeesSupervisedByUser && !isLoadingUsersRelated) {
+      const employeesSupervisedByUserArray =
+        employeesSupervisedByUser as User[];
+      setRelatedEntities([
+        {
+          type: "users",
+          items: employeesSupervisedByUserArray.map((u) => {
+            return { name: u.firstName + " " + u.lastName };
+          }),
+        },
+      ]);
+    } else {
+      setRelatedEntities([]);
+    }
+  }, [employeesSupervisedByUser]);
+
+  return isError ? (
+    <Text>An error has occurred</Text>
+  ) : isLoading || isLoadingUsersRelated ? (
+    <LoadingSpinner message="Loading Employees..." />
+  ) : (
+    <GenericCRUD
+      title="Users"
+      items={initialUsers}
+      columns={columns}
+      entityType="users"
+      additionalFormData={undefined}
+      refetchData={refetch}
+      selectedId={selectedUserId}
+      setSelectedId={setSelectedUserId}
+      relatedEntities={relatedEntities}
+    />
+  );
 };
 
 export default UserCRUD;

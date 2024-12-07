@@ -29,6 +29,24 @@ const getRelatedUsersForPosition = async (id: string | null) => {
   }
 };
 
+const getSupervisedEmployees = async (id: string | null) => {
+  if (!id) return [];
+  try {
+    const users = await getUsers();
+    const supervisedEmployees = users.data.find(
+      (user: User) => (user._id = id)
+    )?.supervisedEmployees;
+
+    if (!supervisedEmployees) return [];
+    return users.data.filter((user: User) => {
+      return supervisedEmployees.find((emp) => emp._id == user._id);
+    }) as User[];
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting supervised employees");
+  }
+};
+
 export const useReletedEntities = (
   id: string | null,
   entityType: EntityType
@@ -41,6 +59,8 @@ export const useReletedEntities = (
         return getRelatedAreasForDepartment(id);
       case "positions":
         return getRelatedUsersForPosition(id);
+      case "users":
+        return getSupervisedEmployees(id);
       default:
         return [];
     }
