@@ -3,7 +3,6 @@ import GenericCRUD from "../components/GenericCRUD";
 import { Position, Role, User } from "../interfaces/entities";
 import { Typography } from "antd";
 import { Badge } from "../components/Badge";
-import { data } from "react-router-dom";
 
 const { Text } = Typography;
 

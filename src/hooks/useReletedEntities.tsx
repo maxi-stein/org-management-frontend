@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { Area, BffEntity, EntityType } from "../interfaces/entities";
+import { Area, BffEntity, EntityType, User } from "../interfaces/entities";
 import { getAreas } from "../apiServices/areasService";
+import { getUsers } from "../apiServices/userService";
 
 const getRelatedAreasForDepartment = async (id: string | null) => {
   if (!id) return [];
@@ -11,7 +12,20 @@ const getRelatedAreasForDepartment = async (id: string | null) => {
     ) as Area[];
   } catch (error) {
     console.log(error);
-    return [] as Area[];
+    throw new Error("Error getting related areas");
+  }
+};
+
+const getRelatedUsersForPosition = async (id: string | null) => {
+  if (!id) return [];
+  try {
+    const users = await getUsers();
+    return users.data.filter((user: User) => {
+      return user.position?._id == id;
+    }) as User[];
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting related users");
   }
 };
 
@@ -25,6 +39,8 @@ export const useReletedEntities = (
         return []; //there are no entities releated to areas
       case "departments":
         return getRelatedAreasForDepartment(id);
+      case "positions":
+        return getRelatedUsersForPosition(id);
       default:
         return [];
     }

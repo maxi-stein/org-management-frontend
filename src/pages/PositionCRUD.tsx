@@ -4,6 +4,8 @@ import { Position, User } from "../interfaces/entities";
 import { useFetchEntity } from "../hooks/useFetchEntity";
 import { Typography } from "antd";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useReletedEntities } from "../hooks/useReletedEntities";
+import { RelatedEntity } from "../components/AlertModal";
 
 const { Text } = Typography;
 
@@ -17,7 +19,7 @@ const PositionCRUD: React.FC = () => {
   const [selectedPositionId, setSelectedPositionId] = useState<string | null>(
     null
   );
-  const [relatedUsers, setRelatedUsers] = useState<User[]>([]);
+  const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
 
   const {
     data: positions,
@@ -26,8 +28,28 @@ const PositionCRUD: React.FC = () => {
     refetch,
   } = useFetchEntity("positions");
 
-  const { data: relatedUsersData, isLoading: isLoadingRelatedUsers } =
-    useFetchEntity("users");
+  const { data: relatedUsers, refetch: refetchRelatedUsers } =
+    useReletedEntities(selectedPositionId, "positions");
+
+  useEffect(() => {
+    refetchRelatedUsers();
+  }, [selectedPositionId]);
+
+  useEffect(() => {
+    if (relatedUsers && relatedUsers.length > 0) {
+      const filteredUsers = relatedUsers as User[];
+      setRelatedEntities([
+        {
+          type: "users",
+          items: filteredUsers.map((u) => {
+            return { name: u.firstName + " " + u.lastName };
+          }),
+        },
+      ]);
+    } else {
+      setRelatedEntities([]);
+    }
+  }, [relatedUsers]);
 
   //once positions are fetched, I set the initial positions
   useEffect(() => {
@@ -36,17 +58,9 @@ const PositionCRUD: React.FC = () => {
     }
   }, [positions]);
 
-  //every time I select a position, I search for the users that have that position
-  useEffect(() => {
-    const filteredUsers = relatedUsersData?.data.filter((user: User) => {
-      return user.position?._id == selectedPositionId;
-    }) as User[];
-    setRelatedUsers(filteredUsers);
-  }, [selectedPositionId]);
-
   return isError ? (
     <Text>An error has occurred</Text>
-  ) : isLoading || isLoadingRelatedUsers ? (
+  ) : isLoading ? (
     <LoadingSpinner message="Loading positions..." />
   ) : (
     <GenericCRUD
@@ -58,14 +72,7 @@ const PositionCRUD: React.FC = () => {
       refetchData={refetch}
       selectedId={selectedPositionId}
       setSelectedId={setSelectedPositionId}
-      relatedEntities={[
-        {
-          type: "users",
-          items: relatedUsers?.map((u) => {
-            return { name: u.firstName.concat(" ", u.lastName) };
-          }),
-        },
-      ]}
+      relatedEntities={relatedEntities}
     />
   );
 };
