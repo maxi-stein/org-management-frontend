@@ -53,6 +53,7 @@ export interface UserInput {
   bornDate: Date;
   isActive: boolean;
   position: Position | null;
+  password?: string;
 }
 
 export interface User extends UserInput {

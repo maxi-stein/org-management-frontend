@@ -5,10 +5,12 @@ import {
   DepartmentInput,
   EntityType,
   PositionInput,
+  UserInput,
 } from "../interfaces/entities";
 import { createArea } from "../apiServices/areasService";
 import { createDepartment } from "../apiServices/departmentsService";
 import { createPosition } from "../apiServices/positionsService";
+import { createUser } from "../apiServices/userService";
 
 interface EntityCreateData {
   data: BffEntityInput;
@@ -23,6 +25,8 @@ export const useCreateEntity = (entityType: EntityType) => {
         return await createDepartment(data as DepartmentInput);
       case "positions":
         return await createPosition(data as PositionInput);
+      case "users":
+        return await createUser(data as UserInput);
       default:
         throw new Error("Entity type not supported");
     }

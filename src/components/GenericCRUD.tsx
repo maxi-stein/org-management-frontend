@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Space, message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { BffEntity, EntityType } from "../interfaces/entities";
@@ -35,6 +35,15 @@ const GenericCRUD = ({
   const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
   const [form] = Form.useForm();
   const { renderFormItems } = useItemsForm(entityType, selectedId);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (selectedId) {
+      setIsEditing(true);
+    } else {
+      setIsEditing(false);
+    }
+  }, [selectedId]);
 
   const { editEntity } = useEditEntity(entityType);
   const { createEntity } = useCreateEntity(entityType);
@@ -88,6 +97,8 @@ const GenericCRUD = ({
 
       const values = form.getFieldsValue();
 
+      console.log(values);
+
       if (selectedId) {
         // If we are editing, call the mutation to update the entity
         await editEntity({
@@ -103,12 +114,12 @@ const GenericCRUD = ({
       }
       setIsModalVisible(false);
       form.resetFields(); // Reset fields after successful submission
+      refetchData();
     } catch (error) {
       message.error(
         "There was an issue submitting the form. Please try again later"
       );
     }
-    refetchData();
   };
 
   const actionColumn = {
@@ -156,7 +167,7 @@ const GenericCRUD = ({
         }}
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          {renderFormItems(columns)}
+          {renderFormItems(columns, isEditing)}
         </Form>
       </Modal>
       <AlertModal

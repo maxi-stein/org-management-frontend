@@ -1,4 +1,5 @@
 import { FormInstance } from "antd";
+import dayjs from "dayjs";
 import {
   Area,
   BffEntity,
@@ -6,6 +7,7 @@ import {
   Department,
   EntityType,
   Position,
+  User,
 } from "../interfaces/entities";
 
 // Function to set dynamic form values
@@ -33,7 +35,19 @@ const entitySetters = {
     });
   },
   users: (form: FormInstance<any>, entity: BffEntity) => {
-    //TODO: users
+    const user = entity as User;
+    form.setFieldsValue({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      phone: user.phone,
+      position: user.position?._id,
+      supervisedEmployees: user.supervisedEmployees.map((emp) => emp._id),
+      bornDate: dayjs(user.bornDate),
+      isActive: user.isActive,
+      role: user.role,
+    });
   },
 };
 
@@ -63,7 +77,16 @@ const entityDataBuilders = {
     level: values.level,
   }),
   users: (values: any) => ({
-    //TODO: users
+    firstName: values.firstName,
+    lastName: values.lastName,
+    email: values.email,
+    password: values.password,
+    phone: values.phone,
+    position: values.position,
+    supervisedEmployees: values.supervisedEmployees,
+    bornDate: dayjs(values.bornDate),
+    isActive: values.isActive,
+    role: values.role,
   }),
 };
 

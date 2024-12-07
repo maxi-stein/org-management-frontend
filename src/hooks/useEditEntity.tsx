@@ -5,10 +5,12 @@ import {
   DepartmentInput,
   EntityType,
   PositionInput,
+  UserInput,
 } from "../interfaces/entities";
 import { updateArea } from "../apiServices/areasService";
 import { updateDepartment } from "../apiServices/departmentsService";
 import { updatePosition } from "../apiServices/positionsService";
+import { updateUser } from "../apiServices/userService";
 
 interface EntityEditData {
   id: string;
@@ -25,6 +27,8 @@ export const useEditEntity = (entityType: EntityType) => {
         return await updateDepartment(id, data as DepartmentInput);
       case "positions":
         return await updatePosition(id, data as PositionInput);
+      case "users":
+        return await updateUser(id, data as UserInput);
       default:
         throw new Error("Entity type not supported");
     }

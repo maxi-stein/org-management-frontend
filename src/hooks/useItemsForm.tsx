@@ -54,6 +54,21 @@ const validationRules: Record<string, Record<string, any[]>> = {
     email: [
       { required: true, message: "Please input a valid email.", type: "email" },
     ],
+    password: [
+      {
+        required: true,
+        message: "Please input a password!",
+      },
+      {
+        min: 8,
+        message: "Password must be at least 8 characters",
+      },
+      {
+        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/,
+        message:
+          "Password must contain at least one lowercase letter, one uppercase letter, and one number",
+      },
+    ],
     position: [{ required: true, message: "Please select a position!" }],
     supervisedEmployees: [{ required: false }],
     prefix: [{ required: true, message: "Please select a prefix" }],
@@ -114,7 +129,7 @@ export const useItemsForm = (
     enabled: entityType === "users",
   });
 
-  const renderFormItems = (columns: FormColumns[]) => {
+  const renderFormItems = (columns: FormColumns[], isEditing?: boolean) => {
     if (entityType === "users") {
       //Filter employees that are beeing supervised + heads of departments
       const heads = users?.data.filter(
@@ -135,7 +150,16 @@ export const useItemsForm = (
       });
       return (
         <div>
-          <Card title="User Info" style={{ marginBottom: 20 }}>
+          <Card
+            title="User Info"
+            style={{
+              marginBottom: 20,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Space
               size={"middle"}
               style={{ display: "flex", flexDirection: "row" }}
@@ -184,11 +208,22 @@ export const useItemsForm = (
               </Form.Item>
             </Space>
             <Form.Item
+              label="Password"
+              name="password"
+              rules={validationRules[entityType]["password"]}
+              style={{ width: "100%" }}
+            >
+              <Input.Password
+                placeholder="Enter password"
+                disabled={isEditing}
+              />
+            </Form.Item>
+            <Form.Item
               key={"position"}
               name={"position"}
               label={"Position"}
               rules={validationRules[entityType]["position"]}
-              style={{ width: "90%" }}
+              style={{ width: "100%" }}
             >
               <Select
                 showSearch
@@ -217,7 +252,6 @@ export const useItemsForm = (
               >
                 <Select
                   mode="multiple"
-                  allowClear
                   style={{ width: "100%" }}
                   placeholder="Search employees"
                   filterOption={(input, option) => {
@@ -228,9 +262,12 @@ export const useItemsForm = (
                     }
                     return false;
                   }}
-                  options={availableEmployees?.map((user) => ({
+                  options={users?.data.map((user) => ({
                     value: user._id,
                     label: user.firstName + " " + user.lastName,
+                    disabled: !availableEmployees?.some(
+                      (emp) => emp._id === user._id
+                    ),
                   }))}
                 />
               </Form.Item>

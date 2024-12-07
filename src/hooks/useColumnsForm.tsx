@@ -70,7 +70,7 @@ export const getColumnsForm = {
       width: 150,
       render: (position: Position) => (
         <Text>
-          {position.level} {position.title}
+          {position?.level} {position?.title}
         </Text>
       ),
     },
