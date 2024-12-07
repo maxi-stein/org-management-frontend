@@ -69,9 +69,6 @@ const DepartmentCRUD: React.FC = () => {
       items={initialDepartments}
       columns={columns}
       entityType="departments"
-      additionalFormData={{
-        departments: initialDepartments,
-      }}
       refetchData={refetch}
       selectedId={selectedDepartmentId}
       setSelectedId={setSelectedDepartmentId}

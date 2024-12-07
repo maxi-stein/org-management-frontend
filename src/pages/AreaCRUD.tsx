@@ -32,7 +32,6 @@ const AreaCRUD: React.FC = () => {
       items={initialAreas}
       columns={columns}
       entityType="areas"
-      additionalFormData={{ areas: initialAreas }}
       refetchData={refetch}
       relatedEntities={[]} //there are no entities releated to areas
       selectedId={selectedAreaId}

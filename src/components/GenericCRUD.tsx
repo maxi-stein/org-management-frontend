@@ -15,7 +15,6 @@ interface GenericCRUDProps {
   items: BffEntity[];
   columns: FormColumns[];
   entityType: EntityType;
-  additionalFormData?: any;
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   refetchData: () => void;
@@ -27,7 +26,6 @@ const GenericCRUD = ({
   items,
   columns,
   entityType,
-  additionalFormData,
   selectedId,
   setSelectedId,
   refetchData,
@@ -36,11 +34,7 @@ const GenericCRUD = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const { renderFormItems } = useItemsForm(
-    entityType,
-    selectedId,
-    additionalFormData
-  );
+  const { renderFormItems } = useItemsForm(entityType, selectedId);
 
   const { editEntity } = useEditEntity(entityType);
   const { createEntity } = useCreateEntity(entityType);
@@ -68,10 +62,11 @@ const GenericCRUD = ({
     if (selectedId) {
       try {
         await deleteEntity(selectedId);
+        refetchData();
       } catch (error) {
         console.error("Error deleting entity:", error);
+        throw new Error("Error deleting entity");
       }
-      refetchData();
     }
     setIsAlertModalVisible(false);
     setSelectedId(null);

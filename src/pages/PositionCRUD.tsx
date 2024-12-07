@@ -73,7 +73,6 @@ const PositionCRUD: React.FC = () => {
       items={initialPositions}
       columns={columns}
       entityType="positions"
-      additionalFormData={undefined}
       refetchData={refetch}
       selectedId={selectedPositionId}
       setSelectedId={setSelectedPositionId}

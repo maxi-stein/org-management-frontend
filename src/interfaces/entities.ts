@@ -1,4 +1,4 @@
-export type BffEntity = Area | Department | Position | User;
+export type BffEntity = Area | Department | Position | User | Role;
 export type BffEntityInput =
   | AreaInput
   | DepartmentInput

@@ -64,7 +64,6 @@ const UserCRUD: React.FC = () => {
       items={initialUsers}
       columns={columns}
       entityType="users"
-      additionalFormData={undefined}
       refetchData={refetch}
       selectedId={selectedUserId}
       setSelectedId={setSelectedUserId}
