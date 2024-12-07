@@ -1,4 +1,4 @@
-import { Space, Tooltip, Typography } from "antd";
+import { Tooltip, Typography } from "antd";
 import { Department, Position, Role, User } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import {

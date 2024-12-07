@@ -39,7 +39,9 @@ const DepartmentCRUD: React.FC = () => {
 
   //get related areas when a department is selected
   useEffect(() => {
-    refetchRelatedAreas();
+    if (selectedDepartmentId !== null) {
+      refetchRelatedAreas();
+    }
   }, [selectedDepartmentId]);
 
   //after selected id changed, relatedAreas is refetched so the relatedEntities are updated

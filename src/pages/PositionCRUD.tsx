@@ -41,7 +41,9 @@ const PositionCRUD: React.FC = () => {
 
   //get related users when a position is selected
   useEffect(() => {
-    refetchRelatedUsers();
+    if (selectedPositionId !== null) {
+      refetchRelatedUsers();
+    }
   }, [selectedPositionId]);
 
   //once related users are fetched, I set the related entities

@@ -32,7 +32,9 @@ const UserCRUD: React.FC = () => {
   } = useReletedEntities(selectedUserId, "users");
 
   useEffect(() => {
-    refetchRelatedUsers();
+    if (selectedUserId !== null) {
+      refetchRelatedUsers();
+    }
   }, [selectedUserId]);
 
   useEffect(() => {
