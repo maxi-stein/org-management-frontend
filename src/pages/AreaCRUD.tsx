@@ -1,32 +1,15 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Area, Department } from "../interfaces/entities";
-import { Badge } from "../components/Badge";
-import { Tooltip, Typography } from "antd";
+import { Area } from "../interfaces/entities";
 import { useFetchEntity } from "../hooks/useFetchEntity";
 import LoadingSpinner from "../components/LoadingSpinner";
+import {} from "../helpers/formHelpers";
+import { getColumnsForm } from "../hooks/useColumnsForm";
+import { Typography } from "antd";
 
 const { Text } = Typography;
 
-const renderDepartments = (departments: Department[]) => {
-  return departments.map((dept) => (
-    <Tooltip key={dept._id} title={dept.description}>
-      <span>
-        <Badge key={dept._id} text={dept.name} status="active" />
-      </span>
-    </Tooltip>
-  ));
-};
-
-const columns = [
-  { title: "Name", dataIndex: "name", key: "name" },
-  {
-    title: "Departments",
-    dataIndex: "departments",
-    key: "departments",
-    render: (departments: Department[]) => renderDepartments(departments),
-  },
-];
+const columns = getColumnsForm["areas"];
 
 const AreaCRUD: React.FC = () => {
   const [initialAreas, setInitialAreas] = useState<Area[]>([]);

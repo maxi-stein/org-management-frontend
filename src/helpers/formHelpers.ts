@@ -67,7 +67,7 @@ const entityDataBuilders = {
   }),
 };
 
-// Función genérica para obtener los datos de la entidad
+//Generic function to get data for entity
 export const getDataForEntity = (entityType: EntityType, values: any) => {
   const dataBuilder = entityDataBuilders[entityType];
   return dataBuilder

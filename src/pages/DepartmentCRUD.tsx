@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Area, Department, User } from "../interfaces/entities";
+import { Area, Department } from "../interfaces/entities";
 import { useFetchEntity } from "../hooks/useFetchEntity";
 import { useReletedEntities } from "../hooks/useReletedEntities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { getColumnsForm } from "../hooks/useColumnsForm";
 
 const { Text } = Typography;
 
-const columns = [
-  { title: "Name", dataIndex: "name", key: "name" },
-  {
-    title: "Head of Department",
-    dataIndex: "head",
-    key: "head",
-    render: (head: User | null) =>
-      head ? (
-        <Text>{`${head.lastName}, ${head.firstName}`}</Text>
-      ) : (
-        <Text style={{ color: "#d9534f" }}>
-          <ExclamationCircleFilled /> No Head of Department Assigned
-        </Text>
-      ),
-  },
-  { title: "Description", dataIndex: "description", key: "description" },
-];
+const columns = getColumnsForm["departments"];
 
 const DepartmentCRUD: React.FC = () => {
   const [initialDepartments, seInitialDepartments] = useState<Department[]>([]);

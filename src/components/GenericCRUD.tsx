@@ -4,7 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { BffEntity, EntityType } from "../interfaces/entities";
 import { useItemsForm } from "../hooks/useItemsForm";
 import { FormColumns } from "../interfaces/form";
-import { getDataForEntity, setFormValues } from "../helpers/formValues";
+import { getDataForEntity, setFormValues } from "../helpers/formHelpers";
 import { useEditEntity } from "../hooks/useEditEntity";
 import { useCreateEntity } from "../hooks/useCreateEntity";
 import { useDeleteEntity } from "../hooks/useDeleteEntity";

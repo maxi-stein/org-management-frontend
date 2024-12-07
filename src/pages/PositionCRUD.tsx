@@ -6,13 +6,11 @@ import { Typography } from "antd";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useReletedEntities } from "../hooks/useReletedEntities";
 import { RelatedEntity } from "../components/AlertModal";
+import { getColumnsForm } from "../hooks/useColumnsForm";
 
 const { Text } = Typography;
 
-const columns = [
-  { title: "Level", dataIndex: "level", key: "level" },
-  { title: "Title", dataIndex: "title", key: "title" },
-];
+const columns = getColumnsForm["positions"];
 
 const PositionCRUD: React.FC = () => {
   const [initialPositions, setInitialPositions] = useState<Position[]>([]);
