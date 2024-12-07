@@ -82,7 +82,6 @@ const DepartmentCRUD: React.FC = () => {
       title="Departments"
       items={initialDepartments}
       columns={columns}
-      isLoading={isLoading}
       entityType="departments"
       additionalFormData={{
         departments: initialDepartments,

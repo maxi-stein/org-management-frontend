@@ -48,7 +48,6 @@ const AreaCRUD: React.FC = () => {
       title="Areas"
       items={initialAreas}
       columns={columns}
-      isLoading={isLoading}
       entityType="areas"
       additionalFormData={{ areas: initialAreas }}
       refetchData={refetch}

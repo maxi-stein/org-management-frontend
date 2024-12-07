@@ -53,7 +53,6 @@ const PositionCRUD: React.FC = () => {
       title="Positions"
       items={initialPositions}
       columns={columns}
-      isLoading={isLoading || isLoadingRelatedUsers}
       entityType="positions"
       additionalFormData={undefined}
       refetchData={refetch}

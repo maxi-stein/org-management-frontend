@@ -8,8 +8,7 @@ export const getDepartments = async (): Promise<bffResponse<Department[]>> => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
-    return { data: [] };
+    throw new Error("Error getting departments");
   }
 };
 

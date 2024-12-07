@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Table, Button, Modal, Form, Space, message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import LoadingSpinner from "./LoadingSpinner";
 import { BffEntity, EntityType } from "../interfaces/entities";
 import { useItemsForm } from "../hooks/useItemsForm";
-import { AdditionalData, FormColumns } from "../interfaces/form";
+import { FormColumns } from "../interfaces/form";
 import { getDataForEntity, setFormValues } from "../helpers/formValues";
 import { useEditEntity } from "../hooks/useEditEntity";
 import { useCreateEntity } from "../hooks/useCreateEntity";
@@ -15,7 +14,6 @@ interface GenericCRUDProps {
   title: string;
   items: BffEntity[];
   columns: FormColumns[];
-  isLoading: boolean;
   entityType: EntityType;
   additionalFormData?: any;
   selectedId: string | null;
@@ -28,7 +26,6 @@ const GenericCRUD = ({
   title,
   items,
   columns,
-  isLoading,
   entityType,
   additionalFormData,
   selectedId,
@@ -45,9 +42,9 @@ const GenericCRUD = ({
     additionalFormData
   );
 
-  const { editEntity, awaitingEdit } = useEditEntity(entityType);
-  const { createEntity, awaitingCreate } = useCreateEntity(entityType);
-  const { deleteEntity, awaitingDeletion } = useDeleteEntity(entityType);
+  const { editEntity } = useEditEntity(entityType);
+  const { createEntity } = useCreateEntity(entityType);
+  const { deleteEntity } = useDeleteEntity(entityType);
 
   const showModal = (id: string | null = null) => {
     setIsModalVisible(true);
