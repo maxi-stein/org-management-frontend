@@ -28,13 +28,22 @@ const PositionCRUD: React.FC = () => {
     refetch,
   } = useFetchEntity("positions");
 
+  //once positions are fetched, I set the initial positions
+  useEffect(() => {
+    if (positions && !isLoading) {
+      setInitialPositions(positions.data as Position[]);
+    }
+  }, [positions]);
+
   const { data: relatedUsers, refetch: refetchRelatedUsers } =
     useReletedEntities(selectedPositionId, "positions");
 
+  //get related users when a position is selected
   useEffect(() => {
     refetchRelatedUsers();
   }, [selectedPositionId]);
 
+  //once related users are fetched, I set the related entities
   useEffect(() => {
     if (relatedUsers && relatedUsers.length > 0) {
       const filteredUsers = relatedUsers as User[];
@@ -51,17 +60,10 @@ const PositionCRUD: React.FC = () => {
     }
   }, [relatedUsers]);
 
-  //once positions are fetched, I set the initial positions
-  useEffect(() => {
-    if (positions && !isLoading) {
-      setInitialPositions(positions.data as Position[]);
-    }
-  }, [positions]);
-
   return isError ? (
     <Text>An error has occurred</Text>
   ) : isLoading ? (
-    <LoadingSpinner message="Loading positions..." />
+    <LoadingSpinner message="Loading Positions..." />
   ) : (
     <GenericCRUD
       title="Positions"
