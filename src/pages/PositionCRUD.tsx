@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Position } from "../interfaces/entities";
+import { Position, User } from "../interfaces/entities";
 import { useFetchEntity } from "../hooks/useFetchEntity";
 import { Typography } from "antd";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const { Text } = Typography;
 
@@ -16,6 +17,7 @@ const PositionCRUD: React.FC = () => {
   const [selectedPositionId, setSelectedPositionId] = useState<string | null>(
     null
   );
+  const [relatedUsers, setRelatedUsers] = useState<User[]>([]);
 
   const {
     data: positions,
@@ -24,25 +26,47 @@ const PositionCRUD: React.FC = () => {
     refetch,
   } = useFetchEntity("positions");
 
+  const { data: relatedUsersData, isLoading: isLoadingRelatedUsers } =
+    useFetchEntity("users");
+
+  //once positions are fetched, I set the initial positions
   useEffect(() => {
     if (positions && !isLoading) {
       setInitialPositions(positions.data as Position[]);
     }
   }, [positions]);
+
+  //every time I select a position, I search for the users that have that position
+  useEffect(() => {
+    const filteredUsers = relatedUsersData?.data.filter((user: User) => {
+      return user.position?._id == selectedPositionId;
+    }) as User[];
+    setRelatedUsers(filteredUsers);
+  }, [selectedPositionId]);
+
   return isError ? (
     <Text>An error has occurred</Text>
+  ) : isLoading || isLoadingRelatedUsers ? (
+    <LoadingSpinner message="Loading positions..." />
   ) : (
     <GenericCRUD
       title="Positions"
       items={initialPositions}
       columns={columns}
-      isLoading={isLoading}
+      isLoading={isLoading || isLoadingRelatedUsers}
       entityType="positions"
       additionalFormData={undefined}
       refetchData={refetch}
       selectedId={selectedPositionId}
       setSelectedId={setSelectedPositionId}
-      relatedEntities={[]}
+      relatedEntities={[
+        {
+          type: "users",
+          items: relatedUsers?.map((u) => {
+            return { name: u.firstName.concat(" ", u.lastName) };
+          }),
+        },
+      ]}
     />
   );
 };

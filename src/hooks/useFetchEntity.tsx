@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { bffResponse } from "../apiServices/http-config";
-import { BffEntity, EntityType } from "../interfaces/entities";
+import { EntityType } from "../interfaces/entities";
 import { getAreas } from "../apiServices/areasService";
 import { getDepartments } from "../apiServices/departmentsService";
 import { getPositions } from "../apiServices/positionsService";
+import { getUsers } from "../apiServices/userService";
 
 export const useFetchEntity = (entityType: EntityType) => {
   const fetchEntityHook = async () => {
@@ -14,14 +15,14 @@ export const useFetchEntity = (entityType: EntityType) => {
         return getDepartments();
       case "positions":
         return getPositions();
+      case "users":
+        return getUsers();
       default:
         throw new Error("Entity type not supported");
     }
   };
 
-  const { data, isLoading, isError, refetch } = useQuery<
-    bffResponse<BffEntity[]>
-  >({
+  const { data, isLoading, isError, refetch } = useQuery<bffResponse<any>>({
     queryKey: [`fetch-${entityType}`],
     queryFn: fetchEntityHook,
   });

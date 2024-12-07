@@ -7,7 +7,7 @@ export const getAreas = async (): Promise<bffResponse<Area[]>> => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return { data: [] };
+    throw new Error("Error getting areas");
   }
 };
 

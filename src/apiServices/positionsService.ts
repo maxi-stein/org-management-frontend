@@ -9,7 +9,7 @@ export const getPositions = async (): Promise<bffResponse<Position[]>> => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return { data: [] };
+    throw new Error("Error getting positions");
   }
 };
 

@@ -6,6 +6,7 @@ import { useReletedEntities } from "../hooks/useReletedEntities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const { Text } = Typography;
 
@@ -40,8 +41,11 @@ const DepartmentCRUD: React.FC = () => {
     refetch,
   } = useFetchEntity("departments");
 
-  const { data: relatedAreas, refetch: refetchRelatedAreas } =
-    useReletedEntities(selectedDepartmentId, "departments");
+  const {
+    data: relatedAreas,
+    refetch: refetchRelatedAreas,
+    isLoading: isLoadingRelatedDepartments,
+  } = useReletedEntities(selectedDepartmentId, "departments");
 
   useEffect(() => {
     if (departments && !isLoading) {
@@ -71,6 +75,8 @@ const DepartmentCRUD: React.FC = () => {
 
   return isError ? (
     <Text>An error has occurred</Text>
+  ) : isLoading || isLoadingRelatedDepartments ? (
+    <LoadingSpinner message="Loading Departments..." />
   ) : (
     <GenericCRUD
       title="Departments"

@@ -12,4 +12,5 @@ export const axiosInstance = axios.create({
 
 export interface bffResponse<T extends BffEntity[]> {
   data: T;
+  success: boolean;
 }

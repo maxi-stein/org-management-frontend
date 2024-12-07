@@ -3,20 +3,14 @@ import { Spin, Typography, Space } from "antd";
 const { Text } = Typography;
 
 interface SpinnerProps {
-  isLoading: boolean;
   message?: string;
   size?: "default" | "large" | "small";
 }
 
 const LoadingSpinner = ({
-  isLoading = false,
   message = "Loading...",
   size = "default",
 }: SpinnerProps) => {
-  if (!isLoading) {
-    return null;
-  }
-
   return (
     <div
       style={{

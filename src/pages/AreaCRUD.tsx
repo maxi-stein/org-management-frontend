@@ -4,6 +4,7 @@ import { Area, Department } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import { Tooltip, Typography } from "antd";
 import { useFetchEntity } from "../hooks/useFetchEntity";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const { Text } = Typography;
 
@@ -40,6 +41,8 @@ const AreaCRUD: React.FC = () => {
 
   return isError ? (
     <Text>An error has occurred</Text>
+  ) : isLoading ? (
+    <LoadingSpinner message="Loading Areas..." />
   ) : (
     <GenericCRUD
       title="Areas"

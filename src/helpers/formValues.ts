@@ -35,9 +35,6 @@ const entitySetters = {
   users: (form: FormInstance<any>, entity: BffEntity) => {
     //TODO: users
   },
-  roles: (form: FormInstance<any>, entity: BffEntity) => {
-    //TODO: roles
-  },
 };
 
 export const setFormValues = (
@@ -67,9 +64,6 @@ const entityDataBuilders = {
   }),
   users: (values: any) => ({
     //TODO: users
-  }),
-  roles: (values: any) => ({
-    //TODO: roles
   }),
 };
 

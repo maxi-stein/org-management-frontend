@@ -17,7 +17,7 @@ interface GenericCRUDProps {
   columns: FormColumns[];
   isLoading: boolean;
   entityType: EntityType;
-  additionalFormData?: AdditionalData;
+  additionalFormData?: any;
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   refetchData: () => void;
@@ -135,11 +135,6 @@ const GenericCRUD = ({
   };
   return (
     <div>
-      <LoadingSpinner
-        isLoading={
-          isLoading || awaitingEdit || awaitingCreate || awaitingDeletion
-        }
-      />
       <h2>{title}</h2>
       <Button
         color="primary"

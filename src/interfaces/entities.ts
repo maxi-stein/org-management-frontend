@@ -5,12 +5,7 @@ export type BffEntityInput =
   | PositionInput
   | UserInput
   | RoleInput;
-export type EntityType =
-  | "areas"
-  | "departments"
-  | "positions"
-  | "users"
-  | "roles";
+export type EntityType = "areas" | "departments" | "positions" | "users";
 
 export interface AreaInput {
   name: string;
