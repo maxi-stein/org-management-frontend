@@ -10,16 +10,18 @@ import DepartmentCRUD from "./pages/DepartmentCRUD.tsx";
 import AreaCRUD from "./pages/AreaCRUD.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import OrgChartPage from "./pages/OrgChartPage";
 
 const { Content } = Layout;
 const queryClient = new QueryClient();
 
 const routes = [
-  { path: "/", element: <Dashboard />, exact: true },
+  { path: "/", element: <Dashboard /> },
   { path: "/users", element: <UserCRUD /> },
   { path: "/positions", element: <PositionCRUD /> },
   { path: "/departments", element: <DepartmentCRUD /> },
   { path: "/areas", element: <AreaCRUD /> },
+  { path: "/org-chart", element: <OrgChartPage /> },
 ];
 
 const App: React.FC = () => {

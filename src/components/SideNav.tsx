@@ -6,6 +6,7 @@ import {
   DatabaseOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { CompanyLogo } from "./CompanyLogo";
 
@@ -19,15 +20,16 @@ const SideNav: React.FC = () => {
   };
 
   const crudOptions = [
-    { key: "3", label: <Link to="/users">Users</Link> },
-    { key: "4", label: <Link to="/positions">Positions</Link> },
-    { key: "5", label: <Link to="/departments">Departments</Link> },
-    { key: "6", label: <Link to="/areas">Areas</Link> },
+    { key: "4", label: <Link to="/users">Users</Link> },
+    { key: "5", label: <Link to="/positions">Positions</Link> },
+    { key: "6", label: <Link to="/departments">Departments</Link> },
+    { key: "7", label: <Link to="/areas">Areas</Link> },
   ];
 
   const items = [
+    { key: "1", icon: <UserOutlined />, label: <Link to="/">Dashboard</Link> },
     {
-      key: "1",
+      key: "2",
       icon: <ApartmentOutlined />,
       label: <Link to="/org-chart">Hierarchical Chart</Link>,
     },
