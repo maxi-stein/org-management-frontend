@@ -1,79 +1,80 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Position, User } from "../interfaces/entities";
-import { useFetchEntity } from "../hooks/useFetchEntity";
 import { Typography } from "antd";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useReletedEntities } from "../hooks/useReletedEntities";
 import { RelatedEntity } from "../components/AlertModal";
 import { getColumnsForm } from "../hooks/useColumnsForm";
+import { useDataContext } from "../contexts/dataContext";
+import { User } from "../interfaces/entities";
 
 const { Text } = Typography;
 
 const columns = getColumnsForm["positions"];
 
 const PositionCRUD: React.FC = () => {
-  const [initialPositions, setInitialPositions] = useState<Position[]>([]);
   const [selectedPositionId, setSelectedPositionId] = useState<string | null>(
     null
   );
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
 
   const {
-    data: positions,
+    data: positionsData,
     isLoading,
     isError,
-    refetch,
-  } = useFetchEntity("positions");
+    fetchPositions,
+  } = useDataContext().positions;
+  if (!positionsData) fetchPositions();
 
-  //once positions are fetched, I set the initial positions
-  useEffect(() => {
-    if (positions && !isLoading) {
-      setInitialPositions(positions.data as Position[]);
-    }
-  }, [positions]);
-
+  //users are needed for getting related users for selected position
   const {
-    data: relatedUsers,
-    refetch: refetchRelatedUsers,
+    data: users,
+    fetchUsers,
     isLoading: isLoadingUsersRelated,
-  } = useReletedEntities(selectedPositionId, "positions");
+    isError: isErrorUsers,
+  } = useDataContext().users;
+  if (!users) fetchUsers();
+
+  const getRelatedUsersForPosition = (
+    selectedPositionId: string | null,
+    users: User[] | undefined
+  ) => {
+    if (!selectedPositionId) return [];
+    return users?.filter((user: User) => {
+      return user.position?._id == selectedPositionId;
+    }) as User[];
+  };
 
   //get related users when a position is selected
   useEffect(() => {
     if (selectedPositionId !== null) {
-      refetchRelatedUsers();
+      const relatedUsers = getRelatedUsersForPosition(
+        selectedPositionId,
+        users?.data
+      );
+      if (relatedUsers && relatedUsers.length > 0) {
+        setRelatedEntities([
+          {
+            type: "users",
+            items: relatedUsers.map((u) => {
+              return { name: u.firstName + " " + u.lastName };
+            }),
+          },
+        ]);
+      }
     }
-  }, [selectedPositionId]);
+  }, [selectedPositionId, users?.data]);
 
-  //once related users are fetched, I set the related entities
-  useEffect(() => {
-    if (relatedUsers && relatedUsers.length > 0) {
-      const filteredUsers = relatedUsers as User[];
-      setRelatedEntities([
-        {
-          type: "users",
-          items: filteredUsers.map((u) => {
-            return { name: u.firstName + " " + u.lastName };
-          }),
-        },
-      ]);
-    } else {
-      setRelatedEntities([]);
-    }
-  }, [relatedUsers]);
-
-  return isError ? (
+  return isError || isErrorUsers ? (
     <Text>An error has occurred</Text>
   ) : isLoading || isLoadingUsersRelated ? (
     <LoadingSpinner message="Loading Positions..." />
   ) : (
     <GenericCRUD
       title="Positions"
-      items={initialPositions}
+      items={positionsData?.data}
       columns={columns}
       entityType="positions"
-      refetchData={refetch}
+      refetchData={fetchPositions}
       selectedId={selectedPositionId}
       setSelectedId={setSelectedPositionId}
       relatedEntities={relatedEntities}

@@ -1,38 +1,39 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  AreaInput,
-  BffEntityInput,
-  DepartmentInput,
-  EntityType,
-  PositionInput,
-  UserInput,
-} from "../interfaces/entities";
+import { BffEntityInput, EntityType } from "../interfaces/entities";
 import { createArea } from "../apiServices/areasService";
 import { createDepartment } from "../apiServices/departmentsService";
 import { createPosition } from "../apiServices/positionsService";
 import { createUser } from "../apiServices/userService";
 
-interface EntityCreateData {
-  data: BffEntityInput;
-}
+// Definimos la interfaz de tipo genérico, T, que extiende de BffEntityInput
+type EntityCreateData<T extends BffEntityInput> = {
+  data: T;
+};
 
-export const useCreateEntity = (entityType: EntityType) => {
-  const createEntityHook = async ({ data }: EntityCreateData) => {
-    switch (entityType) {
-      case "areas":
-        return await createArea(data as AreaInput);
-      case "departments":
-        return await createDepartment(data as DepartmentInput);
-      case "positions":
-        return await createPosition(data as PositionInput);
-      case "users":
-        return await createUser(data as UserInput);
-      default:
-        throw new Error("Entity type not supported");
-    }
+// Mapeamos los tipos de entrada a los servicios respectivos
+const entityServices = {
+  areas: createArea,
+  departments: createDepartment,
+  positions: createPosition,
+  users: createUser,
+  roles: (data: any) => console.log("Cannot create roles", data),
+};
+
+export const useCreateEntity = <T extends BffEntityInput>(
+  entityType: EntityType
+) => {
+  const createEntityHook = async ({ data }: EntityCreateData<T>) => {
+    const createFunction = entityServices[entityType]; // Get the create method for the correct entity type
+    if (!createFunction) throw new Error("Entity type not supported");
+
+    return createFunction(data);
   };
 
-  const { mutateAsync: createEntity, isPending: awaitingCreate } = useMutation({
+  const {
+    mutateAsync: createEntity,
+    isPending: awaitingCreate,
+    isError,
+  } = useMutation({
     mutationFn: createEntityHook,
     onSuccess: (data) => {
       console.log("Entity created successfully:", data);
@@ -42,5 +43,5 @@ export const useCreateEntity = (entityType: EntityType) => {
     },
   });
 
-  return { createEntity, awaitingCreate };
+  return { createEntity, awaitingCreate, isError };
 };

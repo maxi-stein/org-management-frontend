@@ -9,24 +9,12 @@ import {
   Tooltip,
   Typography,
 } from "antd";
-import { useQuery } from "@tanstack/react-query";
-import {
-  getDepartments,
-  getHeadOfDepartments,
-} from "../apiServices/departmentsService";
-import {
-  Area,
-  Department,
-  EntityType,
-  Position,
-  Role,
-  User,
-} from "../interfaces/entities";
+
+import { EntityType, User } from "../interfaces/entities";
 import { FormColumns } from "../interfaces/form";
-import { getPositions } from "../apiServices/positionsService";
-import { getUsers } from "../apiServices/userService";
-import { getAreas } from "../apiServices/areasService";
-import { getRoles } from "../apiServices/rolesService";
+
+import { useDataContext } from "../contexts/dataContext";
+import { useEffect, useState } from "react";
 
 const { Text } = Typography;
 
@@ -93,41 +81,47 @@ export const useItemsForm = (
   entityType: EntityType,
   editingId: string | null
 ) => {
-  const { data: departments } = useQuery<{ data: Department[] }>({
-    queryKey: ["fetch-departments"],
-    queryFn: getDepartments,
-    enabled: entityType === "areas" || entityType === "departments",
-  });
+  const { data: departments, fetchDepartments } = useDataContext().departments;
+  const { data: areas, fetchAreas } = useDataContext().areas;
+  const { data: users, fetchUsers } = useDataContext().users;
+  const { data: positions, fetchPositions } = useDataContext().positions;
+  const { data: roles, fetchRoles } = useDataContext().roles;
+  const [headOfDepartments, setHeadOfDepartments] = useState<User[]>([]);
 
-  const { data: areas } = useQuery<{ data: Area[] }>({
-    queryKey: ["fetch-areas"],
-    queryFn: getAreas,
-    enabled: entityType === "areas",
-  });
+  //get departments only if departments or areas form is rendered
+  if ((entityType === "departments" || "areas") && !departments) {
+    fetchDepartments();
+  }
 
-  const { data: headOfDepartments } = useQuery<User[]>({
-    queryKey: ["head-of-departments"],
-    queryFn: () => getHeadOfDepartments(),
-    enabled: entityType === "departments",
-  });
+  //get areas only if areas form is rendered
+  if (entityType === "areas" && !areas) {
+    fetchAreas();
+  }
 
-  const { data: positions } = useQuery<{ data: Position[] }>({
-    queryKey: ["fetch-positions"],
-    queryFn: getPositions,
-    enabled: entityType === "users",
-  });
+  //get users only if users form is rendered
+  if ((entityType === "users" || "departments") && !users) {
+    fetchUsers();
+  }
 
-  const { data: users } = useQuery<{ data: User[] }>({
-    queryKey: ["fetch-users"],
-    queryFn: getUsers,
-    enabled: entityType === "users",
-  });
+  //get positions only if users form is rendered
+  if (entityType === "users" && !positions) {
+    fetchPositions();
+  }
 
-  const { data: roles } = useQuery<{ data: Role[] }>({
-    queryKey: ["fetch-roles"],
-    queryFn: getRoles,
-    enabled: entityType === "users",
-  });
+  //get roles only if users form is rendered
+  if (entityType === "users" && !roles) {
+    fetchRoles();
+  }
+
+  //uppon change on users, get heads of departments
+  useEffect(() => {
+    if (departments) {
+      const heads = users?.data.filter(
+        (user) => user.position?.title === "Head of Department"
+      );
+      setHeadOfDepartments(heads || []);
+    }
+  }, [users]);
 
   const renderFormItems = (columns: FormColumns[], isEditing?: boolean) => {
     if (entityType === "users") {

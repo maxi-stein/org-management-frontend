@@ -4,67 +4,69 @@ import { Typography } from "antd";
 import { getColumnsForm } from "../hooks/useColumnsForm";
 import { User } from "../interfaces/entities";
 import { RelatedEntity } from "../components/AlertModal";
-import { useFetchEntity } from "../hooks/useFetchEntity";
-import { useReletedEntities } from "../hooks/useReletedEntities";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useDataContext } from "../contexts/dataContext";
 
 const { Text } = Typography;
 
 const columns = getColumnsForm["users"];
 
 const UserCRUD: React.FC = () => {
-  const [initialUsers, setInitialUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
 
-  const { data: users, isLoading, isError, refetch } = useFetchEntity("users");
-
-  useEffect(() => {
-    if (users && !isLoading) {
-      setInitialUsers(users.data as User[]);
-    }
-  }, [users]);
-
   const {
-    data: employeesSupervisedByUser,
-    refetch: refetchRelatedUsers,
-    isLoading: isLoadingUsersRelated,
-  } = useReletedEntities(selectedUserId, "users");
+    data: usersData,
+    isLoading,
+    isError,
+    fetchUsers,
+  } = useDataContext().users;
+  if (!usersData) fetchUsers();
+
+  const getSupervisedEmployees = (selectedUserId: string | null) => {
+    if (!selectedUserId) return [];
+
+    const supervisedEmployees = usersData?.data.find(
+      (user: User) => user._id == selectedUserId
+    )?.supervisedEmployees;
+
+    if (!supervisedEmployees) return [];
+    return usersData?.data.filter((user: User) => {
+      return supervisedEmployees.find((emp) => emp._id == user._id);
+    }) as User[];
+  };
 
   useEffect(() => {
     if (selectedUserId !== null) {
-      refetchRelatedUsers();
+      const employeesSupervisedByUser = getSupervisedEmployees(selectedUserId);
+      if (employeesSupervisedByUser && employeesSupervisedByUser.length > 0) {
+        const employeesSupervisedByUserArray =
+          employeesSupervisedByUser as User[];
+        setRelatedEntities([
+          {
+            type: "users",
+            items: employeesSupervisedByUserArray.map((u) => {
+              return { name: u.firstName + " " + u.lastName };
+            }),
+          },
+        ]);
+      } else {
+        setRelatedEntities([]);
+      }
     }
-  }, [selectedUserId]);
-
-  useEffect(() => {
-    if (employeesSupervisedByUser && employeesSupervisedByUser.length > 0) {
-      const employeesSupervisedByUserArray =
-        employeesSupervisedByUser as User[];
-      setRelatedEntities([
-        {
-          type: "users",
-          items: employeesSupervisedByUserArray.map((u) => {
-            return { name: u.firstName + " " + u.lastName };
-          }),
-        },
-      ]);
-    } else {
-      setRelatedEntities([]);
-    }
-  }, [employeesSupervisedByUser]);
+  }, [selectedUserId, usersData?.data]);
 
   return isError ? (
     <Text>An error has occurred</Text>
-  ) : isLoading || isLoadingUsersRelated ? (
+  ) : isLoading ? (
     <LoadingSpinner message="Loading Employees..." />
   ) : (
     <GenericCRUD
       title="Users"
-      items={initialUsers}
+      items={usersData?.data}
       columns={columns}
       entityType="users"
-      refetchData={refetch}
+      refetchData={fetchUsers}
       selectedId={selectedUserId}
       setSelectedId={setSelectedUserId}
       relatedEntities={relatedEntities}

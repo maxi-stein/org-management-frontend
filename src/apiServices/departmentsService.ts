@@ -1,4 +1,4 @@
-import { Department, DepartmentInput, User } from "../interfaces/entities";
+import { Department, DepartmentInput } from "../interfaces/entities";
 import { axiosInstance, bffResponse } from "./http-config";
 
 export const getDepartments = async (): Promise<bffResponse<Department[]>> => {
@@ -43,17 +43,5 @@ export const deleteDepartment = async (id: string): Promise<void> => {
   } catch (error) {
     console.log(error);
     throw new Error("Error deleting department");
-  }
-};
-
-export const getHeadOfDepartments = async (): Promise<User[]> => {
-  try {
-    const headOfDepartments = await axiosInstance.get<bffResponse<User[]>>(
-      "/users/heads"
-    );
-    return headOfDepartments.data.data;
-  } catch (error) {
-    console.log(error);
-    return [];
   }
 };

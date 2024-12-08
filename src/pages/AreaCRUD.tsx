@@ -1,26 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Area } from "../interfaces/entities";
-import { useFetchEntity } from "../hooks/useFetchEntity";
 import LoadingSpinner from "../components/LoadingSpinner";
 import {} from "../helpers/formHelpers";
 import { getColumnsForm } from "../hooks/useColumnsForm";
 import { Typography } from "antd";
+import { useDataContext } from "../contexts/dataContext";
 
 const { Text } = Typography;
 
 const columns = getColumnsForm["areas"];
 
 const AreaCRUD: React.FC = () => {
-  const [initialAreas, setInitialAreas] = useState<Area[]>([]);
-  const { data: areas, isLoading, isError, refetch } = useFetchEntity("areas");
   const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (areas && !isLoading) {
-      setInitialAreas(areas.data as Area[]);
-    }
-  }, [areas]);
+  const {
+    data: areasData,
+    isLoading,
+    isError,
+    fetchAreas,
+  } = useDataContext().areas;
+
+  const { data: departments, fetchDepartments } = useDataContext().departments;
+
+  //if the data is not loaded, fetch it (departments are used in the useItemsForm hook)
+  if (!departments) {
+    fetchDepartments();
+  }
+
+  //if the data is not loaded, fetch it
+  if (!areasData) {
+    fetchAreas();
+  }
 
   return isError ? (
     <Text>An error has occurred</Text>
@@ -29,10 +39,10 @@ const AreaCRUD: React.FC = () => {
   ) : (
     <GenericCRUD
       title="Areas"
-      items={initialAreas}
+      items={areasData?.data}
       columns={columns}
       entityType="areas"
-      refetchData={refetch}
+      refetchData={fetchAreas}
       relatedEntities={[]} //there are no entities releated to areas
       selectedId={selectedAreaId}
       setSelectedId={setSelectedAreaId}

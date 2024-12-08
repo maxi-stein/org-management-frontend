@@ -1,75 +1,80 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import { Area, Department } from "../interfaces/entities";
-import { useFetchEntity } from "../hooks/useFetchEntity";
-import { useReletedEntities } from "../hooks/useReletedEntities";
+import { Area } from "../interfaces/entities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getColumnsForm } from "../hooks/useColumnsForm";
+import { useDataContext } from "../contexts/dataContext";
 
 const { Text } = Typography;
 
 const columns = getColumnsForm["departments"];
 
 const DepartmentCRUD: React.FC = () => {
-  const [initialDepartments, seInitialDepartments] = useState<Department[]>([]);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<
     string | null
   >(null);
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
+
   const {
-    data: departments,
+    data: departmentsData,
     isLoading,
     isError,
-    refetch,
-  } = useFetchEntity("departments");
+    fetchDepartments,
+  } = useDataContext().departments;
+  if (!departmentsData) fetchDepartments();
 
+  //areas are needed for getting related areas for selected department
   const {
-    data: relatedAreas,
-    refetch: refetchRelatedAreas,
-    isLoading: isLoadingRelatedDepartments,
-  } = useReletedEntities(selectedDepartmentId, "departments");
+    data: areas,
+    fetchAreas,
+    isLoading: isLoadingAreas,
+    isError: isErrorAreas,
+  } = useDataContext().areas;
+  if (!areas) fetchAreas();
 
-  useEffect(() => {
-    if (departments && !isLoading) {
-      seInitialDepartments(departments.data as Department[]);
-    }
-  }, [departments]);
+  const getRelatedAreasForDepartment = (
+    selectedDepartmentId: string,
+    areas: Area[] | undefined
+  ) => {
+    if (!selectedDepartmentId) return [];
+    return areas?.filter((area) =>
+      area.departments.find((dept) => dept._id === selectedDepartmentId)
+    );
+  };
 
   //get related areas when a department is selected
   useEffect(() => {
     if (selectedDepartmentId !== null) {
-      refetchRelatedAreas();
+      const relatedAreas = getRelatedAreasForDepartment(
+        selectedDepartmentId,
+        areas?.data
+      );
+      if (relatedAreas && relatedAreas.length > 0) {
+        setRelatedEntities([
+          {
+            type: "areas",
+            items: relatedAreas as Area[],
+          },
+        ]);
+      } else {
+        setRelatedEntities([]);
+      }
     }
-  }, [selectedDepartmentId]);
+  }, [selectedDepartmentId, areas?.data]);
 
-  //after selected id changed, relatedAreas is refetched so the relatedEntities are updated
-  useEffect(() => {
-    // Check if there are areas associated with this department
-    if (relatedAreas && relatedAreas.length > 0) {
-      setRelatedEntities([
-        {
-          type: "areas", // Type of related entity
-          items: relatedAreas as Area[], // Areas associated with the department
-        },
-      ]);
-    } else {
-      setRelatedEntities([]);
-    }
-  }, [relatedAreas]);
-
-  return isError ? (
+  return isError || isErrorAreas ? (
     <Text>An error has occurred</Text>
-  ) : isLoading || isLoadingRelatedDepartments ? (
+  ) : isLoading || isLoadingAreas ? (
     <LoadingSpinner message="Loading Departments..." />
   ) : (
     <GenericCRUD
       title="Departments"
-      items={initialDepartments}
+      items={departmentsData?.data}
       columns={columns}
       entityType="departments"
-      refetchData={refetch}
+      refetchData={fetchDepartments}
       selectedId={selectedDepartmentId}
       setSelectedId={setSelectedDepartmentId}
       relatedEntities={relatedEntities}

@@ -12,7 +12,7 @@ import AlertModal, { RelatedEntity } from "./AlertModal";
 
 interface GenericCRUDProps {
   title: string;
-  items: BffEntity[];
+  items: BffEntity[] | undefined;
   columns: FormColumns[];
   entityType: EntityType;
   selectedId: string | null;
@@ -54,7 +54,7 @@ const GenericCRUD = ({
     setSelectedId(id);
     if (id) {
       //Find the entity to edit
-      const entity = items.find((item) => item._id === id);
+      const entity = items?.find((item) => item._id === id);
 
       if (entity) {
         // Set the id to be edited

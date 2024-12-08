@@ -34,12 +34,16 @@ export const useEditEntity = (entityType: EntityType) => {
     }
   };
 
-  const { mutateAsync: editEntity, isPending: awaitingEdit } = useMutation({
+  const {
+    mutateAsync: editEntity,
+    isPending: awaitingEdit,
+    isError,
+  } = useMutation({
     mutationFn: editEntityHook,
     onError: (error) => {
       console.error("Error updating entity:", error);
     },
   });
 
-  return { editEntity, awaitingEdit };
+  return { editEntity, awaitingEdit, isError };
 };

@@ -12,18 +12,23 @@ export const useDeleteEntity = (entityType: EntityType) => {
         return await deleteDepartment(id);
       case "positions":
         return await deletePosition(id);
+      case "users":
+        return null;
       default:
         throw new Error("Entity type not supported");
     }
   };
 
-  const { mutateAsync: deleteEntity, isPending: awaitingDeletion } =
-    useMutation({
-      mutationFn: deleteEntityHook,
-      onError: (error) => {
-        console.error("Error deleting entity:", error);
-      },
-    });
+  const {
+    mutateAsync: deleteEntity,
+    isPending: awaitingDeletion,
+    isError,
+  } = useMutation({
+    mutationFn: deleteEntityHook,
+    onError: (error) => {
+      console.error("Error deleting entity:", error);
+    },
+  });
 
-  return { deleteEntity, awaitingDeletion };
+  return { deleteEntity, awaitingDeletion, isError };
 };
