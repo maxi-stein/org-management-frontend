@@ -367,7 +367,7 @@ export const useItemsForm = (
                     >
                       {isAssigned && !isCurrentAreaDepartment ? (
                         <Tooltip title="This department is already assigned to another area.">
-                          {<Text>{dept.name}</Text>}
+                          {<Text style={{ color: "gray" }}>{dept.name}</Text>}
                         </Tooltip>
                       ) : (
                         <Text>{dept.name}</Text>
