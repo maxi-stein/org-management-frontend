@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Space, message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { BffEntity, EntityType } from "../interfaces/entities";
+import { BffEntity, EntityType, Position } from "../interfaces/entities";
 import { useItemsForm } from "../hooks/useItemsForm";
 import { FormColumns } from "../interfaces/form";
 import { getDataForEntity, setFormValues } from "../helpers/formHelpers";
@@ -138,6 +138,16 @@ const GenericCRUD = ({
       </Space>
     ),
   };
+
+  //Dont render Head of Department or CEO as they are not editable/deletable
+  if (entityType === "positions") {
+    let itemsFiltered = items as Position[];
+    itemsFiltered = itemsFiltered?.filter(
+      (item) => item.title !== "Head Of Department" && item.title !== "CEO"
+    );
+    console.log(itemsFiltered);
+    items = itemsFiltered;
+  }
   return (
     <div>
       <h2>{title}</h2>
