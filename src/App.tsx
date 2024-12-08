@@ -11,6 +11,7 @@ import AreaCRUD from "./pages/AreaCRUD.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import OrgChartPage from "./pages/OrgChartPage";
+import { DataProvider } from "./contexts/dataContext.tsx";
 
 const { Content } = Layout;
 const queryClient = new QueryClient();
@@ -27,28 +28,30 @@ const routes = [
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Layout style={{ minHeight: "100vh" }}>
-          <SideNav />
-          <Layout>
-            <Header />
-            <Content style={{ margin: "24px 16px 0" }}>
-              <div style={{ padding: 24, minHeight: 360 }}>
-                <Routes>
-                  {routes.map((route, index) => (
-                    <Route
-                      key={index}
-                      path={route.path}
-                      element={route.element}
-                    />
-                  ))}
-                </Routes>
-              </div>
-            </Content>
-            <Footer />
+      <DataProvider>
+        <Router>
+          <Layout style={{ minHeight: "100vh" }}>
+            <SideNav />
+            <Layout>
+              <Header />
+              <Content style={{ margin: "24px 16px 0" }}>
+                <div style={{ padding: 24, minHeight: 360 }}>
+                  <Routes>
+                    {routes.map((route, index) => (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        element={route.element}
+                      />
+                    ))}
+                  </Routes>
+                </div>
+              </Content>
+              <Footer />
+            </Layout>
           </Layout>
-        </Layout>
-      </Router>
+        </Router>
+      </DataProvider>
     </QueryClientProvider>
   );
 };

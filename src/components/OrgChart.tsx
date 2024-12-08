@@ -16,25 +16,25 @@ interface CustonNodeElementProps {
 const CustomNodeElement = ({ nodeDatum }: CustonNodeElementProps) => {
   return (
     <foreignObject
-      width="150" // Ancho del contenedor
-      height="60" // Altura del contenedor
-      x="-75" // Alineación horizontal, ajustamos el nodo hacia la izquierda
-      y="-30" // Alineación vertical, ajustamos el nodo hacia arriba
+      width="150" // Container width
+      height="60" // Container height
+      x="-75" // Horizontal alignment, adjust the node to the left
+      y="-30" // Vertical alignment, adjust the node upwards
     >
       <div
         style={{
-          backgroundColor: "#f0f0f0", // Color de fondo
-          padding: "10px 20px", // Espaciado
-          borderRadius: "5px", // Bordes redondeados
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Sombra
-          color: "#333", // Color del texto
-          fontWeight: "bold", // Negrita
-          textAlign: "center", // Centrado del texto
-          minWidth: "100px", // Tamaño mínimo
-          minHeight: "50px", // Tamaño mínimo
+          backgroundColor: "#f0f0f0",
+          padding: "10px 20px",
+          borderRadius: "5px",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          color: "#333",
+          fontWeight: "bold",
+          textAlign: "center",
+          minWidth: "100px",
+          minHeight: "50px",
         }}
       >
-        {nodeDatum.name} {/* Nombre del nodo */}
+        {nodeDatum.name}
       </div>
     </foreignObject>
   );
