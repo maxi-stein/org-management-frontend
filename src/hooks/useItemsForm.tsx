@@ -15,7 +15,6 @@ import { FormColumns } from "../interfaces/form";
 
 import { useDataContext } from "../contexts/dataContext";
 import { useEffect, useState } from "react";
-import { render } from "react-dom";
 
 const { Text } = Typography;
 

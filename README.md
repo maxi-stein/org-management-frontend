@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
+# Organizational Chart Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Overview
 
-Currently, two official plugins are available:
+This Enterprise Management System is a powerful, React-based web application designed to streamline organizational management. It provides a comprehensive suite of tools for managing users, positions, departments, and areas within a company, as well as visualizing the organizational structure through an interactive org chart.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Key Features
 
-## Expanding the ESLint configuration
+- **Dashboard**: Personal information overview
+- **Organizational Chart**: Interactive visualization of company structure
+- **CRUD Operations**: Manage Users, Positions, Departments, and Areas
+- **Responsive Design**: Fully responsive layout with collapsible sidebar
+- **Real-time Data Management**: Utilizes React Query for efficient data fetching and caching
+- **Modular Architecture**: Well-organized component structure for easy maintenance and scalability
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🛠️ Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+- **Frontend**: React, TypeScript
+- **State Management**: React Query, Context API
+- **UI Framework**: Ant Design
+- **Routing**: React Router
+- **Data Visualization**: react-d3-tree
+- **HTTP Client**: Axios (implied from API service structure)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 📂 Project Structure
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+The project follows a modular structure with separate directories for components, pages, contexts, hooks, interfaces, API services, and helpers. This organization promotes code reusability and maintainability.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Key directories:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- `components/`: Reusable UI components
+- `pages/`: Main view components for different routes
+- `contexts/`: React Context providers for state management
+- `hooks/`: Custom React hooks for shared logic
+- `interfaces/`: TypeScript interfaces for type definitions
+- `apiServices/`: API communication services
+- `helpers/`: Utility functions and helpers
+
+## 📡 Backend Dependency
+
+This project requires a specific backend to function properly. The frontend is designed to work with the following backend project:
+
+[org-management-backend](https://github.com/maxi-stein/org-management-backend)
+
+Ensure that you have this backend set up and running before attempting to use this frontend application.
+
+## 🚀 Getting Started
+
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Clone and set up the backend repository:
+   \`\`\`
+   git clone https://github.com/maxi-stein/org-management-backend.git
+   cd org-management-backend
+   # Follow the backend setup instructions in its README
+   \`\`\`
+4. Start the backend server
+5. Return to this project directory and start the frontend development server: `npm start`

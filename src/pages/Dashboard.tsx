@@ -6,12 +6,8 @@ const { Title, Paragraph } = Typography;
 const OrgChart: React.FC = () => {
   return (
     <div>
-      <Title level={2}>Welcome to the Organization Chart Manager</Title>
-      <Paragraph>
-        This dashboard provides an overview of your organization's structure.
-        Use the navigation menu to manage users, positions, departments, and
-        areas.
-      </Paragraph>
+      <Title level={2}>Work in progress</Title>
+      <Paragraph>You will see here your personal information.</Paragraph>
     </div>
   );
 };
