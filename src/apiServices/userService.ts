@@ -11,6 +11,18 @@ export const getUsers = async (): Promise<bffResponse<User[]>> => {
   }
 };
 
+export const getUser = async (id: string): Promise<bffResponse<User[]>> => {
+  try {
+    const response = await axiosInstance.get<bffResponse<User[]>>(
+      `/users/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting user with id: " + id);
+  }
+};
+
 export const createUser = async (data: UserInput): Promise<User> => {
   try {
     const response = await axiosInstance.post<User>("/users", data);

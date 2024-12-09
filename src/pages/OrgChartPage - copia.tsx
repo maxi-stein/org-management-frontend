@@ -46,6 +46,7 @@ const OrgChartPage: React.FC = () => {
           console.error("Failed to fetch user data");
           return { data: [], success: false };
         }
+        console.log("Obtuve: ", response.data);
         return response;
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -70,51 +71,11 @@ const OrgChartPage: React.FC = () => {
         setDetailedHeadOfDepartments(
           detailedHeads.flatMap((head) => head.data)
         );
+        console.log(detailedHeads);
       };
       fetchDetailedHeads();
     }
   }, [users, isLoadingUsers, fetchDetailedUserData]);
-
-  const createAreaNode = (area: any) => {
-    return {
-      name: area.name + " Area",
-      children: area.departments.map((department: any) =>
-        createDepartmentNode(department)
-      ),
-    };
-  };
-
-  const createDepartmentNode = (department: any) => {
-    return {
-      name: department.name + " Department",
-      children: detailedHeadOfDepartments
-        .filter((head) => head._id === department.head._id)
-        .map((head) => {
-          return {
-            name: head.firstName + " " + head.lastName,
-            attributes: {
-              title: head.position?.title ?? "No head of department",
-            },
-            children: head.supervisedEmployees?.map(createTreeData) ?? [
-              { name: "No data" },
-            ],
-          };
-        }),
-    };
-  };
-
-  const createTreeData = (user: any) => {
-    return {
-      name: user.firstName + " " + user.lastName,
-      attributes: {
-        title: `${user.position?.level} ${user.position?.title}`,
-      },
-      children:
-        user.supervisedEmployees?.map((subordinate: any) =>
-          createTreeData(subordinate)
-        ) || [],
-    };
-  };
 
   return (
     <div>
@@ -147,14 +108,75 @@ const OrgChartPage: React.FC = () => {
       </Card>
 
       <div>
-        <OrgChart
-          data={[
-            {
-              name: "Company",
-              children: areas?.data.map((area) => createAreaNode(area)) || [],
-            },
-          ]}
-        />
+        {areas?.data.map((area) => (
+          <Card
+            key={area.name}
+            title={
+              <Typography.Title level={4} style={{ margin: 0 }}>
+                {`${area.name} Area`}
+              </Typography.Title>
+            }
+            bordered={false}
+            style={{
+              marginBottom: "20px",
+              backgroundColor: "#f7f5fc",
+              boxShadow: "0 4px 6px rgba(0, 59, 253, 0.534)",
+              borderRadius: "8px",
+            }}
+          >
+            {area.departments.map((department) => (
+              <Card
+                key={department._id}
+                title={
+                  <Typography.Text strong>
+                    {`${department.name} Department`}
+                  </Typography.Text>
+                }
+                bordered={false}
+                style={{
+                  marginBottom: "15px",
+                  backgroundColor: "#fafafa",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "8px",
+                }}
+              >
+                {detailedHeadOfDepartments.find(
+                  (head) => head._id === department.head._id
+                ) ? (
+                  <OrgChart
+                    data={[
+                      {
+                        name:
+                          department.head.firstName +
+                          " " +
+                          department.head.lastName,
+                        attributes: {
+                          title:
+                            detailedHeadOfDepartments.find(
+                              (head) => head._id === department.head._id
+                            )?.position?.title ?? "No head of department",
+                        },
+                        children: detailedHeadOfDepartments
+                          .find((head) => head._id === department.head._id)
+                          ?.supervisedEmployees.map((user) => {
+                            return {
+                              name: user.firstName + " " + user.lastName,
+                              attributes: {
+                                title:
+                                  user.position?.level +
+                                  " " +
+                                  user.position?.title,
+                              },
+                            };
+                          }) ?? [{ name: "No data" }],
+                      },
+                    ]}
+                  />
+                ) : null}
+              </Card>
+            ))}
+          </Card>
+        ))}
       </div>
     </div>
   );

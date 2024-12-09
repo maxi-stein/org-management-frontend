@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import OrgChartPage from "./pages/OrgChartPage";
 import { DataProvider } from "./contexts/dataContext.tsx";
+import { ConfigProvider } from "antd";
 
 const { Content } = Layout;
 const queryClient = new QueryClient();
@@ -29,28 +30,37 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <DataProvider>
-        <Router>
-          <Layout style={{ minHeight: "100vh" }}>
-            <SideNav />
-            <Layout>
-              <Header />
-              <Content style={{ margin: "24px 16px 0" }}>
-                <div style={{ padding: 24, minHeight: 360 }}>
-                  <Routes>
-                    {routes.map((route, index) => (
-                      <Route
-                        key={index}
-                        path={route.path}
-                        element={route.element}
-                      />
-                    ))}
-                  </Routes>
-                </div>
-              </Content>
-              <Footer />
+        <ConfigProvider
+          theme={{
+            token: {
+              fontFamily: "Roboto",
+              colorPrimary: "#2f97d3",
+            },
+          }}
+        >
+          <Router>
+            <Layout style={{ minHeight: "100vh" }}>
+              <SideNav />
+              <Layout>
+                <Header />
+                <Content style={{ margin: "24px 16px 0" }}>
+                  <div style={{ padding: 24, minHeight: 360 }}>
+                    <Routes>
+                      {routes.map((route, index) => (
+                        <Route
+                          key={index}
+                          path={route.path}
+                          element={route.element}
+                        />
+                      ))}
+                    </Routes>
+                  </div>
+                </Content>
+                <Footer />
+              </Layout>
             </Layout>
-          </Layout>
-        </Router>
+          </Router>
+        </ConfigProvider>
       </DataProvider>
     </QueryClientProvider>
   );

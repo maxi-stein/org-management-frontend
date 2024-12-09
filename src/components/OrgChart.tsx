@@ -9,32 +9,43 @@ const getDynamicPathClass = () => {
   return "custom-link";
 };
 
-interface CustonNodeElementProps {
+interface CustomNodeElementProps {
   nodeDatum: RawNodeDatum;
 }
 
-const CustomNodeElement = ({ nodeDatum }: CustonNodeElementProps) => {
+const CustomNodeElement = ({ nodeDatum }: CustomNodeElementProps) => {
+  const bgColor = nodeDatum.name.includes("Company")
+    ? "#9974ff"
+    : nodeDatum.name.includes("Area")
+    ? "#ff946a"
+    : nodeDatum.name.includes("Department")
+    ? "#ffcbb6"
+    : "#dfecff";
+  let nodeData = {
+    name: nodeDatum.name,
+    ...(nodeDatum.attributes && {
+      attributes: Object.values(nodeDatum.attributes),
+    }),
+  };
+
   return (
-    <foreignObject
-      width="150" // Container width
-      height="60" // Container height
-      x="-75" // Horizontal alignment, adjust the node to the left
-      y="-30" // Vertical alignment, adjust the node upwards
-    >
+    <foreignObject width="150" height="150" x="-75" y="-30">
       <div
         style={{
-          backgroundColor: "#f0f0f0",
+          backgroundColor: bgColor,
           padding: "10px 20px",
           borderRadius: "5px",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0px 4px 6px rgba(9, 72, 124, 0.404)",
           color: "#333",
-          fontWeight: "bold",
           textAlign: "center",
           minWidth: "100px",
           minHeight: "50px",
         }}
       >
-        {nodeDatum.name}
+        <p style={{ fontWeight: "bold" }}>{nodeData.name}</p>
+        {nodeData.attributes?.map((attr, index) => (
+          <p key={index}>{attr}</p>
+        ))}
       </div>
     </foreignObject>
   );
@@ -44,17 +55,17 @@ export const OrgChart = ({ data }: OrgChartProps) => {
   return (
     <div
       id="treeWrapper"
-      style={{ width: "100%", height: "90vh", overflow: "auto" }}
+      style={{ width: "100%", height: "90vh", overflow: "visible" }}
     >
       <Tree
         data={data}
-        depthFactor={100} // space between nodes (how large the path is)
+        depthFactor={150}
         orientation="vertical"
         pathClassFunc={getDynamicPathClass}
-        nodeSize={{ x: 200, y: 150 }} //in vertical orientation, only x is used. Distance between nodes x-axis
+        nodeSize={{ x: 250, y: 250 }}
         renderCustomNodeElement={(rd3tProps) => (
           <CustomNodeElement {...rd3tProps} />
-        )} // Renderiza el div
+        )}
       />
     </div>
   );

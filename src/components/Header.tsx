@@ -20,7 +20,6 @@ const Header: React.FC = () => {
         level={4}
         style={{
           margin: "16px 24px",
-          fontFamily: "'Poppins', sans-serif",
           fontWeight: 500,
           fontSize: "24px",
           color: "#333",

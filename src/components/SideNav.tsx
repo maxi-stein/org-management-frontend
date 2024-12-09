@@ -49,6 +49,7 @@ const SideNav: React.FC = () => {
       breakpoint="lg"
       collapsedWidth="80"
       trigger={null}
+      style={{ color: "white" }}
     >
       <CompanyLogo />
       <Menu
