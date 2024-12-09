@@ -59,13 +59,14 @@ export const OrgChart = ({ data }: OrgChartProps) => {
     >
       <Tree
         data={data}
-        depthFactor={150}
+        depthFactor={130}
         orientation="vertical"
         pathClassFunc={getDynamicPathClass}
         nodeSize={{ x: 250, y: 250 }}
         renderCustomNodeElement={(rd3tProps) => (
           <CustomNodeElement {...rd3tProps} />
         )}
+        pathFunc={"step"}
       />
     </div>
   );

@@ -1,5 +1,11 @@
 import { Tooltip, Typography } from "antd";
-import { Department, Position, Role, User } from "../interfaces/entities";
+import {
+  Department,
+  EntityType,
+  Position,
+  Role,
+  User,
+} from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import {
   CheckCircleOutlined,
@@ -60,7 +66,11 @@ export const getColumnsForm = {
     { title: "Level", dataIndex: "level", key: "level" },
   ],
   users: [
-    { title: "First Name", dataIndex: "firstName", key: "firstName" },
+    {
+      title: "First Name",
+      dataIndex: "firstName",
+      key: "firstName",
+    },
     { title: "Last Name", dataIndex: "lastName", key: "lastName" },
     { title: "Email", dataIndex: "email", key: "email" },
     {
@@ -109,4 +119,34 @@ export const getColumnsForm = {
       render: (role: Role) => <Text>{role.name}</Text>,
     },
   ],
+};
+
+export const getFiltersForColumns = (
+  entityType: EntityType,
+  columns: any[],
+  data: any
+) => {
+  if (entityType === "users") {
+    return columns.map((col) => {
+      if (col.dataIndex === "firstName") {
+        return {
+          ...col,
+          filterSearch: true,
+          filters: data?.data.map((user: User) => ({
+            text: `${user.firstName} ${user.lastName}`,
+            value: `${user.firstName}-${user._id}`,
+          })),
+          onFilter: (value: string, record: Record<string, string>) => {
+            const [firstName] = value.split("-");
+            return record.firstName
+              .toLowerCase()
+              .includes(firstName.toLowerCase());
+          },
+          width: "5%",
+        };
+      }
+      return col;
+    });
+  }
+  return columns;
 };

@@ -113,7 +113,7 @@ export const useItemsForm = (
     fetchRoles();
   }
 
-  //uppon change on users, get heads of departments
+  //uppon change on users, get new heads of departments
   useEffect(() => {
     if (departments) {
       const heads = users?.data.filter(
@@ -141,7 +141,7 @@ export const useItemsForm = (
 
       //Filter available employees
       const availableEmployees = users?.data.filter((user) => {
-        return !notAvailableEmployees?.some((emp) => emp._id == user._id);
+        return !notAvailableEmployees?.some((emp) => emp?._id == user._id);
       });
       return (
         <div>
@@ -229,12 +229,17 @@ export const useItemsForm = (
                     .toLowerCase()
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
-                options={positions?.data.map((position) => ({
-                  value: position._id,
-                  label: position.level
-                    ? position.level + " " + position.title
-                    : position.title,
-                }))}
+                options={positions?.data
+                  .filter(
+                    (position) =>
+                      !(ceo && isEditing && ceo._id === position._id)
+                  )
+                  .map((position) => ({
+                    value: position._id,
+                    label: position.level
+                      ? position.level + " " + position.title
+                      : position.title,
+                  }))}
               />
             </Form.Item>
             <Space size={"middle"}>

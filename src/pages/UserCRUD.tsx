@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
 import { Typography } from "antd";
-import { getColumnsForm } from "../hooks/useColumnsForm";
+import { getColumnsForm, getFiltersForColumns } from "../hooks/useColumnsForm";
 import { User } from "../interfaces/entities";
 import { RelatedEntity } from "../components/AlertModal";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -9,7 +9,7 @@ import { useDataContext } from "../contexts/dataContext";
 
 const { Text } = Typography;
 
-const columns = getColumnsForm["users"];
+let columns = getColumnsForm["users"] as any;
 
 const UserCRUD: React.FC = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -22,6 +22,9 @@ const UserCRUD: React.FC = () => {
     fetchUsers,
   } = useDataContext().users;
   if (!usersData) fetchUsers();
+
+  //add filter search values to columns
+  columns = getFiltersForColumns("users", columns, usersData);
 
   const getSupervisedEmployees = (selectedUserId: string | null) => {
     if (!selectedUserId) return [];

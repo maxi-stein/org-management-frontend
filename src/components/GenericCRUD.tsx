@@ -97,8 +97,6 @@ const GenericCRUD = ({
 
       const values = form.getFieldsValue();
 
-      console.log(values);
-
       if (selectedId) {
         // If we are editing, call the mutation to update the entity
         await editEntity({
@@ -145,9 +143,9 @@ const GenericCRUD = ({
     itemsFiltered = itemsFiltered?.filter(
       (item) => item.title !== "Head Of Department" && item.title !== "CEO"
     );
-    console.log(itemsFiltered);
     items = itemsFiltered;
   }
+
   return (
     <div>
       <h2>{title}</h2>
