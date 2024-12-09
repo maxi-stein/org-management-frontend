@@ -1,4 +1,4 @@
-# Organizational Chart Management
+# Organizational Chart Management - Frontend
 
 ## 🚀 Overview
 
@@ -55,4 +55,4 @@ Ensure that you have this backend set up and running before attempting to use th
    # Follow the backend setup instructions in its README
    \`\`\`
 4. Start the backend server
-5. Return to this project directory and start the frontend development server: `npm start`
+5. Return to this project directory and start the frontend development server: `npm start`, listening on port `4000`
