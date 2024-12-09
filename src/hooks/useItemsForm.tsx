@@ -15,6 +15,7 @@ import { FormColumns } from "../interfaces/form";
 
 import { useDataContext } from "../contexts/dataContext";
 import { useEffect, useState } from "react";
+import { render } from "react-dom";
 
 const { Text } = Typography;
 
@@ -126,13 +127,14 @@ export const useItemsForm = (
   const renderFormItems = (columns: FormColumns[], isEditing?: boolean) => {
     if (entityType === "users") {
       //Filter employees that are beeing supervised + heads of departments
+      const ceo = users?.data.find((user) => user.position?.title === "CEO");
       const heads = users?.data.filter(
-        (user) => user.position?.title === "Head of Department"
+        (user) => user.position?.title === "Head Of Department"
       );
       const notAvailableEmployees = users?.data.flatMap((user) => {
         const usersNotAvailable = user.supervisedEmployees;
         if (heads) {
-          return [...usersNotAvailable, ...heads];
+          return [...usersNotAvailable, ...heads, ceo!];
         } else {
           return usersNotAvailable;
         }
@@ -250,7 +252,7 @@ export const useItemsForm = (
                   placeholder="Search employees"
                   filterOption={(input, option) => {
                     if (option) {
-                      return option.label
+                      return option.name
                         .toLowerCase()
                         .includes(input.toLowerCase());
                     }
@@ -258,7 +260,20 @@ export const useItemsForm = (
                   }}
                   options={users?.data.map((user) => ({
                     value: user._id,
-                    label: user.firstName + " " + user.lastName,
+                    label: (
+                      <Tooltip
+                        title={
+                          !availableEmployees?.some(
+                            (emp) => emp._id === user._id
+                          )
+                            ? "This employee is already beeing supervised by another employee"
+                            : ""
+                        }
+                      >
+                        {user.firstName + " " + user.lastName}
+                      </Tooltip>
+                    ),
+                    name: user.firstName + " " + user.lastName,
                     disabled: !availableEmployees?.some(
                       (emp) => emp._id === user._id
                     ),
