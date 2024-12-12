@@ -130,14 +130,19 @@ export const useItemsForm = (
       const heads = users?.data.filter(
         (user) => user.position?.title === "Head Of Department"
       );
-      const notAvailableEmployees = users?.data.flatMap((user) => {
-        const usersNotAvailable = user.supervisedEmployees;
-        if (heads) {
-          return [...usersNotAvailable, ...heads, ceo!];
-        } else {
-          return usersNotAvailable;
-        }
-      });
+      const ownSupervisedEmployees = users?.data.find(
+        (emp) => emp._id == editingId
+      )?.supervisedEmployees;
+      const notAvailableEmployees = users?.data
+        .flatMap((user) => {
+          const usersNotAvailable = user.supervisedEmployees;
+          if (heads) {
+            return [...usersNotAvailable, ...heads, ceo!];
+          } else {
+            return usersNotAvailable;
+          }
+        })
+        .filter((emp) => !ownSupervisedEmployees?.includes(emp));
 
       //Filter available employees
       const availableEmployees = users?.data.filter((user) => {

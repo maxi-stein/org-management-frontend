@@ -43,18 +43,18 @@ const App: React.FC = () => {
               <SideNav />
               <Layout>
                 <Header />
-                <Content style={{ margin: "24px 16px 0" }}>
-                  <div style={{ padding: 24, minHeight: 360 }}>
-                    <Routes>
-                      {routes.map((route, index) => (
-                        <Route
-                          key={index}
-                          path={route.path}
-                          element={route.element}
-                        />
-                      ))}
-                    </Routes>
-                  </div>
+                <Content
+                  style={{ margin: "24px 16px 0", padding: 24, minHeight: 360 }}
+                >
+                  <Routes>
+                    {routes.map((route, index) => (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        element={route.element}
+                      />
+                    ))}
+                  </Routes>
                 </Content>
                 <Footer />
               </Layout>
