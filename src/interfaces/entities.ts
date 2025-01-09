@@ -33,7 +33,6 @@ export interface Department extends DepartmentInput {
 
 export interface PositionInput {
   title: string;
-  level: string | null;
 }
 
 export interface Position extends PositionInput {
@@ -58,6 +57,7 @@ export interface UserInput {
   bornDate: Date;
   isActive: boolean;
   position: Position | null;
+  positionLevel: any;
   password?: string;
 }
 
