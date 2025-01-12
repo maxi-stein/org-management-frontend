@@ -19,7 +19,7 @@ const UserCRUD: React.FC = () => {
   const { data: usersData, isLoading, isError, fetchUsers } = dataContext.users;
   if (!usersData) fetchUsers();
 
-  //position levels are needed for rendering levels in the position column and in the edit/delete forms
+  //position levels are needed for rendering levels in the position column (user table) and in the edit/delete forms
   const {
     data: positionLevelsData,
     isLoading: isLoadingPositionLevels,

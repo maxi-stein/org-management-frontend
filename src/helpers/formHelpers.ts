@@ -31,7 +31,6 @@ const entitySetters = {
     const position = entity as Position;
     form.setFieldsValue({
       title: position.title,
-      level: position.level,
     });
   },
   users: (form: FormInstance<any>, entity: BffEntity) => {
@@ -43,12 +42,14 @@ const entitySetters = {
       password: user.password,
       phone: user.phone,
       position: user.position?._id,
+      positionLevel: user.positionLevel,
       supervisedEmployees: user.supervisedEmployees.map((emp) => emp._id),
       bornDate: dayjs(user.bornDate),
       isActive: user.isActive,
       role: user.role._id,
     });
   },
+  roles: (form: FormInstance<any>, entity: BffEntity) => {},
 };
 
 export const setFormValues = (
@@ -88,6 +89,7 @@ const entityDataBuilders = {
     isActive: values.isActive,
     role: values.role,
   }),
+  roles: (values: any) => ({}),
 };
 
 //Generic function to get data for entity

@@ -1,18 +1,11 @@
 import { Tooltip, Typography } from "antd";
-import {
-  Department,
-  EntityType,
-  Position,
-  Role,
-  User,
-} from "../interfaces/entities";
+import { Department, EntityType, Role, User } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
-import { useDataContext } from "../contexts/dataContext";
 import { useLevelValue } from "./useFetchEntity";
 
 const { Text } = Typography;

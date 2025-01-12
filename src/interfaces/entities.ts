@@ -40,8 +40,8 @@ export interface Position extends PositionInput {
 }
 
 export interface PositionLevel {
-  key: string;
   value: string;
+  label: string;
 }
 
 export interface RoleInput {

@@ -8,7 +8,6 @@ import {
   Department,
   EntityType,
   Position,
-  PositionLevel,
   Role,
   User,
 } from "../interfaces/entities";
@@ -78,5 +77,5 @@ export const useFetchPositionLevels = () => {
 //map the key to the value of the position level. Eg: "JR" => "Junior"
 export const useLevelValue = (key: string) => {
   const levels = useDataContext().positionLevels.data?.data;
-  return levels?.find((level) => level.key === key)?.value;
+  return levels?.find((level) => level.value === key)?.label;
 };
