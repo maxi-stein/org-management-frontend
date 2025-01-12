@@ -39,6 +39,11 @@ export interface Position extends PositionInput {
   _id: string;
 }
 
+export interface PositionLevel {
+  key: string;
+  value: string;
+}
+
 export interface RoleInput {
   name: string;
 }

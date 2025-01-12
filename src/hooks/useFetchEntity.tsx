@@ -5,12 +5,16 @@ import {
   Department,
   EntityType,
   Position,
+  PositionLevel,
   Role,
   User,
 } from "../interfaces/entities";
 import { getAreas } from "../apiServices/areasService";
 import { getDepartments } from "../apiServices/departmentsService";
-import { getPositions } from "../apiServices/positionsService";
+import {
+  getPositionLevels,
+  getPositions,
+} from "../apiServices/positionsService";
 import { getUsers } from "../apiServices/userService";
 import { getRoles } from "../apiServices/rolesService";
 
@@ -26,15 +30,15 @@ export const useFetchEntity = <T extends EntityType>(entityType: T) => {
   const fetchEntityHook = async () => {
     switch (entityType) {
       case "areas":
-        return getAreas();
+        return await getAreas();
       case "departments":
-        return getDepartments();
+        return await getDepartments();
       case "positions":
-        return getPositions();
+        return await getPositions();
       case "users":
-        return getUsers();
+        return await getUsers();
       case "roles":
-        return getRoles();
+        return await getRoles();
       default:
         throw new Error("Entity type not supported");
     }
@@ -48,6 +52,19 @@ export const useFetchEntity = <T extends EntityType>(entityType: T) => {
   }: UseQueryResult<bffResponse<EntityMap[T]>> = useQuery({
     queryKey: [`fetch-${entityType}`],
     queryFn: fetchEntityHook,
+    enabled: false,
+  });
+
+  return { data, isLoading, isError, refetch };
+};
+
+export const useFetchPositionLevels = () => {
+  const { data, isLoading, isError, refetch } = useQuery<PositionLevel[]>({
+    queryKey: ["fetch-position-levels"],
+    queryFn: async () => {
+      const response = await getPositionLevels();
+      return response.data;
+    },
     enabled: false,
   });
 
