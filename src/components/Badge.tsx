@@ -15,7 +15,6 @@ export const Badge = ({ text, status }: BadgeProps) => {
         borderStyle: "solid",
         borderWidth: "1px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        //fontWeight: "bold",
         fontSize: "14px",
         textAlign: "center",
         margin: "4px",

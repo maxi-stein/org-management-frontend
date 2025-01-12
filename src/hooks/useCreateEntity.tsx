@@ -5,12 +5,12 @@ import { createDepartment } from "../apiServices/departmentsService";
 import { createPosition } from "../apiServices/positionsService";
 import { createUser } from "../apiServices/userService";
 
-// Definimos la interfaz de tipo genérico, T, que extiende de BffEntityInput
+// Types of data that can be created by this hook
 type EntityCreateData<T extends BffEntityInput> = {
   data: T;
 };
 
-// Mapeamos los tipos de entrada a los servicios respectivos
+// Mapping of entity type to create function
 const entityServices = {
   areas: createArea,
   departments: createDepartment,
