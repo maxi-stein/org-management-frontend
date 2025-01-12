@@ -12,15 +12,10 @@ const columns = getColumnsForm["areas"];
 
 const AreaCRUD: React.FC = () => {
   const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null);
+  const dataContext = useDataContext();
+  const { data: areasData, isLoading, isError, fetchAreas } = dataContext.areas;
 
-  const {
-    data: areasData,
-    isLoading,
-    isError,
-    fetchAreas,
-  } = useDataContext().areas;
-
-  const { data: departments, fetchDepartments } = useDataContext().departments;
+  const { data: departments, fetchDepartments } = dataContext.departments;
 
   //if the data is not loaded, fetch it (departments are used in the useItemsForm hook)
   if (!departments) {

@@ -15,6 +15,7 @@ const DepartmentCRUD: React.FC = () => {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<
     string | null
   >(null);
+  const dataContext = useDataContext();
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
 
   const {
@@ -22,7 +23,7 @@ const DepartmentCRUD: React.FC = () => {
     isLoading,
     isError,
     fetchDepartments,
-  } = useDataContext().departments;
+  } = dataContext.departments;
   if (!departmentsData) fetchDepartments();
 
   //areas are needed for getting related areas for selected department
@@ -31,7 +32,7 @@ const DepartmentCRUD: React.FC = () => {
     fetchAreas,
     isLoading: isLoadingAreas,
     isError: isErrorAreas,
-  } = useDataContext().areas;
+  } = dataContext.areas;
   if (!areas) fetchAreas();
 
   const getRelatedAreasForDepartment = (

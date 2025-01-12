@@ -15,6 +15,7 @@ const PositionCRUD: React.FC = () => {
   const [selectedPositionId, setSelectedPositionId] = useState<string | null>(
     null
   );
+  const dataContext = useDataContext();
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
 
   const {
@@ -22,7 +23,7 @@ const PositionCRUD: React.FC = () => {
     isLoading,
     isError,
     fetchPositions,
-  } = useDataContext().positions;
+  } = dataContext.positions;
   if (!positionsData) fetchPositions();
 
   //users are needed for getting related users for selected position
@@ -31,7 +32,7 @@ const PositionCRUD: React.FC = () => {
     fetchUsers,
     isLoading: isLoadingUsersRelated,
     isError: isErrorUsers,
-  } = useDataContext().users;
+  } = dataContext.users;
   if (!users) fetchUsers();
 
   const getRelatedUsersForPosition = (
