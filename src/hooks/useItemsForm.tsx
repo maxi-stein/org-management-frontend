@@ -15,6 +15,7 @@ import { FormColumns } from "../interfaces/form";
 
 import { useDataContext } from "../contexts/dataContext";
 import { useEffect, useState } from "react";
+import { validateSeniority } from "../helpers/formHelpers";
 
 const { Text } = Typography;
 
@@ -221,20 +222,20 @@ export const useItemsForm = (
                 label="Seniority"
                 style={{ width: "130px" }}
                 rules={[
-                  {
-                    required: true,
-                    message: "Please select a Seniority Level",
-                  },
+                  ({ getFieldValue }) => ({
+                    validator: validateSeniority(getFieldValue, positions),
+                  }),
                 ]}
               >
                 <Select
                   placeholder="Select a Seniority Level"
-                  options={dataContext.positionLevels.data?.data.map(
-                    (level) => ({
+                  options={[
+                    { value: "", label: "No seniority" },
+                    ...(dataContext.positionLevels.data?.data.map((level) => ({
                       value: level.value,
                       label: level.label,
-                    })
-                  )}
+                    })) || []),
+                  ]}
                 />
               </Form.Item>
               <Form.Item

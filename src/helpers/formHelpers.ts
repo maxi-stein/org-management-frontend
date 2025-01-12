@@ -9,6 +9,7 @@ import {
   Position,
   User,
 } from "../interfaces/entities";
+import { bffResponse } from "../apiServices/http-config";
 
 // Function to set dynamic form values
 const entitySetters = {
@@ -84,6 +85,7 @@ const entityDataBuilders = {
     password: values.password,
     phone: values.phone,
     position: values.position,
+    positionLevel: values.positionLevel,
     supervisedEmployees: values.supervisedEmployees,
     bornDate: dayjs(values.bornDate),
     isActive: values.isActive,
@@ -98,4 +100,37 @@ export const getDataForEntity = (entityType: EntityType, values: any) => {
   return dataBuilder
     ? (dataBuilder(values) as BffEntityInput)
     : ({} as BffEntityInput);
+};
+
+//if CEO or HoD is selected, seniority should be empty. Otherwise, it should be required
+export const validateSeniority = (
+  getFieldValue: (name: string) => any,
+  positions: bffResponse<Position[]> | undefined
+) => {
+  return async (_: any, value: any) => {
+    const positionId = getFieldValue("position");
+    const selectedPosition = positions?.data.find(
+      (position) => position._id === positionId
+    );
+
+    if (selectedPosition) {
+      const { title } = selectedPosition;
+      if (title === "Head Of Department" || title === "CEO") {
+        console.log("tengo que validar");
+        if (value && value !== "") {
+          return Promise.reject(
+            new Error("Seniority must be empty for this position.")
+          );
+        }
+        return Promise.resolve();
+      } else {
+        if (!value || value === "") {
+          return Promise.reject(new Error("Seniority is required"));
+        }
+        return Promise.resolve();
+      }
+    }
+
+    return Promise.reject(new Error("Invalid position"));
+  };
 };
