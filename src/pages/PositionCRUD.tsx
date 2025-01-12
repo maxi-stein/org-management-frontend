@@ -35,6 +35,7 @@ const PositionCRUD: React.FC = () => {
   } = dataContext.users;
   if (!users) fetchUsers();
 
+  //users with the selected position
   const getRelatedUsersForPosition = (
     selectedPositionId: string | null,
     users: User[] | undefined
@@ -45,7 +46,7 @@ const PositionCRUD: React.FC = () => {
     }) as User[];
   };
 
-  //get related users when a position is selected
+  //get related users when a position is selected (for editting/deleting)
   useEffect(() => {
     if (selectedPositionId !== null) {
       const relatedUsers = getRelatedUsersForPosition(

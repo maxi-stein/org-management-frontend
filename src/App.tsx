@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, App as AntdApp } from "antd";
 import SideNav from "./components/SideNav.tsx";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
@@ -38,28 +38,30 @@ const App: React.FC = () => {
             },
           }}
         >
-          <Router>
-            <Layout style={{ minHeight: "100vh" }}>
-              <SideNav />
-              <Layout>
-                <Header />
-                <Content style={{ margin: "24px 16px 0" }}>
-                  <div style={{ padding: 24, minHeight: 360 }}>
-                    <Routes>
-                      {routes.map((route, index) => (
-                        <Route
-                          key={index}
-                          path={route.path}
-                          element={route.element}
-                        />
-                      ))}
-                    </Routes>
-                  </div>
-                </Content>
-                <Footer />
+          <AntdApp>
+            <Router>
+              <Layout style={{ minHeight: "100vh" }}>
+                <SideNav />
+                <Layout>
+                  <Header />
+                  <Content style={{ margin: "24px 16px 0" }}>
+                    <div style={{ padding: 24, minHeight: 360 }}>
+                      <Routes>
+                        {routes.map((route, index) => (
+                          <Route
+                            key={index}
+                            path={route.path}
+                            element={route.element}
+                          />
+                        ))}
+                      </Routes>
+                    </div>
+                  </Content>
+                  <Footer />
+                </Layout>
               </Layout>
-            </Layout>
-          </Router>
+            </Router>
+          </AntdApp>
         </ConfigProvider>
       </DataProvider>
     </QueryClientProvider>

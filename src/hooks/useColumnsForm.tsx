@@ -61,10 +61,7 @@ export const getColumnsForm = {
     },
     { title: "Description", dataIndex: "description", key: "description" },
   ],
-  positions: [
-    { title: "Title", dataIndex: "title", key: "title" },
-    { title: "Level", dataIndex: "level", key: "level" },
-  ],
+  positions: [{ title: "Title", dataIndex: "title", key: "title" }],
   users: [
     {
       title: "First Name",
@@ -78,11 +75,7 @@ export const getColumnsForm = {
       dataIndex: "position",
       key: "position",
       width: 150,
-      render: (position: Position) => (
-        <Text>
-          {position?.level} {position?.title}
-        </Text>
-      ),
+      render: (position: Position) => <Text>{position?.title}</Text>,
     },
     {
       title: "Supervised Employees",
