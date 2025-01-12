@@ -1,5 +1,8 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { bffResponse } from "../apiServices/http-config";
+import {
+  bffResponse,
+  PositionLevelsResponse,
+} from "../apiServices/http-config";
 import {
   Area,
   Department,
@@ -17,6 +20,7 @@ import {
 } from "../apiServices/positionsService";
 import { getUsers } from "../apiServices/userService";
 import { getRoles } from "../apiServices/rolesService";
+import { useDataContext } from "../contexts/dataContext";
 
 type EntityMap = {
   areas: Area[];
@@ -59,14 +63,20 @@ export const useFetchEntity = <T extends EntityType>(entityType: T) => {
 };
 
 export const useFetchPositionLevels = () => {
-  const { data, isLoading, isError, refetch } = useQuery<PositionLevel[]>({
-    queryKey: ["fetch-position-levels"],
-    queryFn: async () => {
-      const response = await getPositionLevels();
-      return response.data;
-    },
-    enabled: false,
-  });
+  const { data, isLoading, isError, refetch } =
+    useQuery<PositionLevelsResponse>({
+      queryKey: ["fetch-position-levels"],
+      queryFn: async () => {
+        return await getPositionLevels();
+      },
+      enabled: false,
+    });
 
   return { data, isLoading, isError, refetch };
+};
+
+//map the key to the value of the position level. Eg: "JR" => "Junior"
+export const useLevelValue = (key: string) => {
+  const levels = useDataContext().positionLevels.data?.data;
+  return levels?.find((level) => level.key === key)?.value;
 };

@@ -12,6 +12,8 @@ import {
   CloseCircleOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
+import { useDataContext } from "../contexts/dataContext";
+import { useLevelValue } from "./useFetchEntity";
 
 const { Text } = Typography;
 
@@ -33,6 +35,15 @@ const renderSupervisedEmployees = (employees: User[]) =>
       status="active"
     />
   ));
+
+const PositionWithLevel: React.FC<{ user: User }> = ({ user }) => {
+  const level = useLevelValue(user.positionLevel);
+  return (
+    <Text>
+      {level} {user.position?.title}
+    </Text>
+  );
+};
 
 export const getColumnsForm = {
   areas: [
@@ -75,7 +86,7 @@ export const getColumnsForm = {
       dataIndex: "position",
       key: "position",
       width: 150,
-      render: (position: Position) => <Text>{position?.title}</Text>,
+      render: (_: any, user: User) => <PositionWithLevel user={user} />,
     },
     {
       title: "Supervised Employees",

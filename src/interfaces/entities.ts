@@ -62,7 +62,7 @@ export interface UserInput {
   bornDate: Date;
   isActive: boolean;
   position: Position | null;
-  positionLevel: any;
+  positionLevel: string;
   password?: string;
 }
 

@@ -7,9 +7,15 @@ import {
   Role,
   EntityType,
 } from "../interfaces/entities";
-import { useFetchEntity } from "../hooks/useFetchEntity";
+import {
+  useFetchEntity,
+  useFetchPositionLevels,
+} from "../hooks/useFetchEntity";
 import { QueryObserverResult } from "@tanstack/react-query";
-import { bffResponse } from "../apiServices/http-config";
+import {
+  bffResponse,
+  PositionLevelsResponse,
+} from "../apiServices/http-config";
 import { useCreateEntity } from "../hooks/useCreateEntity";
 import { useEditEntity } from "../hooks/useEditEntity";
 import { useDeleteEntity } from "../hooks/useDeleteEntity";
@@ -49,6 +55,15 @@ interface DataContextType {
     addPosition: (position: any) => void;
     editPosition: ({ id, data }: editProps) => void;
     deletePosition: (id: string) => void;
+    isLoading: boolean;
+    isError: boolean;
+  };
+
+  positionLevels: {
+    data: PositionLevelsResponse | undefined;
+    fetchLevels: () => Promise<
+      QueryObserverResult<PositionLevelsResponse, Error>
+    >;
     isLoading: boolean;
     isError: boolean;
   };
@@ -161,6 +176,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     deleteEntity: deletePosition,
   } = useEntityHooks("positions");
 
+  //Fetch the position levels
+  const {
+    data: positionLevelsData,
+    refetch: refetchPositionLevels,
+    isLoading: isLoadingPositionLevels,
+    isError: isErrorPositionLevels,
+  } = useFetchPositionLevels();
+
   //Use the useEntityHooks to dinamically create, edit and delete users
   const {
     dataQuery: usersData,
@@ -226,6 +249,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
           fetchRoles: fetchRoles,
           isError: rolesError,
           isLoading: isLoadingRoles || isCreatingUser || isEditingUser,
+        },
+        positionLevels: {
+          data: positionLevelsData,
+          fetchLevels: refetchPositionLevels,
+          isLoading: isLoadingPositionLevels,
+          isError: isErrorPositionLevels,
         },
       }}
     >

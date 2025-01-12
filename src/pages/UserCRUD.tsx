@@ -13,19 +13,25 @@ let columns = getColumnsForm["users"] as any;
 
 const UserCRUD: React.FC = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const dataContext = useDataContext();
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
 
-  const {
-    data: usersData,
-    isLoading,
-    isError,
-    fetchUsers,
-  } = useDataContext().users;
+  const { data: usersData, isLoading, isError, fetchUsers } = dataContext.users;
   if (!usersData) fetchUsers();
+
+  //position levels are needed for rendering levels in the position column and in the edit/delete forms
+  const {
+    data: positionLevelsData,
+    isLoading: isLoadingPositionLevels,
+    isError: isErrorPositionLevels,
+    fetchLevels,
+  } = dataContext.positionLevels;
+  if (!positionLevelsData) fetchLevels();
 
   //add filter search values to columns
   columns = getFiltersForColumns("users", columns, usersData);
 
+  //get users supervised by selected user
   const getSupervisedEmployees = (selectedUserId: string | null) => {
     if (!selectedUserId) return [];
 
@@ -39,6 +45,7 @@ const UserCRUD: React.FC = () => {
     }) as User[];
   };
 
+  //when a user is selected or users data changes, get the employees supervised by that user selected
   useEffect(() => {
     if (selectedUserId !== null) {
       const employeesSupervisedByUser = getSupervisedEmployees(selectedUserId);
@@ -59,9 +66,9 @@ const UserCRUD: React.FC = () => {
     }
   }, [selectedUserId, usersData?.data]);
 
-  return isError ? (
+  return isError || isErrorPositionLevels ? (
     <Text>An error has occurred</Text>
-  ) : isLoading ? (
+  ) : isLoading || isLoadingPositionLevels ? (
     <LoadingSpinner message="Loading Employees..." />
   ) : (
     <GenericCRUD
