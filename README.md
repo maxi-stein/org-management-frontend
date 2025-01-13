@@ -46,13 +46,37 @@ Ensure that you have this backend set up and running before attempting to use th
 
 ## 🚀 Getting Started
 
-1. Clone this repository
-2. Install dependencies: `npm install`
-3. Clone and set up the backend repository:
-   \`\`\`
+1. Clone this repository:
+
+```bash
+   git clone https://github.com/maxi-stein/org-management-frontend.git
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create an `.env` file with the following values:
+
+```bash
+   VITE_APP_HOST=localhost
+   VITE_APP_PORT=4000
+```
+
+4. Clone the backend repository and start the server:
+
+```bash
    git clone https://github.com/maxi-stein/org-management-backend.git
-   cd org-management-backend
-   # Follow the backend setup instructions in its README
-   \`\`\`
-4. Start the backend server
-5. Return to this project directory and start the frontend development server: `npm start`, listening on port `4000`
+```
+
+#### Follow the backend setup instructions in its README
+
+5. Return to this project directory and start the frontend development server:
+
+```bash
+npm run dev
+```
+
+listening on port `5173`
