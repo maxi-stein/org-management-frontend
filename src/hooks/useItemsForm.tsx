@@ -15,6 +15,7 @@ import { FormColumns } from "../interfaces/form";
 
 import { useDataContext } from "../contexts/dataContext";
 import { useEffect, useState } from "react";
+import { validateSeniority } from "../helpers/formHelpers";
 
 const { Text } = Typography;
 
@@ -81,11 +82,12 @@ export const useItemsForm = (
   entityType: EntityType,
   editingId: string | null
 ) => {
-  const { data: departments, fetchDepartments } = useDataContext().departments;
-  const { data: areas, fetchAreas } = useDataContext().areas;
-  const { data: users, fetchUsers } = useDataContext().users;
-  const { data: positions, fetchPositions } = useDataContext().positions;
-  const { data: roles, fetchRoles } = useDataContext().roles;
+  const dataContext = useDataContext();
+  const { data: departments, fetchDepartments } = dataContext.departments;
+  const { data: areas, fetchAreas } = dataContext.areas;
+  const { data: users, fetchUsers } = dataContext.users;
+  const { data: positions, fetchPositions } = dataContext.positions;
+  const { data: roles, fetchRoles } = dataContext.roles;
   const [headOfDepartments, setHeadOfDepartments] = useState<User[]>([]);
 
   //get departments only if departments or areas form is rendered
@@ -218,35 +220,57 @@ export const useItemsForm = (
                 disabled={isEditing}
               />
             </Form.Item>
-            <Form.Item
-              key={"position"}
-              name={"position"}
-              label={"Position"}
-              rules={validationRules[entityType]["position"]}
-              style={{ width: "100%" }}
-            >
-              <Select
-                showSearch
-                placeholder="Select a position"
-                optionFilterProp="label"
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-                options={positions?.data
-                  .filter(
-                    (position) =>
-                      !(ceo && isEditing && ceo._id === position._id)
-                  )
-                  .map((position) => ({
-                    value: position._id,
-                    label: position.level
-                      ? position.level + " " + position.title
-                      : position.title,
-                  }))}
-              />
-            </Form.Item>
+            <Space size={"middle"}>
+              <Form.Item
+                key="positionLevel"
+                name="positionLevel"
+                label="Seniority"
+                style={{ width: "130px" }}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator: validateSeniority(getFieldValue, positions),
+                  }),
+                ]}
+              >
+                <Select
+                  placeholder="Select a Seniority Level"
+                  options={[
+                    { value: "", label: "No seniority" },
+                    ...(dataContext.positionLevels.data?.data.map((level) => ({
+                      value: level.value,
+                      label: level.label,
+                    })) || []),
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item
+                key={"position"}
+                name={"position"}
+                label={"Position"}
+                rules={validationRules[entityType]["position"]}
+                style={{ width: "300px" }}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select a position"
+                  optionFilterProp="label"
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                  }
+                  options={positions?.data
+                    .filter(
+                      (position) =>
+                        !(ceo && isEditing && ceo._id === position._id)
+                    )
+                    .map((position) => ({
+                      value: position._id,
+                      label: position.title,
+                    }))}
+                />
+              </Form.Item>
+            </Space>
             <Space size={"middle"}>
               <Form.Item
                 key={"supervisedEmployees"}

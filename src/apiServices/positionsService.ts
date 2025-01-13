@@ -1,5 +1,9 @@
-import { Position, PositionInput } from "../interfaces/entities";
-import { axiosInstance, bffResponse } from "./http-config";
+import { Position, PositionInput, PositionLevel } from "../interfaces/entities";
+import {
+  axiosInstance,
+  bffResponse,
+  PositionLevelsResponse,
+} from "./http-config";
 
 export const getPositions = async (): Promise<bffResponse<Position[]>> => {
   try {
@@ -10,6 +14,18 @@ export const getPositions = async (): Promise<bffResponse<Position[]>> => {
   } catch (error) {
     console.log(error);
     throw new Error("Error getting positions");
+  }
+};
+
+export const getPositionLevels = async (): Promise<PositionLevelsResponse> => {
+  try {
+    const response = await axiosInstance.get<PositionLevelsResponse>(
+      "/positions/levels"
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting position levels");
   }
 };
 

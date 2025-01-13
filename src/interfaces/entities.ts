@@ -33,11 +33,15 @@ export interface Department extends DepartmentInput {
 
 export interface PositionInput {
   title: string;
-  level: string | null;
 }
 
 export interface Position extends PositionInput {
   _id: string;
+}
+
+export interface PositionLevel {
+  value: string;
+  label: string;
 }
 
 export interface RoleInput {
@@ -58,6 +62,7 @@ export interface UserInput {
   bornDate: Date;
   isActive: boolean;
   position: Position | null;
+  positionLevel: string;
   password?: string;
 }
 

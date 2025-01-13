@@ -1,17 +1,12 @@
 import { Tooltip, Typography } from "antd";
-import {
-  Department,
-  EntityType,
-  Position,
-  Role,
-  User,
-} from "../interfaces/entities";
+import { Department, EntityType, Role, User } from "../interfaces/entities";
 import { Badge } from "../components/Badge";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
+import { useLevelValue } from "./useFetchEntity";
 
 const { Text } = Typography;
 
@@ -33,6 +28,15 @@ const renderSupervisedEmployees = (employees: User[]) =>
       status="active"
     />
   ));
+
+const PositionWithLevel: React.FC<{ user: User }> = ({ user }) => {
+  const level = useLevelValue(user.positionLevel);
+  return (
+    <Text>
+      {level} {user.position?.title}
+    </Text>
+  );
+};
 
 export const getColumnsForm = {
   areas: [
@@ -61,10 +65,7 @@ export const getColumnsForm = {
     },
     { title: "Description", dataIndex: "description", key: "description" },
   ],
-  positions: [
-    { title: "Title", dataIndex: "title", key: "title" },
-    { title: "Level", dataIndex: "level", key: "level" },
-  ],
+  positions: [{ title: "Title", dataIndex: "title", key: "title" }],
   users: [
     {
       title: "First Name",
@@ -78,11 +79,7 @@ export const getColumnsForm = {
       dataIndex: "position",
       key: "position",
       width: 150,
-      render: (position: Position) => (
-        <Text>
-          {position?.level} {position?.title}
-        </Text>
-      ),
+      render: (_: any, user: User) => <PositionWithLevel user={user} />,
     },
     {
       title: "Supervised Employees",

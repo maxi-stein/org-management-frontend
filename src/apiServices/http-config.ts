@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BffEntity } from "../interfaces/entities";
+import { BffEntity, PositionLevel } from "../interfaces/entities";
 
 const env = import.meta.env;
 
@@ -12,5 +12,10 @@ export const axiosInstance = axios.create({
 
 export interface bffResponse<T extends BffEntity[]> {
   data: T;
+  success: boolean;
+}
+
+export interface PositionLevelsResponse {
+  data: PositionLevel[];
   success: boolean;
 }
