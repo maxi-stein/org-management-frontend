@@ -107,7 +107,7 @@ const OrgChartPage: React.FC = () => {
     return {
       name: user.firstName + " " + user.lastName,
       attributes: {
-        title: `${user.position?.level} ${user.position?.title}`,
+        title: `${user?.positionLevel} ${user.position?.title}`,
       },
       children:
         user.supervisedEmployees?.map((subordinate: any) =>
@@ -118,44 +118,14 @@ const OrgChartPage: React.FC = () => {
 
   return (
     <div>
-      <Card
-        style={{
-          marginBottom: "20px",
-          backgroundColor: "#f8f1f1",
-          boxShadow: "0 4px 6px rgba(253, 0, 0, 0.1)",
-          borderRadius: "8px",
-          width: "30%",
-          marginInline: "auto",
-          textAlign: "center",
-        }}
-      >
-        {ceo ? (
-          <>
-            <Typography.Title level={3} style={{ marginBottom: "15px" }}>
-              {`${ceo.firstName} ${ceo.lastName}`}
-            </Typography.Title>
-          </>
-        ) : (
-          <Typography.Text type="secondary">CEO not found.</Typography.Text>
-        )}
-
-        {ceo?.position && (
-          <Tag color="red" icon={<UserOutlined />} style={{ borderRadius: 20 }}>
-            {ceo.position.title}
-          </Tag>
-        )}
-      </Card>
-
-      <div>
-        <OrgChart
-          data={[
-            {
-              name: "Company",
-              children: areas?.data.map((area) => createAreaNode(area)) || [],
-            },
-          ]}
-        />
-      </div>
+      <OrgChart
+        data={[
+          {
+            name: ceo ? `${ceo.firstName} ${ceo.lastName} (CEO)` : "CEO",
+            children: areas?.data.map((area) => createAreaNode(area)) || [],
+          },
+        ]}
+      />
     </div>
   );
 };
