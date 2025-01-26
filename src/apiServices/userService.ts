@@ -45,3 +45,12 @@ export const updateUser = async (
     throw new Error("Error updating user");
   }
 };
+
+export const deleteUser = async (id: string): Promise<void> => {
+  try {
+    await axiosInstance.delete(`/users/${id}`);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error deleting user");
+  }
+};

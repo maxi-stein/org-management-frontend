@@ -73,6 +73,7 @@ interface DataContextType {
     fetchUsers: () => Promise<QueryObserverResult<bffResponse<any[]>, Error>>;
     addUser: (user: any) => void;
     editUser: ({ id, data }: editProps) => void;
+    deleteUser: (id: string) => void;
     isLoading: boolean;
     isError: boolean;
   };
@@ -194,6 +195,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     refetch: fetchUsers,
     createEntity: createUser,
     editEntity: editUser,
+    deleteEntity: deleteUser,
   } = useEntityHooks("users");
 
   //Use the useEntityHooks to dinamically create, edit and delete roles
@@ -241,6 +243,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
           fetchUsers: fetchUsers,
           addUser: createUser,
           editUser,
+          deleteUser,
           isLoading: isLoadingUsers || isCreatingUser || isEditingUser,
           isError: usersError,
         },

@@ -3,6 +3,7 @@ import { EntityType } from "../interfaces/entities";
 import { deleteArea } from "../apiServices/areasService";
 import { deleteDepartment } from "../apiServices/departmentsService";
 import { deletePosition } from "../apiServices/positionsService";
+import { deleteUser } from "../apiServices/userService";
 export const useDeleteEntity = (entityType: EntityType) => {
   const deleteEntityHook = async (id: string) => {
     switch (entityType) {
@@ -13,7 +14,7 @@ export const useDeleteEntity = (entityType: EntityType) => {
       case "positions":
         return await deletePosition(id);
       case "users":
-        return null;
+        return await deleteUser(id);
       default:
         throw new Error("Entity type not supported");
     }

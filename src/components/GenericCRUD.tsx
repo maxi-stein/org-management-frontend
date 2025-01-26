@@ -126,13 +126,11 @@ const GenericCRUD = ({
     render: (record: BffEntity) => (
       <Space size="middle">
         <Button icon={<EditOutlined />} onClick={() => showModal(record._id)} />
-        {entityType != "users" && (
-          <Button
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record._id ?? "")}
-            danger
-          />
-        )}
+        <Button
+          icon={<DeleteOutlined />}
+          onClick={() => handleDelete(record._id ?? "")}
+          danger
+        />
       </Space>
     ),
   };
