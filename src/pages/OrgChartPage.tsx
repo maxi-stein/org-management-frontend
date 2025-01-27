@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { message, Typography } from "antd";
+import { message } from "antd";
 import { OrgChart } from "../components/OrgChart";
 import { useDataContext } from "../contexts/dataContext";
-import { Card, Tag } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { User } from "../interfaces/entities";
 import { getUser } from "../apiServices/userService";
 import { bffResponse } from "../apiServices/http-config";
@@ -38,42 +36,40 @@ const OrgChartPage: React.FC = () => {
     User[]
   >([]);
 
-  const fetchDetailedUserData = useCallback(
-    async (userId: string): Promise<bffResponse<User[]>> => {
-      try {
-        const response = await getUser(userId);
-        if (!response.success) {
-          console.error("Failed to fetch user data");
-          return { data: [], success: false };
-        }
-        return response;
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        message.error("Failed to fetch user data");
+  //used to fetch detailed Head of Department data
+  const fetchDetailedUserData = async (
+    userId: string
+  ): Promise<bffResponse<User[]>> => {
+    try {
+      const response = await getUser(userId);
+      if (!response.success) {
+        console.error("Failed to fetch user data");
         return { data: [], success: false };
       }
-    },
-    []
-  );
+      return response;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      message.error("Failed to fetch user data");
+      return { data: [], success: false };
+    }
+  };
+
+  // Fetch detailed data for each Head of Department
+  const fetchDetailedHeads = async (headsOfDept: User[]) => {
+    const detailedHeads = await Promise.all(
+      headsOfDept.map((head) => fetchDetailedUserData(head._id ?? ""))
+    );
+    setDetailedHeadOfDepartments(detailedHeads.flatMap((head) => head.data));
+  };
 
   useEffect(() => {
     if (users && !isLoadingUsers) {
       const headsOfDept = users.data.filter(
         (user) => user.position?.title === "Head Of Department"
       );
-
-      // Fetch detailed data for each Head of Department
-      const fetchDetailedHeads = async () => {
-        const detailedHeads = await Promise.all(
-          headsOfDept.map((head) => fetchDetailedUserData(head._id ?? ""))
-        );
-        setDetailedHeadOfDepartments(
-          detailedHeads.flatMap((head) => head.data)
-        );
-      };
-      fetchDetailedHeads();
+      fetchDetailedHeads(headsOfDept);
     }
-  }, [users, isLoadingUsers, fetchDetailedUserData]);
+  }, [users, isLoadingUsers]);
 
   const createAreaNode = (area: any) => {
     return {
