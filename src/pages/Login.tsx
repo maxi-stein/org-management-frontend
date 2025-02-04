@@ -6,16 +6,16 @@ import { axiosInstance } from "../apiServices/http-config";
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const { user, login } = useAuth();
+  const { user, login, isLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Redirect if already logged in
   useEffect(() => {
-    if (user) {
+    if (user && !isLoading) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, isLoading, navigate]);
 
   const onFinish = async (values: any) => {
     setLoading(true);

@@ -16,6 +16,7 @@ interface AuthContextType {
   login: (token: string, user: AuthUser) => void;
   logout: () => void;
   fullUser: User | null;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>(null!);
@@ -26,6 +27,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const storedToken = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+
+      if (storedToken && storedUser) {
+        try {
+          setToken(storedToken);
+          const parsedUser = JSON.parse(storedUser) as AuthUser;
+          setUser(parsedUser);
+
+          // Cargar datos completos del usuario
+          const response = await getUser(parsedUser._id);
+          setFullUser(response.data[0]);
+        } catch (error) {
+          logout();
+        }
+      }
+      setIsLoading(false); // Finaliza la carga
+    };
+
+    checkAuth();
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -57,7 +83,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, fullUser }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, fullUser, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
