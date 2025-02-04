@@ -9,10 +9,12 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { CompanyLogo } from "./CompanyLogo";
+import { useAuth } from "../contexts/authContext";
 
 const { Sider } = Layout;
 
 const SideNav: React.FC = () => {
+  const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleCollapsed = () => {
@@ -26,7 +28,16 @@ const SideNav: React.FC = () => {
     { key: "7", label: <Link to="/areas">Areas</Link> },
   ];
 
-  const items = [
+  const employeeItems = [
+    { key: "1", icon: <UserOutlined />, label: <Link to="/">Dashboard</Link> },
+    {
+      key: "2",
+      icon: <ApartmentOutlined />,
+      label: <Link to="/org-chart">Hierarchical Chart</Link>,
+    },
+  ];
+
+  const adminItems = [
     { key: "1", icon: <UserOutlined />, label: <Link to="/">Dashboard</Link> },
     {
       key: "2",
@@ -56,7 +67,7 @@ const SideNav: React.FC = () => {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["1"]}
-        items={items}
+        items={user?.role === "admin" ? adminItems : employeeItems}
       ></Menu>
       <div
         className="ant-layout-sider-trigger"

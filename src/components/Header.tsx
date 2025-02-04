@@ -1,10 +1,13 @@
 import React from "react";
-import { Layout, Typography } from "antd";
+import { Button, Layout, Typography } from "antd";
+import { useAuth } from "../contexts/authContext";
 
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
 
 const Header: React.FC = () => {
+  const { user, logout } = useAuth();
+
   return (
     <AntHeader
       style={{
@@ -14,6 +17,8 @@ const Header: React.FC = () => {
         borderBottomStyle: "solid",
         borderBottomWidth: "1px",
         boxShadow: "0 1px 4px rgba(0, 21, 41, 0.08)",
+        display: "flex",
+        justifyContent: "space-between",
       }}
     >
       <Title
@@ -29,6 +34,16 @@ const Header: React.FC = () => {
       >
         Organization Chart Manager
       </Title>
+      {user && (
+        <>
+          <div>
+            <span>{user.firstName + " " + user.lastName}</span>
+            <Button type="link" onClick={logout}>
+              Logout
+            </Button>
+          </div>
+        </>
+      )}
     </AntHeader>
   );
 };

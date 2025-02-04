@@ -67,7 +67,7 @@ const OrgChartPage: React.FC = () => {
       const headsOfDept = users.data.filter(
         (user) => user.position?.title === "Head Of Department"
       );
-      fetchDetailedHeads(headsOfDept);
+      if (headsOfDept.length > 0) fetchDetailedHeads(headsOfDept);
     }
   }, [users, isLoadingUsers]);
 

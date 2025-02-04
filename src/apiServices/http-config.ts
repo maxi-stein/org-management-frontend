@@ -1,15 +1,6 @@
 import axios from "axios";
 import { BffEntity, PositionLevel } from "../interfaces/entities";
 
-const env = import.meta.env;
-
-export const axiosInstance = axios.create({
-  baseURL: `http://${env.VITE_APP_HOST}:${env.VITE_APP_PORT}`,
-  headers: {
-    Authorization: `${env.VITE_JWT_AUTH_TOKEN_TYPE} ${env.VITE_JWT_AUTH_TOKEN}`,
-  },
-});
-
 export interface bffResponse<T extends BffEntity[]> {
   data: T;
   success: boolean;
@@ -19,3 +10,20 @@ export interface PositionLevelsResponse {
   data: PositionLevel[];
   success: boolean;
 }
+
+const axiosInstance = axios.create({
+  baseURL: `http://${import.meta.env.VITE_APP_HOST}:${
+    import.meta.env.VITE_APP_PORT
+  }`,
+});
+
+// Injecting token to every request
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export { axiosInstance };
