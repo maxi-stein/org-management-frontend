@@ -1,16 +1,36 @@
-import { Card, Row, Col, Typography, Avatar, Divider } from "antd";
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Avatar,
+  Divider,
+  AutoComplete,
+  Input,
+} from "antd";
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../apiServices/userService";
 import { useQuery } from "@tanstack/react-query";
+import { SearchOutlined } from "@ant-design/icons";
+import { useSearchUsers } from "../hooks/useSearchUsers";
+import { User } from "../interfaces/entities";
 
 const { Title, Text } = Typography;
 
-export const Dashboard = () => {
+interface Props {
+  overrideUser?: User;
+}
+
+export const Dashboard = ({ overrideUser }: Props) => {
   const navigate = useNavigate();
   const { fullUser } = useAuth();
+  const { searchOptions, setSearchQuery } = useSearchUsers();
+  const displayUser = overrideUser || fullUser;
 
-  if (!fullUser) {
+  console.log("El user es", displayUser?._id);
+  if (displayUser === null) {
+    console.log("navegando a login");
     navigate("/login");
     return null;
   }
@@ -20,10 +40,10 @@ export const Dashboard = () => {
     isError, //TODO: handle Error
     isLoading, //TODO: handle loading
   } = useQuery({
-    queryKey: ["supervised-employees", fullUser?._id],
+    queryKey: ["supervised-employees", displayUser?._id],
     queryFn: async () => {
       const employeesData = await Promise.all(
-        fullUser.supervisedEmployees.map(async (employee) => {
+        displayUser.supervisedEmployees.map(async (employee) => {
           const response = await getUser(employee._id!);
           return response.data[0];
         })
@@ -34,26 +54,47 @@ export const Dashboard = () => {
   });
 
   return (
-    <div style={{ padding: "24px" }}>
+    <div>
       <Row gutter={[16, 16]}>
-        <Col span={24}>
+        <Col span={18}>
           <Card>
             <Row align="middle" gutter={16}>
               <Col>
                 <Avatar
                   size={64}
-                  src={`https://ui-avatars.com/api/?name=${fullUser.firstName}+${fullUser.lastName}`}
+                  src={`https://ui-avatars.com/api/?name=${displayUser.firstName}+${displayUser.lastName}`}
                 />
               </Col>
               <Col>
                 <Title
                   level={4}
-                >{`${fullUser.firstName} ${fullUser.lastName}`}</Title>
-                <Text type="secondary">{`${fullUser.positionLevel || ""} ${
-                  fullUser.position?.title
+                >{`${displayUser.firstName} ${displayUser.lastName}`}</Title>
+                <Text type="secondary">{`${displayUser.positionLevel || ""} ${
+                  displayUser.position?.title
                 }`}</Text>
               </Col>
             </Row>
+          </Card>
+        </Col>
+
+        <Col span={6}>
+          <Card
+            style={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text>Search for an employee</Text>
+            <AutoComplete
+              options={searchOptions}
+              onSearch={(value) => setSearchQuery(value)}
+              onSelect={(_, option) => option.label.props.onClick()}
+              style={{ width: "100%" }}
+            >
+              <Input prefix={<SearchOutlined />} />
+            </AutoComplete>
           </Card>
         </Col>
 
@@ -64,19 +105,21 @@ export const Dashboard = () => {
                 <Text>
                   <strong>Email: </strong>
                 </Text>
-                <Text>{fullUser.email}</Text>
+                <Text>{displayUser.email}</Text>
               </Col>
               <Col span={12}>
                 <Text>
                   <strong>Telephone Number: </strong>
                 </Text>
-                <Text>{fullUser.phone}</Text>
+                <Text>{displayUser.phone}</Text>
               </Col>
               <Col span={12}>
                 <Text>
                   <strong>Birth Date: </strong>
                 </Text>
-                <Text>{new Date(fullUser.bornDate).toLocaleDateString()}</Text>
+                <Text>
+                  {new Date(displayUser.bornDate).toLocaleDateString()}
+                </Text>
               </Col>
             </Row>
           </Card>

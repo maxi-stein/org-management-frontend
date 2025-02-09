@@ -22,6 +22,7 @@ import { ConfigProvider } from "antd";
 import Login from "./pages/Login.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { AuthProvider } from "./contexts/authContext.tsx";
+import { UserProfile } from "./pages/UserProfile.tsx";
 
 const { Content } = Layout;
 const queryClient = new QueryClient();
@@ -66,6 +67,7 @@ const App: React.FC = () => {
                     }
                   >
                     <Route element={<AuthenticatedLayout />}>
+                      <Route path="/:userId" element={<UserProfile />} />
                       <Route path="/" element={<Dashboard />} />
                       <Route path="/org-chart" element={<OrgChartPage />} />
 

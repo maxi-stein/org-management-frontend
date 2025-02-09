@@ -1,12 +1,14 @@
 import React from "react";
 import { Button, Layout, Typography } from "antd";
 import { useAuth } from "../contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <AntHeader
@@ -36,9 +38,25 @@ const Header: React.FC = () => {
       </Title>
       {user && (
         <>
-          <div>
-            <span>{user.firstName + " " + user.lastName}</span>
-            <Button type="link" onClick={logout}>
+          <div style={{ marginRight: "24px" }}>
+            <Button
+              onClick={() => navigate("/")}
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: "10px 0px 0px 10px",
+              }}
+            >
+              {user.firstName + " " + user.lastName}
+            </Button>
+            <Button
+              danger
+              type="primary"
+              onClick={logout}
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: "0 10px 10px 0",
+              }}
+            >
               Logout
             </Button>
           </div>
