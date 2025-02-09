@@ -29,7 +29,7 @@ const SideNav: React.FC = () => {
   ];
 
   const employeeItems = [
-    { key: "1", icon: <UserOutlined />, label: <Link to="/">Dashboard</Link> },
+    { key: "1", icon: <UserOutlined />, label: <Link to="/">Home</Link> },
     {
       key: "2",
       icon: <ApartmentOutlined />,
