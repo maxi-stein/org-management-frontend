@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Card,
+  Typography,
+  Divider,
+  Layout,
+  Space,
+} from "antd";
 import { useAuth } from "../contexts/authContext";
 import { axiosInstance } from "../apiServices/http-config";
 import { useNavigate } from "react-router-dom";
+import { CompanyLogo } from "../components/CompanyLogo";
+
+const { Title, Text } = Typography;
+const { Content } = Layout;
 
 const Login: React.FC = () => {
   const { user, login, isLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Redirect if already logged in
   useEffect(() => {
     if (user && !isLoading) {
       navigate("/");
@@ -26,45 +39,107 @@ const Login: React.FC = () => {
       });
 
       await login(data.token, data.user);
-      message.success("Logged in successfully!");
-      navigate("/"); // Redirect to home page after successful login
+      message.success("Welcome back! Redirecting...");
+      navigate("/");
     } catch (error) {
-      message.error("Invalid credentials");
+      message.error("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: 300, margin: "100px auto" }}>
-      <Form onFinish={onFinish}>
-        <Form.Item
-          name="email"
-          rules={[
-            {
-              required: true,
-              type: "email",
-              message: "Please input your email",
-            },
-          ]}
+    <Layout
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+      }}
+    >
+      <Content
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Card
+          style={{
+            width: "100%",
+            maxWidth: 420,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            borderRadius: 12,
+          }}
         >
-          <Input prefix={<UserOutlined />} placeholder="Email" />
-        </Form.Item>
+          <Space
+            direction="vertical"
+            size="middle"
+            style={{ textAlign: "center", width: "100%" }}
+          >
+            <CompanyLogo />
+            <Title level={3} style={{ marginBottom: 0 }}>
+              Welcome to the Organizational Chart viewer
+            </Title>
+            <Text type="secondary" style={{ marginBottom: 32 }}>
+              Please sign in to continue
+            </Text>
 
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
-        </Form.Item>
+            <Form onFinish={onFinish} layout="vertical">
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Please enter a valid email address",
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Email"
+                  size="large"
+                />
+              </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading} block>
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your password",
+                  },
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Password"
+                  size="large"
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  block
+                  size="large"
+                  style={{ height: 45, fontWeight: 600 }}
+                >
+                  SIGN IN
+                </Button>
+              </Form.Item>
+
+              <Divider style={{ margin: "16px 0" }}></Divider>
+
+              <Text type="secondary" style={{ fontSize: 14 }}>
+                Forgot password? Contact IT Support
+              </Text>
+            </Form>
+          </Space>
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 
