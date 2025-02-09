@@ -1,37 +1,37 @@
-import { Card, Row, Col, Typography, Avatar, Tag, Divider } from "antd";
+import { Card, Row, Col, Typography, Avatar, Divider } from "antd";
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-import { User } from "../interfaces/entities";
-import { useEffect, useState } from "react";
 import { getUser } from "../apiServices/userService";
+import { useQuery } from "@tanstack/react-query";
 
 const { Title, Text } = Typography;
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const { fullUser } = useAuth();
-  const [employees, setEmployees] = useState<User[]>([]);
 
   if (!fullUser) {
     navigate("/login");
     return null;
   }
 
-  useEffect(() => {
-    const fetchSupervisedEmployees = async () => {
+  const {
+    data: employees = [],
+    isError, //TODO: handle Error
+    isLoading, //TODO: handle loading
+  } = useQuery({
+    queryKey: ["supervised-employees", fullUser?._id],
+    queryFn: async () => {
       const employeesData = await Promise.all(
         fullUser.supervisedEmployees.map(async (employee) => {
           const response = await getUser(employee._id!);
           return response.data[0];
         })
       );
-      setEmployees(employeesData);
-    };
-
-    if (fullUser.supervisedEmployees.length > 0) {
-      fetchSupervisedEmployees();
-    }
-  }, []);
+      return employeesData;
+    },
+    staleTime: 1000 * 60 * 60 * 4, //stale for 4hours
+  });
 
   return (
     <div style={{ padding: "24px" }}>
