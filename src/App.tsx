@@ -23,6 +23,7 @@ import Login from "./pages/Login.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { AuthProvider } from "./contexts/authContext.tsx";
 import { UserProfile } from "./pages/UserProfile.tsx";
+import { customTheme } from "./config.ts";
 
 const { Content } = Layout;
 const queryClient = new QueryClient();
@@ -49,14 +50,7 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <DataProvider>
-          <ConfigProvider
-            theme={{
-              token: {
-                fontFamily: "Roboto",
-                colorPrimary: "#2f97d3",
-              },
-            }}
-          >
+          <ConfigProvider theme={customTheme}>
             <AntdApp>
               <Router>
                 <Routes>

@@ -52,7 +52,8 @@ const Login: React.FC = () => {
     <Layout
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+        background:
+          "linear-gradient(135deg, #3185fc 0%,rgb(157, 182, 223) 100%)",
       }}
     >
       <Content
@@ -124,7 +125,12 @@ const Login: React.FC = () => {
                   loading={loading}
                   block
                   size="large"
-                  style={{ height: 45, fontWeight: 600 }}
+                  style={{
+                    height: 45,
+                    fontWeight: 600,
+                    backgroundColor: "#f6f930",
+                    color: "black",
+                  }}
                 >
                   SIGN IN
                 </Button>

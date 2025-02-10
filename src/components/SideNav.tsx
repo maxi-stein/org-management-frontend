@@ -60,11 +60,10 @@ const SideNav: React.FC = () => {
       breakpoint="lg"
       collapsedWidth="80"
       trigger={null}
-      style={{ color: "white" }}
+      style={{ borderRight: "2px solid #d2f898" }}
     >
       <CompanyLogo />
       <Menu
-        theme="dark"
         mode="inline"
         defaultSelectedKeys={["1"]}
         items={user?.role === "admin" ? adminItems : employeeItems}

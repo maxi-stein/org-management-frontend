@@ -57,7 +57,7 @@ export const Dashboard = ({ overrideUser }: Props) => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={18}>
-          <Card>
+          <Card style={{ backgroundColor: "#3185fc" }}>
             <Row align="middle" gutter={16}>
               <Col>
                 <Avatar
@@ -84,6 +84,7 @@ export const Dashboard = ({ overrideUser }: Props) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              backgroundColor: "#d2f898",
             }}
           >
             <Text>Search for an employee</Text>

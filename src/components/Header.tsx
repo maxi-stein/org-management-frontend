@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Layout, Typography } from "antd";
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
+import { LogoutOutlined } from "@ant-design/icons";
 
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
@@ -15,9 +16,7 @@ const Header: React.FC = () => {
       style={{
         background: "#fff",
         padding: 0,
-        borderBottomColor: "#e9e9e9",
-        borderBottomStyle: "solid",
-        borderBottomWidth: "1px",
+        borderBottom: "1px solid #e9e9e9",
         boxShadow: "0 1px 4px rgba(0, 21, 41, 0.08)",
         display: "flex",
         justifyContent: "space-between",
@@ -27,9 +26,7 @@ const Header: React.FC = () => {
         level={4}
         style={{
           margin: "16px 24px",
-          fontWeight: 500,
           fontSize: "24px",
-          color: "#333",
           letterSpacing: "0.5px",
           lineHeight: "1.5",
         }}
@@ -38,7 +35,13 @@ const Header: React.FC = () => {
       </Title>
       {user && (
         <>
-          <div style={{ marginRight: "24px" }}>
+          <div
+            style={{
+              marginRight: "24px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <Button
               onClick={() => navigate("/")}
               style={{
@@ -57,6 +60,7 @@ const Header: React.FC = () => {
                 borderRadius: "0 10px 10px 0",
               }}
             >
+              <LogoutOutlined />
               Logout
             </Button>
           </div>
