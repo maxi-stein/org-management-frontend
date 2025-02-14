@@ -27,8 +27,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); //Page beeing loaded
 
+  // Check if user is logged in
   useEffect(() => {
     const checkAuth = async () => {
       const storedToken = localStorage.getItem("token");
@@ -40,14 +41,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           const parsedUser = JSON.parse(storedUser) as AuthUser;
           setUser(parsedUser);
 
-          // Cargar datos completos del usuario
           const response = await getUser(parsedUser._id);
           setFullUser(response.data[0]);
         } catch (error) {
           logout();
         }
       }
-      setIsLoading(false); // Finaliza la carga
+      setIsLoading(false);
     };
 
     checkAuth();
