@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) return <Spin fullscreen tip="Cargando..." />;
+  if (isLoading) return <Spin fullscreen tip="Loading..." />;
 
   if (!user) return <Navigate to="/login" replace />;
 

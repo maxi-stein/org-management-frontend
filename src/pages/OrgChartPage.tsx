@@ -5,8 +5,11 @@ import { useDataContext } from "../contexts/dataContext";
 import { User } from "../interfaces/entities";
 import { getUser } from "../apiServices/userService";
 import { bffResponse } from "../apiServices/http-config";
+import { useAuth } from "../contexts/authContext";
 
 const OrgChartPage: React.FC = () => {
+  const { fullUser } = useAuth();
+
   const {
     data: users,
     fetchUsers,
@@ -90,6 +93,7 @@ const OrgChartPage: React.FC = () => {
             name: head.firstName + " " + head.lastName,
             attributes: {
               title: head.position?.title ?? "No head of department",
+              userId: head._id,
             },
             children: head.supervisedEmployees?.map(createTreeData) ?? [
               { name: "No data" },
@@ -104,6 +108,7 @@ const OrgChartPage: React.FC = () => {
       name: user.firstName + " " + user.lastName,
       attributes: {
         title: `${user?.positionLevel} ${user.position?.title}`,
+        userId: user._id,
       },
       children:
         user.supervisedEmployees?.map((subordinate: any) =>
@@ -112,16 +117,17 @@ const OrgChartPage: React.FC = () => {
     };
   };
 
+  const treeData = [
+    {
+      name: ceo ? `${ceo.firstName} ${ceo.lastName} (CEO)` : "CEO",
+      attributes: { userId: ceo?._id || "" },
+      children: areas?.data.map((area) => createAreaNode(area)) || [],
+    },
+  ];
+
   return (
     <div>
-      <OrgChart
-        data={[
-          {
-            name: ceo ? `${ceo.firstName} ${ceo.lastName} (CEO)` : "CEO",
-            children: areas?.data.map((area) => createAreaNode(area)) || [],
-          },
-        ]}
-      />
+      <OrgChart data={treeData} userNodeId={fullUser?._id} />
     </div>
   );
 };
