@@ -1,6 +1,6 @@
 import { theme } from "antd";
 
-const yellow = "#f6f930";
+const lightBlue = "#99caff";
 const green = "#d2f898";
 const blue = "#3185fc";
 
@@ -8,7 +8,7 @@ export const customTheme = {
   token: {
     colorPrimary: blue, // AZURE BLUE
     colorSuccess: green, // PALE LIME
-    colorWarning: yellow,
+    colorWarning: lightBlue,
     colorError: "#ff4d4f", // red
     colorTextBase: "black", // main text
     colorBgBase: "#ffffff",
@@ -18,25 +18,28 @@ export const customTheme = {
   },
   components: {
     Menu: {
-      colorItemBgSelected: "#c3c429",
+      colorItemBgSelected: blue,
       colorItemTextSelected: "black",
       colorItemTextHover: "black",
-      itemBg: yellow,
-      itemColor: "#322e18",
-      subMenuItemBg: "#e3e330",
+      itemBg: lightBlue,
+      itemColor: "black",
+      subMenuItemBg: "#6db0f7",
+      itemBorderRadius: 20,
     },
     Layout: {
-      siderBg: yellow,
+      siderBg: lightBlue,
       triggerBg: blue, // collapse button background
       triggerColor: "black", //collapse icon
     },
     Table: {
       headerBg: blue,
-      headerColor: "#322e18",
+      headerColor: "black",
     },
     Card: {
-      headerBg: yellow,
-      colorBorderSecondary: green,
+      headerBg: lightBlue,
+    },
+    Button: {
+      primaryBg: blue,
     },
   },
   algorithm: theme.defaultAlgorithm,

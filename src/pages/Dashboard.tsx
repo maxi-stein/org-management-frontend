@@ -28,7 +28,6 @@ export const Dashboard = ({ overrideUser }: Props) => {
   const { searchOptions, setSearchQuery } = useSearchUsers();
   const displayUser = overrideUser || fullUser;
 
-  console.log("El user es", displayUser?._id);
   if (displayUser === null) {
     console.log("navegando a login");
     navigate("/login");
@@ -69,9 +68,9 @@ export const Dashboard = ({ overrideUser }: Props) => {
                 <Title
                   level={4}
                 >{`${displayUser.firstName} ${displayUser.lastName}`}</Title>
-                <Text type="secondary">{`${displayUser.positionLevel || ""} ${
-                  displayUser.position?.title
-                }`}</Text>
+                <Text type="secondary" style={{ color: "white" }}>{`${
+                  displayUser.positionLevel || ""
+                } ${displayUser.position?.title}`}</Text>
               </Col>
             </Row>
           </Card>

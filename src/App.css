@@ -1,6 +1,6 @@
 /* Aplica estilo al trazo (stroke) de los enlaces */
 .rd3t-link.custom-link {
-  stroke: #3814d8; /* Gris clarito para el trazo */
+  stroke: #3185fc; /* Gris clarito para el trazo */
   fill: none; /* Sin relleno */
   transition: all 0.3s ease; /* Para suavizar el cambio */
 }
