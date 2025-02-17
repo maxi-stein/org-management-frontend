@@ -29,12 +29,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [isLoading, setIsLoading] = useState(true); //Page beeing loaded
 
-  // Check if user is logged in
+  // Check if user is logged in whenever the page is reloaded
   useEffect(() => {
     const checkAuth = async () => {
       const storedToken = localStorage.getItem("token");
       const storedUser = localStorage.getItem("user");
 
+      // If user reloads page while beeing logged in, check if token is still valid
       if (storedToken && storedUser) {
         try {
           setToken(storedToken);
@@ -52,13 +53,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     checkAuth();
   }, []);
-
-  useEffect(() => {
-    if (token) {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) setUser(JSON.parse(storedUser));
-    }
-  }, [token]);
 
   const login = async (newToken: string, newUser: AuthUser) => {
     localStorage.setItem("token", newToken);
@@ -80,6 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("user");
     setToken(null);
     setUser(null);
+    window.location.href = "/login";
   };
 
   return (

@@ -38,9 +38,6 @@ export const customTheme = {
     Card: {
       headerBg: lightBlue,
     },
-    Button: {
-      primaryBg: blue,
-    },
   },
   algorithm: theme.defaultAlgorithm,
 };

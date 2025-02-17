@@ -116,7 +116,6 @@ export const validateSeniority = (
     if (selectedPosition) {
       const { title } = selectedPosition;
       if (title === "Head Of Department" || title === "CEO") {
-        console.log("tengo que validar");
         if (value && value !== "") {
           return Promise.reject(
             new Error("Seniority must be empty for this position.")

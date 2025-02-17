@@ -7,7 +7,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 export const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
-  console.log("entrando con userId", userId);
   const {
     data: response,
     isLoading,
@@ -20,8 +19,6 @@ export const UserProfile = () => {
   //TODO: Handle error
 
   const user = response?.data[0];
-
-  console.log(user);
 
   if (isLoading) return <LoadingSpinner message="Loading user..." />;
   if (!user) return <div>User not found.</div>;

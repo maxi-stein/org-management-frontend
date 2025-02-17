@@ -24,11 +24,17 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  //If the user is logged in, redirect to the home page
   useEffect(() => {
-    if (user && !isLoading) {
+    if (user) {
       navigate("/");
     }
-  }, [user, isLoading, navigate]);
+  }, [user, isLoading]);
+
+  //If the user is logged in, don't show the login form
+  if (isLoading || user) {
+    return null;
+  }
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -38,7 +44,7 @@ const Login: React.FC = () => {
         password: values.password,
       });
 
-      await login(data.token, data.user);
+      login(data.token, data.user);
       message.success("Welcome back! Redirecting...");
       navigate("/");
     } catch (error) {
