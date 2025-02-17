@@ -54,10 +54,10 @@ export const OrgChart = ({ data, userNodeId }: OrgChartProps) => {
         <Tree
           data={data}
           depthFactor={160}
-          separation={{ siblings: 1.2, nonSiblings: 1.5 }}
+          separation={{ siblings: 1.5, nonSiblings: 1.8 }}
           orientation="vertical"
           pathClassFunc={() => "custom-link"}
-          nodeSize={{ x: 300, y: 200 }}
+          nodeSize={{ x: 350, y: 250 }}
           renderCustomNodeElement={(rd3tProps) => (
             <CustomNodeElement {...rd3tProps} userNodeId={userNodeId} />
           )}

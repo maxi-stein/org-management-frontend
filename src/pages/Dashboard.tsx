@@ -29,7 +29,6 @@ export const Dashboard = ({ overrideUser }: Props) => {
   const displayUser = overrideUser || fullUser;
 
   if (displayUser === null) {
-    console.log("navegando a login");
     navigate("/login");
     return null;
   }

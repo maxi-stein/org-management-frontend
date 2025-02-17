@@ -1,5 +1,7 @@
 import { RawNodeDatum } from "react-d3-tree";
 import { nodeColors } from "./OrgChart";
+import { useNavigate } from "react-router-dom";
+import { Avatar } from "antd";
 
 interface CustomNodeElementProps {
   nodeDatum: RawNodeDatum;
@@ -35,18 +37,33 @@ export const CustomNodeElement = ({
     },
   }[nodeType];
 
+  const navigate = useNavigate();
+
+  const handleClick = (userId?: string) => {
+    if (nodeType === "default" && userId) {
+      navigate(`/${userId}`);
+    }
+  };
+
+  const title = nodeDatum.attributes?.title?.toString();
+
+  const width = title ? (title.length > 30 ? "350" : "250") : "200";
+
   return (
     <foreignObject
-      width="200"
+      width={width}
       height="140"
       x="-100"
-      y="-40"
+      y="-60"
       data-userid={nodeDatum.attributes?.userId}
     >
       <div
         className="org-node"
         style={{
           ...nodeStyle,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           padding: "16px",
           borderRadius: "12px",
           color: nodeColors.text,
@@ -66,38 +83,43 @@ export const CustomNodeElement = ({
             ? "inset rgba(255, 0, 0, 0.5) 0px 0px 8px 0px"
             : "0 8px 4px rgba(0,0,0,0.12)",
         }}
+        onClick={() => handleClick(nodeDatum.attributes?.userId as string)}
       >
-        <p
-          style={{
-            margin: "0 0 8px 0",
-            fontWeight: 600,
-            fontSize: "1.1em",
-          }}
-        >
-          {nodeDatum.name}
-        </p>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-            fontSize: "0.9em",
-          }}
-        >
-          <div
-            key={nodeDatum.attributes?.userId as string}
+        {nodeType !== "default" ? (
+          <p
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              margin: "0 0 8px 0",
+              fontWeight: 600,
+              fontSize: "1.1em",
             }}
           >
-            <span style={{ fontWeight: 500 }}>
-              {nodeDatum.attributes?.title}
-            </span>
+            {nodeDatum.name}
+          </p>
+        ) : (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              size="large"
+              src={`https://ui-avatars.com/api/?name=${nodeDatum.name}&background=random`}
+              style={{ border: "3px solid #4321da", borderRadius: "50%" }}
+            />
+            <div>
+              <p
+                style={{
+                  margin: "0 0 8px 0",
+                  fontWeight: 600,
+                  fontSize: "1.1em",
+                }}
+              >
+                {nodeDatum.name}
+              </p>
+              <hr style={{ border: "1px solid #4321da" }} />
+
+              <span style={{ fontWeight: 500, fontSize: "0.9em" }}>
+                {title}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </foreignObject>
   );
