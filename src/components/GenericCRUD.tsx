@@ -9,6 +9,7 @@ import { useEditEntity } from "../hooks/useEditEntity";
 import { useCreateEntity } from "../hooks/useCreateEntity";
 import { useDeleteEntity } from "../hooks/useDeleteEntity";
 import AlertModal, { RelatedEntity } from "./AlertModal";
+import Title from "antd/es/typography/Title";
 
 interface GenericCRUDProps {
   title: string;
@@ -146,20 +147,23 @@ const GenericCRUD = ({
 
   return (
     <div>
-      <h2>{title}</h2>
-      <Button
-        color="primary"
-        variant="solid"
-        icon={<PlusOutlined />}
-        onClick={() => showModal()}
-        style={{ marginBottom: 16 }}
-      >
-        Add {title}
-      </Button>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Title level={3}>{title}</Title>
+        <Button
+          color="primary"
+          variant="solid"
+          icon={<PlusOutlined />}
+          onClick={() => showModal()}
+          style={{ marginBottom: 16 }}
+        >
+          Add {title}
+        </Button>
+      </div>
       <Table
         columns={[...columns, actionColumn]}
         dataSource={items}
         rowKey="_id"
+        pagination={{ pageSize: 5 }}
       />
       <Modal
         title={

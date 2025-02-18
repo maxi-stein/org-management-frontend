@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   ApartmentOutlined,
   DatabaseOutlined,
@@ -16,6 +16,7 @@ const { Sider } = Layout;
 const SideNav: React.FC = () => {
   const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -52,6 +53,19 @@ const SideNav: React.FC = () => {
     },
   ];
 
+  // based on the location, set the selected key (allows to keep track when navigating between pages)
+  const getSelectedKeys = () => {
+    const path = location.pathname;
+    if (path === "/") return ["1"];
+    if (path === "/org-chart") return ["2"];
+    if (path.startsWith("/users")) return ["4"];
+    if (path.startsWith("/positions")) return ["5"];
+    if (path.startsWith("/departments")) return ["6"];
+    if (path.startsWith("/areas")) return ["7"];
+    if (/^\/[a-f\d]{24}$/.test(path)) return ["1"]; //dynamic route /:userId
+    return ["1"]; // default value (on first render)
+  };
+
   return (
     <Sider
       collapsible
@@ -64,7 +78,7 @@ const SideNav: React.FC = () => {
       <CompanyLogo />
       <Menu
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        selectedKeys={getSelectedKeys()}
         items={user?.role === "admin" ? adminItems : employeeItems}
       ></Menu>
       <div
