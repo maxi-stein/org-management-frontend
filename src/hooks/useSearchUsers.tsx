@@ -29,9 +29,15 @@ export const useSearchUsers = () => {
       >
         <Avatar
           size="small"
-          src={`https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=random`}
-          style={{ marginRight: 8 }}
-        />
+          style={{
+            marginRight: 8,
+            backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(
+              16
+            )}`,
+          }}
+        >
+          {user.firstName[0] + user.lastName[0]}
+        </Avatar>
         <span>{`${user.firstName} ${user.lastName}`}</span>
       </div>
     ),

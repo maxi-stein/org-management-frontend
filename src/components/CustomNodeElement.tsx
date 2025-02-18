@@ -99,9 +99,17 @@ export const CustomNodeElement = ({
           <div style={{ display: "flex", alignItems: "center" }}>
             <Avatar
               size="large"
-              src={`https://ui-avatars.com/api/?name=${nodeDatum.name}&background=random`}
-              style={{ border: "3px solid #4321da", borderRadius: "50%" }}
-            />
+              style={{
+                border: "3px solid #4321da",
+                borderRadius: "50%",
+                backgroundColor: `#${Math.floor(
+                  Math.random() * 16777215
+                ).toString(16)}`,
+              }}
+            >
+              {nodeDatum.name.split(" ")[0][0] +
+                nodeDatum.name.split(" ")[1][0]}
+            </Avatar>
             <div>
               <p
                 style={{

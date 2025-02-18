@@ -58,10 +58,9 @@ export const Dashboard = ({ overrideUser }: Props) => {
           <Card style={{ backgroundColor: "#3185fc" }}>
             <Row align="middle" gutter={16}>
               <Col>
-                <Avatar
-                  size={64}
-                  src={`https://ui-avatars.com/api/?name=${displayUser.firstName}+${displayUser.lastName}`}
-                />
+                <Avatar size={64}>
+                  {displayUser.firstName[0] + displayUser.lastName[0]}
+                </Avatar>
               </Col>
               <Col>
                 <Title
