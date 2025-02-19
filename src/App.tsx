@@ -7,9 +7,9 @@ import {
   Outlet,
 } from "react-router-dom";
 import { Layout, App as AntdApp } from "antd";
-import SideNav from "./components/SideNav.tsx";
-import Header from "./components/Header.tsx";
-import Footer from "./components/Footer.tsx";
+import SideNav from "./components/layout/SideNav.tsx";
+import Header from "./components/layout/Header.tsx";
+import Footer from "./components/layout/Footer.tsx";
 import UserCRUD from "./pages/UserCRUD.tsx";
 import PositionCRUD from "./pages/PositionCRUD.tsx";
 import DepartmentCRUD from "./pages/DepartmentCRUD.tsx";
@@ -20,7 +20,7 @@ import OrgChartPage from "./pages/OrgChartPage";
 import { DataProvider } from "./contexts/dataContext.tsx";
 import { ConfigProvider } from "antd";
 import Login from "./pages/Login.tsx";
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import ProtectedRoute from "./components/layout/ProtectedRoute.tsx";
 import { AuthProvider } from "./contexts/authContext.tsx";
 import { customTheme } from "./config.ts";
 import { EmployeeSearch } from "./pages/EmployeeSearch.tsx";

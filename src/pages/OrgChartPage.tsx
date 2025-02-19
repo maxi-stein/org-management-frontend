@@ -1,5 +1,4 @@
-import { OrgChart } from "../components/OrgChart";
-
+import { OrgChart } from "../components/charts/OrgChart";
 import { useAuth } from "../contexts/authContext";
 import { useTreeData } from "../hooks/useTreeData";
 

@@ -3,7 +3,7 @@ import GenericCRUD from "../components/GenericCRUD";
 import { Area } from "../interfaces/entities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/assets/LoadingSpinner";
 import { getColumnsForm } from "../hooks/useColumnsForm";
 import { useDataContext } from "../contexts/dataContext";
 

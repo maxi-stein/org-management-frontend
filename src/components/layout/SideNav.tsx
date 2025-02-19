@@ -9,8 +9,8 @@ import {
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { CompanyLogo } from "./CompanyLogo";
-import { useAuth } from "../contexts/authContext";
+import { CompanyLogo } from "../assets/CompanyLogo";
+import { useAuth } from "../../contexts/authContext";
 
 const { Sider } = Layout;
 

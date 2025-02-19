@@ -4,8 +4,8 @@ import { useSearchUsers } from "../hooks/useSearchUsers";
 import { useState } from "react";
 import { User } from "../interfaces/entities";
 import { UserInfo } from "../components/UserInfo";
-import { OrgChart } from "../components/OrgChart";
 import { useTreeData } from "../hooks/useTreeData";
+import { OrgChart } from "../components/charts/OrgChart";
 
 export const EmployeeSearch = () => {
   const { Text } = Typography;

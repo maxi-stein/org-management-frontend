@@ -1,5 +1,5 @@
 import { RawNodeDatum } from "react-d3-tree";
-import { nodeColors } from "./OrgChart";
+import { nodeColors } from "../../src/components/charts/OrgChart";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "antd";
 

@@ -4,7 +4,7 @@ import { Typography } from "antd";
 import { getColumnsForm, getFiltersForColumns } from "../hooks/useColumnsForm";
 import { User } from "../interfaces/entities";
 import { RelatedEntity } from "../components/AlertModal";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/assets/LoadingSpinner";
 import { useDataContext } from "../contexts/dataContext";
 
 const { Text } = Typography;

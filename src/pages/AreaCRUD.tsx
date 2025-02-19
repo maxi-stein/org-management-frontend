@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/assets/LoadingSpinner";
 import {} from "../helpers/formHelpers";
 import { getColumnsForm } from "../hooks/useColumnsForm";
 import { Typography } from "antd";

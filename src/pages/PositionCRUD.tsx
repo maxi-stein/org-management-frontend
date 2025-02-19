@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GenericCRUD from "../components/GenericCRUD";
 import { Typography } from "antd";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/assets/LoadingSpinner";
 import { RelatedEntity } from "../components/AlertModal";
 import { getColumnsForm } from "../hooks/useColumnsForm";
 import { useDataContext } from "../contexts/dataContext";

@@ -14,7 +14,7 @@ import {
 import { useAuth } from "../contexts/authContext";
 import { axiosInstance } from "../apiServices/http-config";
 import { useNavigate } from "react-router-dom";
-import { CompanyLogo } from "../components/CompanyLogo";
+import { CompanyLogo } from "../components/assets/CompanyLogo";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;

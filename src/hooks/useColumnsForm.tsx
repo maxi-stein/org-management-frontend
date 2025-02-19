@@ -1,6 +1,6 @@
 import { Tooltip, Typography } from "antd";
 import { Department, EntityType, Role, User } from "../interfaces/entities";
-import { Badge } from "../components/Badge";
+import { Badge } from "../components/assets/Badge";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../apiServices/userService";
 import { Dashboard } from "./Dashboard";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/assets/LoadingSpinner";
 
 export const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -23,5 +23,5 @@ export const UserProfile = () => {
   if (isLoading) return <LoadingSpinner message="Loading user..." />;
   if (!user) return <div>User not found.</div>;
 
-  return <Dashboard overrideUser={user} />;
+  return <Dashboard />;
 };
