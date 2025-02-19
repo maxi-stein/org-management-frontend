@@ -6,6 +6,11 @@ export interface bffResponse<T extends BffEntity[]> {
   success: boolean;
 }
 
+export interface BffStatsResponse {
+  data: [{ label: string; count: number }];
+  success: boolean;
+}
+
 export interface PositionLevelsResponse {
   data: PositionLevel[];
   success: boolean;
