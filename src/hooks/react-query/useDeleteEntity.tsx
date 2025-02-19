@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { EntityType } from "../interfaces/entities";
-import { deleteArea } from "../apiServices/areasService";
-import { deleteDepartment } from "../apiServices/departmentsService";
-import { deletePosition } from "../apiServices/positionsService";
-import { deleteUser } from "../apiServices/userService";
+import { EntityType } from "../../interfaces/entities";
+import { deleteArea } from "../../apiServices/areasService";
+import { deleteDepartment } from "../../apiServices/departmentsService";
+import { deletePosition } from "../../apiServices/positionsService";
+import { deleteUser } from "../../apiServices/userService";
 export const useDeleteEntity = (entityType: EntityType) => {
   const deleteEntityHook = async (id: string) => {
     switch (entityType) {

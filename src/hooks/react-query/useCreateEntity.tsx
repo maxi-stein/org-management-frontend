@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { BffEntityInput, EntityType } from "../interfaces/entities";
-import { createArea } from "../apiServices/areasService";
-import { createDepartment } from "../apiServices/departmentsService";
-import { createPosition } from "../apiServices/positionsService";
-import { createUser } from "../apiServices/userService";
+import { BffEntityInput, EntityType } from "../../interfaces/entities";
+import { createArea } from "../../apiServices/areasService";
+import { createDepartment } from "../../apiServices/departmentsService";
+import { createPosition } from "../../apiServices/positionsService";
+import { createUser } from "../../apiServices/userService";
 
 // Types of data that can be created by this hook
 type EntityCreateData<T extends BffEntityInput> = {

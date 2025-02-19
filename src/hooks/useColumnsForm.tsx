@@ -6,7 +6,7 @@ import {
   CloseCircleOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
-import { useLevelValue } from "./useFetchEntity";
+import { useLevelValue } from "./react-query/useFetchEntity";
 
 const { Text } = Typography;
 

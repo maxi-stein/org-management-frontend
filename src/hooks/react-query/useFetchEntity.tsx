@@ -2,7 +2,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import {
   bffResponse,
   PositionLevelsResponse,
-} from "../apiServices/http-config";
+} from "../../apiServices/http-config";
 import {
   Area,
   Department,
@@ -10,16 +10,16 @@ import {
   Position,
   Role,
   User,
-} from "../interfaces/entities";
-import { getAreas } from "../apiServices/areasService";
-import { getDepartments } from "../apiServices/departmentsService";
+} from "../../interfaces/entities";
+import { getAreas } from "../../apiServices/areasService";
+import { getDepartments } from "../../apiServices/departmentsService";
 import {
   getPositionLevels,
   getPositions,
-} from "../apiServices/positionsService";
-import { getUsers } from "../apiServices/userService";
-import { getRoles } from "../apiServices/rolesService";
-import { useDataContext } from "../contexts/dataContext";
+} from "../../apiServices/positionsService";
+import { getUsers } from "../../apiServices/userService";
+import { getRoles } from "../../apiServices/rolesService";
+import { useDataContext } from "../../contexts/dataContext";
 
 type EntityMap = {
   areas: Area[];
@@ -61,6 +61,7 @@ export const useFetchEntity = <T extends EntityType>(entityType: T) => {
   return { data, isLoading, isError, refetch };
 };
 
+//Fetch the hardcoded enum of position levels
 export const useFetchPositionLevels = () => {
   const { data, isLoading, isError, refetch } =
     useQuery<PositionLevelsResponse>({

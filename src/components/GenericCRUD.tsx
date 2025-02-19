@@ -5,9 +5,9 @@ import { BffEntity, EntityType, Position } from "../interfaces/entities";
 import { useItemsForm } from "../hooks/useItemsForm";
 import { FormColumns } from "../interfaces/form";
 import { getDataForEntity, setFormValues } from "../helpers/formHelpers";
-import { useEditEntity } from "../hooks/useEditEntity";
-import { useCreateEntity } from "../hooks/useCreateEntity";
-import { useDeleteEntity } from "../hooks/useDeleteEntity";
+import { useEditEntity } from "../hooks/react-query/useEditEntity";
+import { useCreateEntity } from "../hooks/react-query/useCreateEntity";
+import { useDeleteEntity } from "../hooks/react-query/useDeleteEntity";
 import AlertModal, { RelatedEntity } from "./AlertModal";
 import Title from "antd/es/typography/Title";
 

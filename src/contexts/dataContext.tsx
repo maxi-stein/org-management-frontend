@@ -10,15 +10,15 @@ import {
 import {
   useFetchEntity,
   useFetchPositionLevels,
-} from "../hooks/useFetchEntity";
+} from "../hooks/react-query/useFetchEntity";
 import { QueryObserverResult } from "@tanstack/react-query";
 import {
   bffResponse,
   PositionLevelsResponse,
 } from "../apiServices/http-config";
-import { useCreateEntity } from "../hooks/useCreateEntity";
-import { useEditEntity } from "../hooks/useEditEntity";
-import { useDeleteEntity } from "../hooks/useDeleteEntity";
+import { useCreateEntity } from "../hooks/react-query/useCreateEntity";
+import { useEditEntity } from "../hooks/react-query/useEditEntity";
+import { useDeleteEntity } from "../hooks/react-query/useDeleteEntity";
 
 interface editProps {
   id: string;

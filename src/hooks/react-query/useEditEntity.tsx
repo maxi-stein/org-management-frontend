@@ -6,11 +6,11 @@ import {
   EntityType,
   PositionInput,
   UserInput,
-} from "../interfaces/entities";
-import { updateArea } from "../apiServices/areasService";
-import { updateDepartment } from "../apiServices/departmentsService";
-import { updatePosition } from "../apiServices/positionsService";
-import { updateUser } from "../apiServices/userService";
+} from "../../interfaces/entities";
+import { updateArea } from "../../apiServices/areasService";
+import { updateDepartment } from "../../apiServices/departmentsService";
+import { updatePosition } from "../../apiServices/positionsService";
+import { updateUser } from "../../apiServices/userService";
 
 interface EntityEditData {
   id: string;
