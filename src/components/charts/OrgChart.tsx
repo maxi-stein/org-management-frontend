@@ -21,52 +21,50 @@ export const OrgChart = ({ data, userNodeId }: OrgChartProps) => {
   const [zoom, setZoom] = useState(1);
   const [translate, setTranslate] = useState({ x: innerWidth / 2, y: 80 });
   return (
-    <>
+    <div
+      id="treeWrapper"
+      style={{
+        width: "100%",
+        height: "80vh",
+        borderRadius: "16px",
+      }}
+    >
       <div
         style={{
-          position: "absolute",
-          right: "20px",
-          top: "85px",
           display: "flex",
           gap: "8px",
           background: nodeColors.default,
           padding: "8px",
           borderRadius: "8px",
           boxShadow: nodeColors.default,
+          width: "fit-content",
+          position: "relative",
+          left: "93%",
         }}
       >
-        <Button type="primary" onClick={() => setZoom((prev) => prev + 0.2)}>
-          +
-        </Button>
         <Button type="primary" onClick={() => setZoom((prev) => prev - 0.2)}>
           -
         </Button>
+        <Button type="primary" onClick={() => setZoom((prev) => prev + 0.2)}>
+          +
+        </Button>
       </div>
-      <div
-        id="treeWrapper"
-        style={{
-          width: "100%",
-          height: "80vh",
-          borderRadius: "16px",
-        }}
-      >
-        <Tree
-          data={data}
-          depthFactor={160}
-          separation={{ siblings: 1.5, nonSiblings: 1.8 }}
-          orientation="vertical"
-          pathClassFunc={() => "custom-link"}
-          nodeSize={{ x: 350, y: 250 }}
-          renderCustomNodeElement={(rd3tProps) => (
-            <CustomNodeElement {...rd3tProps} userNodeId={userNodeId} />
-          )}
-          pathFunc={"step"}
-          translate={translate}
-          zoom={zoom}
-          enableLegacyTransitions
-          transitionDuration={700}
-        />
-      </div>
-    </>
+      <Tree
+        data={data}
+        depthFactor={160}
+        separation={{ siblings: 1.5, nonSiblings: 1.8 }}
+        orientation="vertical"
+        pathClassFunc={() => "custom-link"}
+        nodeSize={{ x: 350, y: 250 }}
+        renderCustomNodeElement={(rd3tProps) => (
+          <CustomNodeElement {...rd3tProps} userNodeId={userNodeId} />
+        )}
+        pathFunc={"step"}
+        translate={translate}
+        zoom={zoom}
+        enableLegacyTransitions
+        transitionDuration={700}
+      />
+    </div>
   );
 };

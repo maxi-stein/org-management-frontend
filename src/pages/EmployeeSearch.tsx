@@ -35,7 +35,9 @@ export const EmployeeSearch = () => {
         </AutoComplete>
       </div>
 
-      {searchedUser && <UserInfo displayUser={searchedUser} />}
+      <div style={{ marginBottom: "16px" }}>
+        {searchedUser && <UserInfo displayUser={searchedUser} />}
+      </div>
 
       {searchedUser && (
         <OrgChart data={treeData} userNodeId={searchedUser._id} />

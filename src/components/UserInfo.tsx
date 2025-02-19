@@ -31,7 +31,7 @@ export const UserInfo = ({ displayUser }: Props) => {
 
   return (
     <Row gutter={[16, 16]}>
-      <Col span={6}>
+      <Col span={7}>
         <Card
           style={{
             backgroundColor: "#3185fc",
@@ -59,7 +59,7 @@ export const UserInfo = ({ displayUser }: Props) => {
         </Card>
       </Col>
 
-      <Col span={18}>
+      <Col span={17}>
         <Card title="User Details">
           <Row gutter={[16, 16]}>
             <Col span={8} style={{ display: "flex", justifyContent: "center" }}>
