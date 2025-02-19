@@ -6,6 +6,7 @@ import {
   DatabaseOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { CompanyLogo } from "./CompanyLogo";
@@ -36,10 +37,15 @@ const SideNav: React.FC = () => {
       icon: <ApartmentOutlined />,
       label: <Link to="/org-chart">Hierarchical Chart</Link>,
     },
+    {
+      key: "3",
+      icon: <SearchOutlined />,
+      label: <Link to="/employees/search">Search Employees</Link>,
+    },
   ];
 
   const adminItems = [
-    { key: "1", icon: <UserOutlined />, label: <Link to="/">Dashboard</Link> },
+    { key: "1", icon: <UserOutlined />, label: <Link to="/">Home</Link> },
     {
       key: "2",
       icon: <ApartmentOutlined />,
@@ -51,6 +57,11 @@ const SideNav: React.FC = () => {
       label: "CRUD",
       children: crudOptions,
     },
+    {
+      key: "3",
+      icon: <SearchOutlined />,
+      label: <Link to="/employees/search">Search Employees</Link>,
+    },
   ];
 
   // based on the location, set the selected key (allows to keep track when navigating between pages)
@@ -58,6 +69,7 @@ const SideNav: React.FC = () => {
     const path = location.pathname;
     if (path === "/") return ["1"];
     if (path === "/org-chart") return ["2"];
+    if (path === "/employees/search") return ["3"];
     if (path.startsWith("/users")) return ["4"];
     if (path.startsWith("/positions")) return ["5"];
     if (path.startsWith("/departments")) return ["6"];

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useDataContext } from "../contexts/dataContext";
-import { useNavigate } from "react-router-dom";
 import { Avatar } from "antd";
+import { User } from "../interfaces/entities";
 
-export const useSearchUsers = () => {
+interface Props {
+  setSearchedUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+export const useSearchUsers = ({ setSearchedUser }: Props) => {
   const { users } = useDataContext();
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
 
   const { data, fetchUsers } = users;
   if (!data) {
@@ -25,7 +28,7 @@ export const useSearchUsers = () => {
     label: (
       <div
         style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-        onClick={() => navigate(`/${user._id}`)}
+        onClick={() => setSearchedUser(user)}
       >
         <Avatar
           size="small"
