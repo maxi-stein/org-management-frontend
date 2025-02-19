@@ -2,6 +2,7 @@ import { Avatar, Card, Col, Divider, Row, Typography } from "antd";
 import { getUser } from "../apiServices/userService";
 import { User } from "../interfaces/entities";
 import { useQuery } from "@tanstack/react-query";
+import { StatisticsCharts } from "./charts/StatisticsCharts";
 
 interface Props {
   displayUser: User;
@@ -116,6 +117,7 @@ export const UserInfo = ({ displayUser }: Props) => {
           </Row>
         </Card>
       </Col>
+      <StatisticsCharts />
     </Row>
   );
 };

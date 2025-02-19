@@ -1,5 +1,4 @@
 import { RawNodeDatum, Tree } from "react-d3-tree";
-import "../App.css";
 import { useState } from "react";
 import { Button } from "antd";
 import { CustomNodeElement } from "./CustomNodeElement";

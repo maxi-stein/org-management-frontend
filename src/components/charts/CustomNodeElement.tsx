@@ -1,7 +1,7 @@
 import { RawNodeDatum } from "react-d3-tree";
-import { nodeColors } from "../../src/components/charts/OrgChart";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "antd";
+import { nodeColors } from "./OrgChart";
 
 interface CustomNodeElementProps {
   nodeDatum: RawNodeDatum;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Layout, Typography } from "antd";
-import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons";
+import { useAuth } from "../../contexts/authContext";
 
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
