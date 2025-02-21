@@ -22,7 +22,6 @@ import { ConfigProvider } from "antd";
 import Login from "./pages/Login.tsx";
 import ProtectedRoute from "./components/layout/ProtectedRoute.tsx";
 import { AuthProvider } from "./contexts/authContext.tsx";
-import { customTheme } from "./config.ts";
 import { EmployeeSearch } from "./pages/EmployeeSearch.tsx";
 
 const { Content } = Layout;
@@ -50,7 +49,7 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <DataProvider>
-          <ConfigProvider theme={customTheme}>
+          <ConfigProvider>
             <AntdApp>
               <Router>
                 <Routes>
