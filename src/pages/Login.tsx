@@ -24,14 +24,12 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  //If the user is logged in, redirect to the home page
   useEffect(() => {
     if (user) {
       navigate("/");
     }
   }, [user, isLoading]);
 
-  //If the user is logged in, don't show the login form
   if (isLoading || user) {
     return null;
   }
@@ -58,8 +56,7 @@ const Login: React.FC = () => {
     <Layout
       style={{
         minHeight: "100vh",
-        background:
-          "linear-gradient(135deg, #3185fc 0%,rgb(157, 182, 223) 100%)",
+        background: "linear-gradient(135deg, #ff4d4f 0%, #cf1322 100%)",
       }}
     >
       <Content
@@ -67,14 +64,18 @@ const Login: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          padding: 24,
         }}
       >
         <Card
           style={{
             width: "100%",
-            maxWidth: 420,
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            borderRadius: 12,
+            maxWidth: 440,
+            borderRadius: 16,
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.18)",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            backdropFilter: "blur(4px)",
           }}
         >
           <Space
@@ -83,11 +84,13 @@ const Login: React.FC = () => {
             style={{ textAlign: "center", width: "100%" }}
           >
             <CompanyLogo />
-            <Title level={3} style={{ marginBottom: 0 }}>
-              Welcome to the Organizational Chart viewer
+
+            <Title level={3} style={{ marginBottom: 8, color: "#1a1a1a" }}>
+              Organizational Chart Viewer
             </Title>
-            <Text type="secondary" style={{ marginBottom: 32 }}>
-              Please sign in to continue
+
+            <Text style={{ color: "#595959", marginBottom: 32 }}>
+              Sign in to access the platform
             </Text>
 
             <Form onFinish={onFinish} layout="vertical">
@@ -102,9 +105,10 @@ const Login: React.FC = () => {
                 ]}
               >
                 <Input
-                  prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
-                  placeholder="Email"
+                  prefix={<UserOutlined style={{ color: "#ff4d4f" }} />}
+                  placeholder="Email address"
                   size="large"
+                  style={{ borderRadius: 8, padding: "12px 16px" }}
                 />
               </Form.Item>
 
@@ -118,9 +122,10 @@ const Login: React.FC = () => {
                 ]}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                  prefix={<LockOutlined style={{ color: "#ff4d4f" }} />}
                   placeholder="Password"
                   size="large"
+                  style={{ borderRadius: 8, padding: "12px 16px" }}
                 />
               </Form.Item>
 
@@ -132,19 +137,29 @@ const Login: React.FC = () => {
                   block
                   size="large"
                   style={{
-                    height: 45,
+                    height: 48,
+                    borderRadius: 8,
                     fontWeight: 600,
-                    backgroundColor: "#f6f930",
-                    color: "black",
+                    backgroundColor: "#ff4d4f",
+                    borderColor: "#ff4d4f",
+                    fontSize: 16,
+                    transition: "all 0.2s",
                   }}
                 >
                   SIGN IN
                 </Button>
               </Form.Item>
 
-              <Divider style={{ margin: "16px 0" }}></Divider>
+              <Divider
+                style={{ margin: "16px 0", borderColor: "#f0f0f0" }}
+              ></Divider>
 
-              <Text type="secondary" style={{ fontSize: 14 }}>
+              <Text
+                style={{
+                  color: "#595959",
+                  fontSize: 14,
+                }}
+              >
                 Forgot password? Contact IT Support
               </Text>
             </Form>
