@@ -5,9 +5,9 @@ import {
   getSeniorityStats,
 } from "../../apiServices/statsService";
 
-type availableStats = "departments-people" | "seniority-people";
+export type AvailableStats = "departments-people" | "seniority-people";
 
-export const useStats = (type: availableStats) => {
+export const useStats = (type: AvailableStats) => {
   const { data, isLoading, isError, refetch } = useQuery<BffStatsResponse>({
     queryKey: [`fetch-stats-${type}`],
     queryFn: async () => {
