@@ -29,26 +29,6 @@ export const OrgChart = ({ data, userNodeId }: OrgChartProps) => {
         borderRadius: "16px",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-          background: nodeColors.default,
-          padding: "8px",
-          borderRadius: "8px",
-          boxShadow: nodeColors.default,
-          width: "fit-content",
-          position: "relative",
-          left: "93%",
-        }}
-      >
-        <Button type="primary" onClick={() => setZoom((prev) => prev - 0.2)}>
-          -
-        </Button>
-        <Button type="primary" onClick={() => setZoom((prev) => prev + 0.2)}>
-          +
-        </Button>
-      </div>
       <Tree
         data={data}
         depthFactor={160}

@@ -1,6 +1,6 @@
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-import { UserInfo } from "../components/UserInfo";
+import { UserInfo } from "../components/user-info/UserInfo";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
