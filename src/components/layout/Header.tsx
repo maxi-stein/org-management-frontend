@@ -1,11 +1,11 @@
 import React from "react";
-import { Button, Layout, Typography } from "antd";
+import { Button, Layout, Typography, Space, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "../../contexts/authContext";
 
 const { Header: AntHeader } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
@@ -14,57 +14,68 @@ const Header: React.FC = () => {
   return (
     <AntHeader
       style={{
-        background: "#fff",
-        padding: 0,
-        borderBottom: "1px solid #e9e9e9",
-        boxShadow: "0 1px 4px rgba(0, 21, 41, 0.08)",
+        background: "#ffffff",
+        padding: "0 24px",
+        borderBottom: "1px solid #f0f0f0",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "center",
+        height: 64,
       }}
     >
       <Title
-        level={4}
+        level={1}
         style={{
-          margin: "16px 24px",
-          fontSize: "24px",
-          letterSpacing: "0.5px",
-          lineHeight: "1.5",
+          margin: 0,
+          fontSize: "20px",
+          fontWeight: 600,
+          color: "#1a1a1a",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
         }}
       >
-        Organization Chart Manager
+        Organizational Chart
       </Title>
+
       {user && (
-        <>
-          <div
+        <Space align="center" size="middle">
+          <Button
+            type="text"
+            icon={<UserOutlined style={{ color: "#595959" }} />}
+            onClick={() => navigate("/profile")}
             style={{
-              marginRight: "24px",
               display: "flex",
               alignItems: "center",
+              gap: "8px",
+              padding: "0 12px",
+              height: 40,
+              borderRadius: 8,
             }}
           >
-            <Button
-              onClick={() => navigate("/")}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "10px 0px 0px 10px",
-              }}
-            >
-              {user.firstName + " " + user.lastName}
-            </Button>
-            <Button
-              danger
-              type="primary"
-              onClick={logout}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "0 10px 10px 0",
-              }}
-            >
-              <LogoutOutlined />
-              Logout
-            </Button>
-          </div>
-        </>
+            <Text strong style={{ color: "#262626" }}>
+              {user.firstName} {user.lastName}
+            </Text>
+          </Button>
+
+          <Divider type="vertical" style={{ height: 24, margin: 0 }} />
+
+          <Button
+            danger
+            type="text"
+            icon={<LogoutOutlined />}
+            onClick={logout}
+            style={{
+              padding: "0 12px",
+              height: 40,
+              borderRadius: 8,
+              color: "#ff4d4f",
+            }}
+          >
+            Logout
+          </Button>
+        </Space>
       )}
     </AntHeader>
   );

@@ -92,6 +92,7 @@ const SideNav: React.FC = () => {
         mode="inline"
         selectedKeys={getSelectedKeys()}
         items={user?.role === "admin" ? adminItems : employeeItems}
+        theme="dark"
       ></Menu>
       <div
         className="ant-layout-sider-trigger"
@@ -101,6 +102,7 @@ const SideNav: React.FC = () => {
           zIndex: 1,
           width: collapsed ? 80 : 200,
           transition: "all 0.2s",
+          background: "#000000f9",
         }}
         onClick={toggleCollapsed}
       >
