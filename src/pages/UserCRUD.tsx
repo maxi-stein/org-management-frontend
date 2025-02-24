@@ -6,6 +6,7 @@ import { User } from "../interfaces/entities";
 import { RelatedEntity } from "../components/AlertModal";
 import LoadingSpinner from "../components/assets/LoadingSpinner";
 import { useDataContext } from "../contexts/dataContext";
+import { useStats } from "../hooks/react-query/useStats";
 
 const { Text } = Typography;
 
@@ -18,6 +19,8 @@ const UserCRUD: React.FC = () => {
 
   const { data: usersData, isLoading, isError, fetchUsers } = dataContext.users;
   if (!usersData) fetchUsers();
+
+  const { refetch: refetchSeniorityPeople } = useStats("seniority-people");
 
   //position levels are needed for rendering levels in the position column (user table) and in the edit/delete forms
   const {
@@ -66,6 +69,11 @@ const UserCRUD: React.FC = () => {
     }
   }, [selectedUserId, usersData?.data]);
 
+  const refetchData = async () => {
+    await fetchUsers();
+    await refetchSeniorityPeople();
+  };
+
   return isError || isErrorPositionLevels ? (
     <Text>An error has occurred</Text>
   ) : isLoading || isLoadingPositionLevels ? (
@@ -76,7 +84,7 @@ const UserCRUD: React.FC = () => {
       items={usersData?.data}
       columns={columns}
       entityType="users"
-      refetchData={fetchUsers}
+      refetchData={refetchData}
       selectedId={selectedUserId}
       setSelectedId={setSelectedUserId}
       relatedEntities={relatedEntities}
