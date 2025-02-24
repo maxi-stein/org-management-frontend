@@ -60,13 +60,7 @@ const validationRules: Record<string, Record<string, any[]>> = {
     position: [{ required: true, message: "Please select a position!" }],
     supervisedEmployees: [{ required: false }],
     prefix: [{ required: true, message: "Please select a prefix" }],
-    phone: [
-      { required: true, message: "Please enter a phone number" },
-      {
-        pattern: /^[\d\s-]*$/,
-        message: "Invalid phone number",
-      },
-    ],
+    phone: [{ required: true, message: "Please enter a phone number" }],
     bornDate: [
       {
         required: true,
