@@ -431,7 +431,6 @@ export const useItemsForm = (
                 return user._id !== dept.head?._id;
               });
             }) ?? [];
-          console.log(headOfDepartments);
 
           availableHeads = [
             { _id: null, firstName: "", lastName: "--none--" } as User,
