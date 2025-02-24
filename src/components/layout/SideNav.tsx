@@ -87,6 +87,7 @@ const SideNav: React.FC = () => {
       breakpoint="lg"
       collapsedWidth="80"
       trigger={null}
+      style={{ position: "sticky", top: 0, height: "100vh" }}
     >
       <CompanyLogo />
       <Menu
