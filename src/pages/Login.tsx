@@ -15,6 +15,7 @@ import { useAuth } from "../contexts/authContext";
 import { axiosInstance } from "../apiServices/http-config";
 import { useNavigate } from "react-router-dom";
 import { CompanyLogo } from "../components/assets/CompanyLogo";
+import { LoginButton } from "./styled";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -64,7 +65,6 @@ const Login: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: 24,
         }}
       >
         <Card
@@ -75,21 +75,19 @@ const Login: React.FC = () => {
             border: "1px solid rgba(255, 255, 255, 0.1)",
             boxShadow: "0 8px 32px rgba(0, 0, 0, 0.18)",
             backgroundColor: "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(4px)",
           }}
         >
           <Space
             direction="vertical"
-            size="middle"
             style={{ textAlign: "center", width: "100%" }}
           >
             <CompanyLogo />
 
-            <Title level={3} style={{ marginBottom: 8, color: "#1a1a1a" }}>
+            <Title level={3} style={{ color: "#1a1a1a" }}>
               Organizational Chart Viewer
             </Title>
 
-            <Text style={{ color: "#595959", marginBottom: 32 }}>
+            <Text style={{ color: "#595959" }}>
               Sign in to access the platform
             </Text>
 
@@ -130,24 +128,16 @@ const Login: React.FC = () => {
               </Form.Item>
 
               <Form.Item>
-                <Button
+                <LoginButton
                   type="primary"
                   htmlType="submit"
                   loading={loading}
                   block
                   size="large"
-                  style={{
-                    height: 48,
-                    borderRadius: 8,
-                    fontWeight: 600,
-                    backgroundColor: "#ff4d4f",
-                    borderColor: "#ff4d4f",
-                    fontSize: 16,
-                    transition: "all 0.2s",
-                  }}
+                  style={{}}
                 >
                   SIGN IN
-                </Button>
+                </LoginButton>
               </Form.Item>
 
               <Divider
@@ -157,7 +147,6 @@ const Login: React.FC = () => {
               <Text
                 style={{
                   color: "#595959",
-                  fontSize: 14,
                 }}
               >
                 Forgot password? Contact IT Support

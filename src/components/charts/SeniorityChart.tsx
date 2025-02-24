@@ -1,6 +1,7 @@
 import { Doughnut } from "react-chartjs-2";
 import { useStats } from "../../hooks/react-query/useStats";
 import { CHART_COLORS } from "./StatisticsChart";
+import { Spin } from "antd";
 
 interface Props {
   options: any;
@@ -26,7 +27,7 @@ export const SeniorityChart = ({ options }: Props) => {
   return (
     <>
       {isLoadingSeniorityStats ? (
-        <div>Loading ...</div>
+        <Spin>Loading ...</Spin>
       ) : (
         <Doughnut
           data={{

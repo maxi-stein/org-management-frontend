@@ -2,6 +2,7 @@ import { Chart, registerables } from "chart.js";
 import { PolarArea } from "react-chartjs-2";
 import { useStats } from "../../hooks/react-query/useStats";
 import { CHART_COLORS } from "./StatisticsChart";
+import { Spin } from "antd";
 
 interface Props {
   options: any;
@@ -29,7 +30,7 @@ export const DepartmentPeopleChart = ({ options }: Props) => {
   });
 
   return isLoading || isError ? (
-    <div>Loading...</div>
+    <Spin>Loading...</Spin>
   ) : (
     <PolarArea
       data={{

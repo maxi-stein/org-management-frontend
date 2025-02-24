@@ -12,7 +12,6 @@ interface Props {
 export const UserInfo = ({ displayUser }: Props) => {
   const {
     data: employees = [],
-    isError, //TODO: handle Error
     isLoading, //TODO: handle loading
   } = useQuery({
     queryKey: ["supervised-employees", displayUser?._id],

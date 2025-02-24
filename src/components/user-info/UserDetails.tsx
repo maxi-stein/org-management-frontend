@@ -6,6 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Card, Typography } from "antd";
 import { User } from "../../interfaces/entities";
+import { IconContainer } from "./styled";
 
 interface Props {
   user: User;
@@ -29,7 +30,6 @@ export const UserDetails = ({ user }: Props) => {
       style={{
         padding: "16px",
         borderBottom: "1px solid #f0f0f0",
-        transition: "all 0.2s",
       }}
     >
       <div
@@ -40,18 +40,7 @@ export const UserDetails = ({ user }: Props) => {
           marginBottom: "8px",
         }}
       >
-        <div
-          style={{
-            backgroundColor: "#ff4d4f20",
-            borderRadius: "6px",
-            padding: "8px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {icon}
-        </div>
+        <IconContainer>{icon}</IconContainer>
         <Text
           strong
           style={{
@@ -72,9 +61,8 @@ export const UserDetails = ({ user }: Props) => {
           }}
           style={{
             color: "#262626",
-            fontSize: "16px",
+            fontSize: "14px",
             marginLeft: "44px",
-            display: "block",
           }}
         >
           {value}
@@ -86,7 +74,6 @@ export const UserDetails = ({ user }: Props) => {
             color: "#262626",
             fontSize: "16px",
             marginLeft: "44px",
-            display: "block",
           }}
         >
           {value}
@@ -95,32 +82,30 @@ export const UserDetails = ({ user }: Props) => {
     </div>
   );
 
+  const iconStyle = { color: "#ff4d4f", fontSize: "20px" };
+
   return (
     <Card
       style={{
-        borderRadius: "12px",
-        border: "1px solid #f0f0f0",
         backgroundColor: "#ffffff",
         boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
       }}
     >
       <DetailItem
-        icon={<MailOutlined style={{ color: "#ff4d4f", fontSize: "20px" }} />}
+        icon={<MailOutlined style={iconStyle} />}
         label="Email Address"
         value={user.email}
         copyable
       />
 
       <DetailItem
-        icon={<PhoneOutlined style={{ color: "#ff4d4f", fontSize: "20px" }} />}
+        icon={<PhoneOutlined style={iconStyle} />}
         label="Phone Number"
         value={user.phone}
       />
 
       <DetailItem
-        icon={
-          <CalendarOutlined style={{ color: "#ff4d4f", fontSize: "20px" }} />
-        }
+        icon={<CalendarOutlined style={iconStyle} />}
         label="Birth Date"
         value={new Date(user.bornDate).toLocaleDateString()}
       />

@@ -18,7 +18,6 @@ export const SupervisedEmployees = ({ employees }: Props) => {
       }
       style={{
         borderRadius: 12,
-        border: "1px solid #f0f0f0",
         backgroundColor: "#ffffff",
         boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
       }}
@@ -35,7 +34,6 @@ export const SupervisedEmployees = ({ employees }: Props) => {
                 borderRadius: 8,
                 border: "1px solid red",
                 transition: "all 0.2s",
-                cursor: "pointer",
               }}
             >
               <Title
@@ -76,7 +74,6 @@ export const SupervisedEmployees = ({ employees }: Props) => {
                   href={`mailto:${employee.email}`}
                   style={{
                     color: "inherit",
-                    fontSize: 14,
                   }}
                 >
                   {employee.email}

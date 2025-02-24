@@ -5,6 +5,7 @@ import {
   SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { UserNameCardContainerStyled } from "./styled";
 
 interface Props {
   user: User;
@@ -13,47 +14,26 @@ interface Props {
 export const UserNameCard = ({ user }: Props) => {
   const { Text } = Typography;
   return (
-    <div
-      style={{
-        background: "linear-gradient(135deg, #ff4d4f 0%, #cf1322 100%)",
-        borderRadius: 12,
-        height: "100%",
-        padding: 16,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        position: "relative",
-        transition: "all 0.3s",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
-      }}
-    >
+    <UserNameCardContainerStyled>
       <Flex align="center" gap={16}>
-        <Badge
-          count={<CrownOutlined style={{ color: "#ffffff" }} />}
-          offset={[-12, 40]}
+        <Avatar
+          size={64}
           style={{
-            filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))",
+            backgroundColor: "#ffffff",
+            color: "#ff4d4f",
+            fontWeight: 700,
+            fontSize: 20,
+            border: "2px solid #1a1a1a",
           }}
         >
-          <Avatar
-            size={64}
-            style={{
-              backgroundColor: "#ffffff",
-              color: "#ff4d4f",
-              fontWeight: 700,
-              fontSize: 20,
-              border: "2px solid #1a1a1a",
-            }}
-          >
-            {user.firstName[0] + user.lastName[0]}
-          </Avatar>
-        </Badge>
+          {user.firstName[0] + user.lastName[0]}
+        </Avatar>
 
         <Typography.Title
           level={3}
           style={{
             color: "#fff",
-            margin: 0,
+            margin: 0, // remove default margin
             textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
@@ -67,7 +47,6 @@ export const UserNameCard = ({ user }: Props) => {
           backgroundColor: "rgba(26, 26, 26, 0.7)",
           borderRadius: 8,
           padding: "8px 12px",
-          backdropFilter: "blur(4px)",
           marginTop: 12,
           border: "1px solid rgba(255, 255, 255, 0.1)",
         }}
@@ -79,14 +58,10 @@ export const UserNameCard = ({ user }: Props) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 8,
-            fontSize: 14,
           }}
         >
           <span
             style={{
-              display: "inline-block",
-              maxWidth: "90%",
               whiteSpace: "nowrap",
             }}
           >
@@ -94,6 +69,6 @@ export const UserNameCard = ({ user }: Props) => {
           </span>
         </Text>
       </div>
-    </div>
+    </UserNameCardContainerStyled>
   );
 };
