@@ -38,7 +38,7 @@ const Header: React.FC = () => {
           <Button
             type="text"
             icon={<UserOutlined style={{ color: "#595959" }} />}
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/")}
             style={{
               padding: "0 12px",
             }}

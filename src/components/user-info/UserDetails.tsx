@@ -63,6 +63,7 @@ export const UserDetails = ({ user }: Props) => {
             color: "#262626",
             fontSize: "14px",
             marginLeft: "44px",
+            whiteSpace: "nowrap",
           }}
         >
           {value}
@@ -74,6 +75,7 @@ export const UserDetails = ({ user }: Props) => {
             color: "#262626",
             fontSize: "16px",
             marginLeft: "44px",
+            whiteSpace: "nowrap",
           }}
         >
           {value}

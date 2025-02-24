@@ -35,6 +35,7 @@ export const UserNameCard = ({ user }: Props) => {
             color: "#fff",
             margin: 0, // remove default margin
             textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            whiteSpace: "nowrap",
           }}
         >
           <UserOutlined style={{ marginRight: 8, color: "#ffffff" }} />

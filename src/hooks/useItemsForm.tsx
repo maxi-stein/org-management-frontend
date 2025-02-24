@@ -15,7 +15,6 @@ import { FormColumns } from "../interfaces/form";
 
 import { useDataContext } from "../contexts/dataContext";
 import { useEffect, useState } from "react";
-import { validateSeniority } from "../helpers/formHelpers";
 
 const { Text } = Typography;
 
@@ -237,6 +236,7 @@ export const useItemsForm = (
                       label: level.label,
                     })) || []),
                   ]}
+                  defaultActiveFirstOption={true}
                 />
               </Form.Item>
               <Form.Item
@@ -333,7 +333,12 @@ export const useItemsForm = (
               <Form.Item label="Active" name={"isActive"} key={"isActive"}>
                 <Switch defaultChecked={true} />
               </Form.Item>
-              <Form.Item key="role" name="role" label="Role">
+              <Form.Item
+                key="role"
+                name="role"
+                label="Role"
+                rules={[{ required: true }]}
+              >
                 <Select
                   placeholder="Select a role"
                   options={roles?.data.map((role) => ({
