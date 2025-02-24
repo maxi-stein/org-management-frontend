@@ -65,7 +65,9 @@ export const getColumnsForm = {
     },
     { title: "Description", dataIndex: "description", key: "description" },
   ],
-  positions: [{ title: "Title", dataIndex: "title", key: "title" }],
+  positions: [
+    { title: "Title", dataIndex: "title", key: "title", width: "90%" },
+  ],
   users: [
     {
       title: "First Name",

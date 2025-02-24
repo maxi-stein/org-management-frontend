@@ -16,12 +16,10 @@ const Header: React.FC = () => {
       style={{
         background: "#ffffff",
         padding: "0 24px",
-        borderBottom: "1px solid #f0f0f0",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        height: 64,
       }}
     >
       <Title
@@ -29,11 +27,7 @@ const Header: React.FC = () => {
         style={{
           margin: 0,
           fontSize: "20px",
-          fontWeight: 600,
           color: "#1a1a1a",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
         }}
       >
         Organizational Chart
@@ -46,12 +40,7 @@ const Header: React.FC = () => {
             icon={<UserOutlined style={{ color: "#595959" }} />}
             onClick={() => navigate("/profile")}
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
               padding: "0 12px",
-              height: 40,
-              borderRadius: 8,
             }}
           >
             <Text strong style={{ color: "#262626" }}>
@@ -68,8 +57,6 @@ const Header: React.FC = () => {
             onClick={logout}
             style={{
               padding: "0 12px",
-              height: 40,
-              borderRadius: 8,
               color: "#ff4d4f",
             }}
           >
