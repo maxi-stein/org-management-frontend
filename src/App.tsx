@@ -64,7 +64,7 @@ const App: React.FC = () => {
                       <Route path="/" element={<Dashboard />} />
                       <Route path="/org-chart" element={<OrgChartPage />} />
                       <Route
-                        path="/employees/search"
+                        path="/employees/search/:userId?"
                         element={<EmployeeSearch />}
                       />
 

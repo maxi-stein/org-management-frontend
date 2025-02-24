@@ -67,15 +67,16 @@ const SideNav: React.FC = () => {
   // based on the location, set the selected key (allows to keep track when navigating between pages)
   const getSelectedKeys = () => {
     const path = location.pathname;
+
     if (path === "/") return ["1"];
     if (path === "/org-chart") return ["2"];
-    if (path === "/employees/search") return ["3"];
+    if (path.startsWith("/employees/search")) return ["3"];
     if (path.startsWith("/users")) return ["4"];
     if (path.startsWith("/positions")) return ["5"];
     if (path.startsWith("/departments")) return ["6"];
     if (path.startsWith("/areas")) return ["7"];
-    if (/^\/[a-f\d]{24}$/.test(path)) return ["1"]; //dynamic route /:userId
-    return ["1"]; // default value (on first render)
+
+    return ["1"]; // default value
   };
 
   return (

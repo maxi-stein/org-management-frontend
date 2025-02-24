@@ -1,20 +1,36 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Card, Input, Typography, theme } from "antd";
 import { useSearchUsers } from "../hooks/useSearchUsers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User } from "../interfaces/entities";
 import { useTreeData } from "../hooks/useTreeData";
 import { OrgChart } from "../components/charts/OrgChart";
 import { SearchedUserInfo } from "../components/user-info/SearchedUserInfo";
+import { useParams, useNavigate } from "react-router-dom";
 
 const { useToken } = theme;
 const { Title } = Typography;
 
 export const EmployeeSearch = () => {
+  const { userId } = useParams();
+  const navigate = useNavigate();
   const { token } = useToken();
   const [searchedUser, setSearchedUser] = useState<User | null>(null);
-  const { searchOptions, setSearchQuery } = useSearchUsers({ setSearchedUser });
+  const { searchOptions, setSearchQuery, searchByUserId } = useSearchUsers({
+    setSearchedUser,
+  });
   const treeData = useTreeData();
+
+  useEffect(() => {
+    if (userId) {
+      searchByUserId(userId);
+    }
+  }, [userId, searchByUserId]);
+
+  // Modificar el AutoComplete para actualizar la URL
+  const handleSearchSelect = (userId: string) => {
+    navigate(`/employees/search/${userId}`);
+  };
 
   return (
     <div style={{ padding: "24px", margin: "0 auto" }}>
@@ -40,7 +56,9 @@ export const EmployeeSearch = () => {
           <AutoComplete
             options={searchOptions}
             onSearch={(value) => setSearchQuery(value)}
-            onSelect={(_, option) => option.label.props.onClick()}
+            onSelect={(value, option) => {
+              handleSearchSelect(option.value);
+            }}
             style={{ width: "80%" }}
           >
             <Input

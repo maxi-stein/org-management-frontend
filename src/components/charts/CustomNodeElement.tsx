@@ -39,9 +39,10 @@ export const CustomNodeElement = ({
 
   const navigate = useNavigate();
 
+  // En CustomNodeElement.tsx
   const handleClick = (userId?: string) => {
     if (nodeType === "default" && userId) {
-      navigate(`/${userId}`);
+      navigate(`/employees/search/${userId}`);
     }
   };
 
