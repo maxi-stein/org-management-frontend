@@ -3,9 +3,10 @@ import GenericCRUD from "../components/GenericCRUD";
 import { Area } from "../interfaces/entities";
 import { Typography } from "antd";
 import { RelatedEntity } from "../components/AlertModal";
-import LoadingSpinner from "../components/assets/LoadingSpinner";
 import { getColumnsForm } from "../hooks/useColumnsForm";
 import { useDataContext } from "../contexts/dataContext";
+import LoadingSpinner from "../components/assets/LoadingSpinner";
+import { useStats } from "../hooks/react-query/useStats";
 
 const { Text } = Typography;
 
@@ -17,6 +18,7 @@ const DepartmentCRUD: React.FC = () => {
   >(null);
   const dataContext = useDataContext();
   const [relatedEntities, setRelatedEntities] = useState<RelatedEntity[]>([]);
+  const { refetch: refetchDeptPeopleStats } = useStats("departments-people");
 
   const {
     data: departmentsData,
@@ -65,6 +67,11 @@ const DepartmentCRUD: React.FC = () => {
     }
   }, [selectedDepartmentId, areas?.data]);
 
+  const refetchData = async () => {
+    await fetchDepartments();
+    await refetchDeptPeopleStats();
+  };
+
   return isError || isErrorAreas ? (
     <Text>An error has occurred</Text>
   ) : isLoading || isLoadingAreas ? (
@@ -75,7 +82,7 @@ const DepartmentCRUD: React.FC = () => {
       items={departmentsData?.data}
       columns={columns}
       entityType="departments"
-      refetchData={fetchDepartments}
+      refetchData={refetchData}
       selectedId={selectedDepartmentId}
       setSelectedId={setSelectedDepartmentId}
       relatedEntities={relatedEntities}

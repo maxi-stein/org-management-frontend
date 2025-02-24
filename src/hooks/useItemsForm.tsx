@@ -119,7 +119,7 @@ export const useItemsForm = (
   useEffect(() => {
     if (departments) {
       const heads = users?.data.filter(
-        (user) => user.position?.title === "Head of Department"
+        (user) => user.position?.title === "Head Of Department"
       );
       setHeadOfDepartments(heads || []);
     }
@@ -194,7 +194,7 @@ export const useItemsForm = (
                 label={"Email"}
                 rules={validationRules[entityType]["email"]}
               >
-                <Input placeholder={"example@ex.com"} />
+                <Input placeholder={"example@ex.com"} autoComplete="email" />
               </Form.Item>
               <Form.Item
                 key="phone"
@@ -218,6 +218,7 @@ export const useItemsForm = (
               <Input.Password
                 placeholder="Enter password"
                 disabled={isEditing}
+                autoComplete="new-password"
               />
             </Form.Item>
             <Space size={"middle"}>
@@ -226,16 +227,11 @@ export const useItemsForm = (
                 name="positionLevel"
                 label="Seniority"
                 style={{ width: "130px" }}
-                rules={[
-                  ({ getFieldValue }) => ({
-                    validator: validateSeniority(getFieldValue, positions),
-                  }),
-                ]}
               >
                 <Select
                   placeholder="Select a Seniority Level"
                   options={[
-                    { value: "", label: "No seniority" },
+                    { value: null, label: "No seniority" },
                     ...(dataContext.positionLevels.data?.data.map((level) => ({
                       value: level.value,
                       label: level.label,
@@ -435,6 +431,7 @@ export const useItemsForm = (
                 return user._id !== dept.head?._id;
               });
             }) ?? [];
+          console.log(headOfDepartments);
 
           availableHeads = [
             { _id: null, firstName: "", lastName: "--none--" } as User,
